@@ -55,6 +55,7 @@ public class SplashActivity extends AppCompatActivity {
             public void run() {
                 if(session.getEtatApplication() == true){
                     //ouvrirHomeActivity();
+                    ouvrirPresentationActivity();
                 }
 
                 else{
