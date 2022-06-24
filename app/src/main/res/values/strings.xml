@@ -15,4 +15,8 @@
     <string name="court_description">Online court reservations for training and matches.</string>
     <string name="planning">Planning</string>
     <string name="planing_description">Get a flexible schedule according to your availability.</string>
+    <string name="title_choix_login">Tiebreak \n Tennis Academy</string>
+    <string name="signin">SignIn</string>
+    <string name="signup">SignUp</string>
+    <string name="forget_password">Forget password ?</string>
 </resources>
