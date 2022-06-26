@@ -139,7 +139,7 @@ public class PresentationActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(),"You cannot return to the previous screen !",Toast.LENGTH_LONG).show();
     }
 
-    public void ouvrirChoixAuthentificationActivity(){
+    public void ouvrirChoixLoginActivity(){
         Intent intent = new Intent(getApplicationContext(), ChoixLoginActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.right_to_left,R.anim.stay);
@@ -158,14 +158,14 @@ public class PresentationActivity extends AppCompatActivity {
         skip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ouvrirChoixAuthentificationActivity();
+                ouvrirChoixLoginActivity();
             }
         });
 
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ouvrirChoixAuthentificationActivity();
+                ouvrirChoixLoginActivity();
             }
         });
 

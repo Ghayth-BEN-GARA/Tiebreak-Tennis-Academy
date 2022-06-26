@@ -14,14 +14,23 @@
         android:theme="@style/Theme.TiebreakTennisAcademy"
         tools:targetApi="31">
         <activity
-            android:name=".Activities.ChoixLoginActivity"
+            android:name=".Activities.HelpActivity"
             android:exported="false" />
+        <activity
+            android:name=".Activities.SignInActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.ChoixLoginActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Activities.PresentationActivity"
             android:exported="false" />
         <activity
             android:name=".Activities.SplashActivity"
-            android:exported="false">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

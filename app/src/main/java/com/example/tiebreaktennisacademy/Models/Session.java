@@ -21,7 +21,17 @@ public class Session {
         editor.commit();
     }
 
+    public void saveEmailApplication(String test){
+        SharedPreferences.Editor editor = session.edit();
+        editor.putString("emailApplication",test);
+        editor.commit();
+    }
+
     public boolean getEtatApplication(){
         return session.getBoolean("etatApplication",false);
+    }
+
+    public String checkEmailApplication(){
+        return session.getString("emailApplication",null);
     }
 }

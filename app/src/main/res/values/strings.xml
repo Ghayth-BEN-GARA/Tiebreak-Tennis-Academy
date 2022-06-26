@@ -16,7 +16,15 @@
     <string name="planning">Planning</string>
     <string name="planing_description">Get a flexible schedule according to your availability.</string>
     <string name="title_choix_login">Tiebreak \n Tennis Academy</string>
-    <string name="signin">SignIn</string>
-    <string name="signup">SignUp</string>
+    <string name="signin">Sign In</string>
+    <string name="signup">Sign Up</string>
     <string name="forget_password">Forget password ?</string>
+    <string name="title_login">Welcome Back</string>
+    <string name="desc_title_login">We missed you! Login to get started.</string>
+    <string name="login">Login</string>
+    <string name="hint_email">E-mail address..</string>
+    <string name="hint_password">Password..</string>
+    <string name="remember_me_hint">Remembrer me</string>
+    <string name="help">Need Help ?</string>
+    <string name="login_with">Or sign in with</string>
 </resources>

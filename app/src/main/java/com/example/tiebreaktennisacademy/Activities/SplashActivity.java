@@ -16,6 +16,7 @@ public class SplashActivity extends AppCompatActivity {
     private TextView copiright,slogan;
     private ImageView logoApplication;
     private Animation animationTop,animationBottom;
+    private String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +55,15 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void run() {
                 if(session.getEtatApplication() == true){
-                    //ouvrirHomeActivity();
-                    ouvrirPresentationActivity();
+                    if(session.checkEmailApplication() == null){
+                        ouvrirChoixLoginActivity();
+
+                    }
+
+                    else{
+                        //ouvrirHomeActivity();
+                        ouvrirPresentationActivity();
+                    }
                 }
 
                 else{
@@ -68,6 +76,12 @@ public class SplashActivity extends AppCompatActivity {
 
     public void ouvrirPresentationActivity(){
         Intent intent = new Intent(getApplicationContext(), PresentationActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.right_to_left,R.anim.stay);
+    }
+
+    public void ouvrirChoixLoginActivity(){
+        Intent intent = new Intent(getApplicationContext(), ChoixLoginActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.right_to_left,R.anim.stay);
     }
