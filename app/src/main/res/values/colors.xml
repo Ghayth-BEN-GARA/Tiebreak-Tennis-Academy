@@ -13,4 +13,10 @@
     <color name="gray">#c0c0c0</color>
     <color name="black_light">#656565</color>
     <color name="edit_text_color">#14000000</color>
+    <color name="light_salmon">#FFA07A</color>
+    <color name="dark_salmon">#E9967A</color>
+    <color name="dark_bleu">#00008B</color>
+    <color name="light_beu">#ADD8E6</color>
+    <color name="light_green">#90ee90</color>
+    <color name="end_background">#50FFFFFF</color>
 </resources>

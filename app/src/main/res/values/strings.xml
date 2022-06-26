@@ -20,11 +20,19 @@
     <string name="signup">Sign Up</string>
     <string name="forget_password">Forget password ?</string>
     <string name="title_login">Welcome Back</string>
-    <string name="desc_title_login">We missed you! Login to get started.</string>
+    <string name="desc_title_login">We missed you ! Login to get started.</string>
     <string name="login">Login</string>
     <string name="hint_email">E-mail address..</string>
     <string name="hint_password">Password..</string>
     <string name="remember_me_hint">Remembrer me</string>
     <string name="help">Need Help ?</string>
     <string name="login_with">Or sign in with</string>
+    <string name="title_help">Help Screen</string>
+    <string name="desc_help">Everything you need to know is here ! so welcome home.</string>
+    <string name="title_login_item">Help for Sign In</string>
+    <string name="desc_login_item">If you have an account, you must enter the email and password to log in.</string>
+    <string name="title_signup_item">Help for Sign Up</string>
+    <string name="desc_signup_item">If you want to create an account, you have to follow a whole procedure.</string>
+    <string name="title_forget_item">Help for Forget</string>
+    <string name="desc_forget_item">If you want to get access to your account, you have to follow a whole procedure.</string>
 </resources>
