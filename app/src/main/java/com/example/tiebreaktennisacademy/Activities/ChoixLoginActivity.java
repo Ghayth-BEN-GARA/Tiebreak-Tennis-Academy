@@ -9,7 +9,7 @@ import android.widget.Toast;
 import com.example.tiebreaktennisacademy.R;
 
 public class ChoixLoginActivity extends AppCompatActivity {
-    private AppCompatButton signin;
+    private AppCompatButton signin,signup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,6 +17,7 @@ public class ChoixLoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_choix_login);
 
         signin = (AppCompatButton) findViewById(R.id.btn_signin);
+        signup = (AppCompatButton) findViewById(R.id.btn_signup);
 
         onclickFunctions();
     }
@@ -32,11 +33,24 @@ public class ChoixLoginActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.right_to_left,R.anim.stay);
     }
 
+    public void ouvrirSignUpActivity(){
+        Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.right_to_left,R.anim.stay);
+    }
+
     public void onclickFunctions(){
         signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ouvrirSignInActivity();
+            }
+        });
+
+        signup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ouvrirSignUpActivity();
             }
         });
     }

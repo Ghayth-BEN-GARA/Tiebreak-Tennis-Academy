@@ -22,8 +22,8 @@
     <string name="title_login">Welcome Back</string>
     <string name="desc_title_login">We missed you ! Login to get started.</string>
     <string name="login">Login</string>
-    <string name="hint_email">E-mail address..</string>
-    <string name="hint_password">Password..</string>
+    <string name="hint_email">Enter E-mail Address..</string>
+    <string name="hint_password">Enter Password..</string>
     <string name="remember_me_hint">Remembrer me</string>
     <string name="help">Need Help ?</string>
     <string name="login_with">Or sign in with</string>
@@ -35,4 +35,16 @@
     <string name="desc_signup_item">If you want to create an account, you have to follow a whole procedure.</string>
     <string name="title_forget_item">Help for Forget</string>
     <string name="desc_forget_item">If you want to get access to your account, you have to follow a whole procedure.</string>
+    <string name="desc_title_signup">Create a new account to get started.</string>
+    <string name="hint_name">Enter Fullname..</string>
+    <string name="hint_sexe">Select Gender..</string>
+    <string name="welcome_text">Welcome</string>
+    <string name="signup_with">Or sign up with</string>
+    <string-array name="gender_items">
+        <item>Man</item>
+        <item>Women</item>
+        <item>Personalized</item>
+    </string-array>
+    <string name="next">Next</string>
+    <string name="hint_repeat_password">Repeat Password..</string>
 </resources>

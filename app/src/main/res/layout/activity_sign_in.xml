@@ -8,7 +8,7 @@
     android:background="@color/green"
     tools:context=".Activities.SignInActivity">
 
-    <androidx.core.widget.NestedScrollView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">
@@ -90,7 +90,7 @@
                         android:layout_alignParentStart="true"
                         android:layout_alignParentTop="true"
                         android:layout_alignParentEnd="true"
-                        android:layout_marginStart="48dp"
+                        android:layout_marginStart="40dp"
                         android:layout_marginTop="36dp"
                         android:fontFamily="@font/seg_ui_semibold"
                         android:text="@string/login"
@@ -114,15 +114,15 @@
                             android:id="@+id/email"
                             android:layout_width="match_parent"
                             android:layout_height="52dp"
-                            android:layout_marginStart="48dp"
-                            android:layout_marginEnd="48dp"
+                            android:layout_marginStart="40dp"
+                            android:layout_marginEnd="40dp"
                             android:background="@drawable/edi_text_background"
                             android:hint="@string/hint_email"
                             android:paddingStart="26dp"
                             android:paddingEnd="26dp"
                             android:inputType="textEmailAddress"
                             android:fontFamily="@font/seg_ui_semibold"
-                            android:drawableEnd="@drawable/person"
+                            android:drawableEnd="@drawable/email"
                             android:drawableTint="@color/black"
                             android:textColor="@color/black"/>
 
@@ -130,8 +130,8 @@
                             android:id="@+id/password"
                             android:layout_width="match_parent"
                             android:layout_height="52dp"
-                            android:layout_marginStart="48dp"
-                            android:layout_marginEnd="48dp"
+                            android:layout_marginStart="40dp"
+                            android:layout_marginEnd="40dp"
                             android:layout_marginTop="24dp"
                             android:background="@drawable/edi_text_background"
                             android:hint="@string/hint_password"
@@ -147,7 +147,7 @@
                             android:id="@+id/remember_me"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="48dp"
+                            android:layout_marginStart="40dp"
                             android:layout_marginTop="18dp"
                             android:fontFamily="@font/seg_ui_semibold"
                             android:minHeight="48dp"
@@ -161,8 +161,8 @@
                             android:orientation="horizontal"
                             android:weightSum="2"
                             android:layout_marginTop="24dp"
-                            android:layout_marginStart="48dp"
-                            android:layout_marginEnd="48dp">
+                            android:layout_marginStart="40dp"
+                            android:layout_marginEnd="40dp">
 
                             <TextView
                                 android:id="@+id/help"
@@ -194,11 +194,11 @@
                             android:orientation="horizontal"
                             android:gravity="center"
                             android:layout_marginTop="30dp"
-                            android:layout_marginStart="60dp"
-                            android:layout_marginEnd="60dp">
+                            android:layout_marginStart="40dp"
+                            android:layout_marginEnd="40dp">
 
                             <View
-                                android:layout_width="120dp"
+                                android:layout_width="150dp"
                                 android:layout_height="1dp"
                                 android:layout_weight="3"
                                 android:layout_marginEnd="10dp"
@@ -216,13 +216,12 @@
                                 android:textSize="12sp"/>
 
                             <View
-                                android:layout_width="120dp"
+                                android:layout_width="150dp"
                                 android:layout_height="1dp"
                                 android:layout_weight="3"
                                 android:layout_marginStart="10dp"
                                 android:background="@color/black_light"/>
                         </LinearLayout>
-
                         <LinearLayout
                             android:id="@+id/linear_layout_sign_with_"
                             android:layout_width="match_parent"
@@ -230,8 +229,8 @@
                             android:orientation="horizontal"
                             android:gravity="center"
                             android:layout_marginTop="20dp"
-                            android:layout_marginStart="60dp"
-                            android:layout_marginEnd="60dp">
+                            android:layout_marginStart="40dp"
+                            android:layout_marginEnd="40dp">
 
                             <ImageView
                                 android:id="@+id/facebook"
@@ -250,5 +249,5 @@
                 </RelativeLayout>
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
+    </ScrollView>
 </LinearLayout>
