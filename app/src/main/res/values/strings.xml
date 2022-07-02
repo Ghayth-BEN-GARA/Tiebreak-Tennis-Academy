@@ -49,5 +49,11 @@
     <string name="hint_repeat_password">Repeat Password..</string>
     <string name="hint_naissance">Enter Date of Birth..</string>
     <string name="hint_size">Enter Size(cm)..</string>
-    <string name="hint_poid">Enter weight(kg)..</string>
+    <string name="hint_poid">Enter Weight(kg)..</string>
+    <string name="forget_title">Forget \n Password</string>
+    <string name="desc_forget_password">Provide your accounts email for which you want to reset your password.</string>
+    <string name="code">Co \n De </string>
+    <string name="verification">Verification</string>
+    <string name="text_forget">Enter the security code received (the number of entries is limited).</string>
+    <string name="code_hint">*</string>
 </resources>

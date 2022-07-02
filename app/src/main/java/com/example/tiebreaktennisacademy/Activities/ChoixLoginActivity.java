@@ -9,7 +9,7 @@ import android.widget.Toast;
 import com.example.tiebreaktennisacademy.R;
 
 public class ChoixLoginActivity extends AppCompatActivity {
-    private AppCompatButton signin,signup;
+    private AppCompatButton signin,signup,forget;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +18,7 @@ public class ChoixLoginActivity extends AppCompatActivity {
 
         signin = (AppCompatButton) findViewById(R.id.btn_signin);
         signup = (AppCompatButton) findViewById(R.id.btn_signup);
+        forget = (AppCompatButton) findViewById(R.id.forget_password) ;
 
         onclickFunctions();
     }
@@ -39,6 +40,12 @@ public class ChoixLoginActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.right_to_left,R.anim.stay);
     }
 
+    public void ouvrirForgetPasswordActivity(){
+        Intent intent = new Intent(getApplicationContext(), ForgetPassword1Activity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.right_to_left,R.anim.stay);
+    }
+
     public void onclickFunctions(){
         signin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,6 +58,13 @@ public class ChoixLoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ouvrirSignUpActivity();
+            }
+        });
+
+        forget.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ouvrirForgetPasswordActivity();
             }
         });
     }
