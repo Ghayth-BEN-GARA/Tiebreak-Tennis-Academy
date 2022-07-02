@@ -42,7 +42,7 @@ public class SIgnup2Activity extends AppCompatActivity {
     public void ouvrirSignup1Activity(){
         Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
         startActivity(intent);
-        overridePendingTransition(R.anim.right_to_left,R.anim.stay);
+        overridePendingTransition(R.anim.left_to_right,R.anim.stay);
     }
 
     @Override
@@ -53,6 +53,6 @@ public class SIgnup2Activity extends AppCompatActivity {
     public void ouvrirSignup3Activity(){
         Intent intent = new Intent(getApplicationContext(), Signup3Activity.class);
         startActivity(intent);
-        overridePendingTransition(R.anim.left_to_right,R.anim.stay);
+        overridePendingTransition(R.anim.right_to_left,R.anim.stay);
     }
 }

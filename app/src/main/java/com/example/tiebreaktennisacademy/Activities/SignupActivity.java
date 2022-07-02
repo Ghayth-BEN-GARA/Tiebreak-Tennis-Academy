@@ -66,6 +66,6 @@ public class SignupActivity extends AppCompatActivity {
     public void ouvrirSignup2Activity(){
         Intent intent = new Intent(getApplicationContext(), SIgnup2Activity.class);
         startActivity(intent);
-        overridePendingTransition(R.anim.left_to_right,R.anim.stay);
+        overridePendingTransition(R.anim.right_to_left,R.anim.stay);
     }
 }
