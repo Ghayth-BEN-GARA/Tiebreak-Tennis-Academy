@@ -23,6 +23,11 @@ public class ForgetPassword1Activity extends AppCompatActivity {
         onclickFunctions();
     }
 
+    @Override
+    public void onBackPressed() {
+        ouvrirChoixLoginActivity();
+    }
+
     public void onclickFunctions(){
         back.setOnClickListener(new View.OnClickListener() {
             @Override

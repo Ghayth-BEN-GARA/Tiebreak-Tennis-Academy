@@ -8,18 +8,17 @@ import android.view.View;
 import android.widget.ImageView;
 import com.example.tiebreaktennisacademy.R;
 
-public class ForgetPassword2Activity extends AppCompatActivity {
-
+public class ForgetPassword4Activity extends AppCompatActivity {
     private ImageView back;
-    private AppCompatButton next;
+    private AppCompatButton get;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_forget_password2);
+        setContentView(R.layout.activity_forget_password4);
 
         back = (ImageView) findViewById(R.id.back);
-        next = (AppCompatButton) findViewById(R.id.next_btn);
+        get = (AppCompatButton) findViewById(R.id.get_account_btn);
 
         onclickFunctions();
     }
@@ -27,6 +26,18 @@ public class ForgetPassword2Activity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         ouvrirForgetPassword1Activity();
+    }
+
+    public void ouvrirForgetPassword1Activity(){
+        Intent intent = new Intent(getApplicationContext(), ForgetPassword1Activity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.left_to_right,R.anim.stay);
+    }
+
+    public void ouvrirHomeActivity(){
+        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.right_to_left,R.anim.stay);
     }
 
     public void onclickFunctions(){
@@ -37,23 +48,11 @@ public class ForgetPassword2Activity extends AppCompatActivity {
             }
         });
 
-        next.setOnClickListener(new View.OnClickListener() {
+        get.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ouvrirForgetPassword3Activity();
+                ouvrirHomeActivity();
             }
         });
-    }
-
-    public void ouvrirForgetPassword1Activity(){
-        Intent intent = new Intent(getApplicationContext(), ForgetPassword1Activity.class);
-        startActivity(intent);
-        overridePendingTransition(R.anim.left_to_right,R.anim.stay);
-    }
-
-    public void ouvrirForgetPassword3Activity(){
-        Intent intent = new Intent(getApplicationContext(), ForgetPassword3Activity.class);
-        startActivity(intent);
-        overridePendingTransition(R.anim.right_to_left,R.anim.stay);
     }
 }

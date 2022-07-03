@@ -56,4 +56,9 @@
     <string name="verification">Verification</string>
     <string name="text_forget">Enter the security code received (the number of entries is limited).</string>
     <string name="code_hint">*</string>
+    <string name="edit_password">New \n Credentials</string>
+    <string name="desc_edit_password">Your identity has been verified.\n Set your new password now.</string>
+    <string name="get_account">Get your account</string>
+    <string name="title_password_updated">Password \n Updated</string>
+    <string name="success_updated_password">Your password has been updated successfully !</string>
 </resources>
