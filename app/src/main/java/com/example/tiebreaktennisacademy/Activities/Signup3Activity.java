@@ -1,6 +1,7 @@
 package com.example.tiebreaktennisacademy.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -20,6 +21,7 @@ public class Signup3Activity extends AppCompatActivity {
     private ImageView back;
     private TextInputEditText naissance;
     private DatePickerDialog.OnDateSetListener date;
+    private AppCompatButton signUp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +30,7 @@ public class Signup3Activity extends AppCompatActivity {
 
         back = (ImageView) findViewById(R.id.back);
         naissance = (TextInputEditText) findViewById(R.id.naissance);
+        signUp = (AppCompatButton) findViewById(R.id.signup_btn);
 
         onclickFunctions();
     }
@@ -53,6 +56,13 @@ public class Signup3Activity extends AppCompatActivity {
                 actionSurCalandrier(year, month, dayOfMonth);
             }
         };
+
+        signUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ouvrirSignup4Activity();
+            }
+        });
     }
 
     public void ouvrirSignup1Activity(){
@@ -87,5 +97,11 @@ public class Signup3Activity extends AppCompatActivity {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+    }
+
+    public void ouvrirSignup4Activity(){
+        Intent intent = new Intent(getApplicationContext(), Signup4Activity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.right_to_left,R.anim.stay);
     }
 }

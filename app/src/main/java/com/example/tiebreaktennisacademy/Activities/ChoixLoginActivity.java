@@ -25,7 +25,7 @@ public class ChoixLoginActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Toast.makeText(getApplicationContext(),"You cannot return to the previous screen !",Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(),R.string.not_return,Toast.LENGTH_LONG).show();
     }
 
     public void ouvrirSignInActivity(){
