@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ScrollView;
@@ -16,63 +18,69 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ForgetPassword3Activity extends AppCompatActivity {
+public class Signup2Activity extends AppCompatActivity {
     private ImageView back;
-    private AppCompatButton get;
+    private AppCompatButton next;
     private ScrollView scrollView;
-    private TextView erreurPassword, erreurRepeatPassword;
-    private TextInputEditText password, repeatPassword;
-    private Boolean isPassword = false, isRepeatPassword = false;
+    private TextView erreurEmail, erreurPassword, erreurRepeatPassword;
+    private TextInputEditText email, password, repeatPassword;
+    private Boolean isEmail = false, isPassword = false, isRepeatPassword = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_forget_password3);
+        setContentView(R.layout.activity_signup2);
 
         back = (ImageView) findViewById(R.id.back);
-        get = (AppCompatButton) findViewById(R.id.get_account_btn);
+        next = (AppCompatButton) findViewById(R.id.next_btn);
         scrollView = (ScrollView) findViewById(R.id.scroll_view);
+        erreurEmail = (TextView) findViewById(R.id.erreur_email);
         erreurPassword = (TextView) findViewById(R.id.erreur_password);
         erreurRepeatPassword = (TextView) findViewById(R.id.erreur_repeat_password);
+        email = (TextInputEditText) findViewById(R.id.email);
         password = (TextInputEditText) findViewById(R.id.password);
         repeatPassword = (TextInputEditText) findViewById(R.id.repeat_password);
 
-        onClickFunctions();
+        onclickFunctions();
         onChangeFunctions();
         onFocusFunctions();
     }
 
-    @Override
-    public void onBackPressed() {
-        ouvrirForgetPassword1Activity();
+    public void onclickFunctions(){
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ouvrirSignup1Activity();
+            }
+        });
+
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                validateFormSignUp2();
+            }
+        });
     }
 
-    public void ouvrirForgetPassword1Activity(){
-        Intent intent = new Intent(getApplicationContext(), ForgetPassword1Activity.class);
+    public void ouvrirSignup1Activity(){
+        Intent intent = new Intent(getApplicationContext(), Signup1Activity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.left_to_right,R.anim.stay);
     }
 
-    public void ouvrirForgetPassword4Activity(){
-        Intent intent = new Intent(getApplicationContext(), ForgetPassword4Activity.class);
+    @Override
+    public void onBackPressed() {
+        ouvrirSignup1Activity();
+    }
+
+    public void ouvrirSignup3Activity(){
+        Intent intent = new Intent(getApplicationContext(), Signup3Activity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.right_to_left,R.anim.stay);
     }
 
-    public void onClickFunctions(){
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ouvrirForgetPassword1Activity();
-            }
-        });
-
-        get.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                validateFormForgetPassword3();
-            }
-        });
+    public boolean isFormat(String text) {
+        return (!TextUtils.isEmpty(text) && Patterns.EMAIL_ADDRESS.matcher(text).matches());
     }
 
     public boolean isEmpty(String text){
@@ -102,8 +110,12 @@ public class ForgetPassword3Activity extends AppCompatActivity {
         return text1.equals(text2);
     }
 
-    public void validateFormForgetPassword3(){
-        if(isEmpty(password.getText().toString())){
+    public void validateFormSignUp2(){
+        if(isEmpty(email.getText().toString())){
+            setErreurText(erreurEmail,getString(R.string.email_required));
+        }
+
+        else if(isEmpty(password.getText().toString())){
             setErreurText(erreurPassword,getString(R.string.password_required));
         }
 
@@ -116,11 +128,12 @@ public class ForgetPassword3Activity extends AppCompatActivity {
             setErreurText(erreurRepeatPassword,getString(R.string.password_not_equals));
         }
 
-        else if(isPassword == true && isRepeatPassword == true){
+        else if(isEmail == true && isPassword == true && isRepeatPassword == true){
+            setErreurNull(erreurEmail);
             setErreurNull(erreurPassword);
             setErreurNull(erreurRepeatPassword);
-            ouvrirForgetPassword4Activity();
-            //updatepassword
+            ouvrirSignup3Activity();
+            //sendData
         }
     }
 
@@ -133,6 +146,23 @@ public class ForgetPassword3Activity extends AppCompatActivity {
     }
 
     public void onChangeFunctions(){
+        email.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                validateEmail();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         password.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -166,6 +196,23 @@ public class ForgetPassword3Activity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void validateEmail(){
+        if(isEmpty(email.getText().toString())){
+            setErreurText(erreurEmail,getString(R.string.email_required));
+            isEmail = false;
+        }
+
+        else if(!isFormat(email.getText().toString())){
+            setErreurText(erreurEmail,getString(R.string.email_format_invalid));
+            isEmail = false;
+        }
+
+        else{
+            setErreurNull(erreurEmail);
+            isEmail = true;
+        }
     }
 
     public void validatePassword(){
@@ -233,6 +280,13 @@ public class ForgetPassword3Activity extends AppCompatActivity {
     }
 
     public void onFocusFunctions(){
+        email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                scrollToTop();
+            }
+        });
+
         password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {

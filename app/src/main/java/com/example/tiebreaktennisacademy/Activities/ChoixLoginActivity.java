@@ -34,8 +34,8 @@ public class ChoixLoginActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.right_to_left,R.anim.stay);
     }
 
-    public void ouvrirSignUpActivity(){
-        Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
+    public void ouvrirSignUp1Activity(){
+        Intent intent = new Intent(getApplicationContext(), Signup1Activity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.right_to_left,R.anim.stay);
     }
@@ -57,7 +57,7 @@ public class ChoixLoginActivity extends AppCompatActivity {
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ouvrirSignUpActivity();
+                ouvrirSignUp1Activity();
             }
         });
 

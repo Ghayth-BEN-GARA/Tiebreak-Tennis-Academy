@@ -65,4 +65,22 @@
     <string name="success_created_account">Your account has been created successfully !</string>
     <string name="not_return">You cannot return to the previous screen !</string>
     <string name="not_available">This functionality is invalid !</string>
+    <string name="email_required">The email address is required !</string>
+    <string name="password_required">The password is required !</string>
+    <string name="email_format_invalid">The format of the email address is invalid !</string>
+    <string name="password_minisucle">The password must contain at least one lowercase letter !</string>
+    <string name="password_majuscule">The password must contain at least one uppercase letter !</string>
+    <string name="password_number">The password must contain at least one number !</string>
+    <string name="password_length">The password length must be 5 or more !</string>
+    <string name="username_required">The fullname is required !</string>
+    <string name="gender_required">The gender is required !</string>
+    <string name="username_letter">The fullname must contain letters only !</string>
+    <string name="password_not_equals">The passwords are not the same !</string>
+    <string name="naissance_required">The date is required !</string>
+    <string name="taille_required">The size is required !</string>
+    <string name="poid_required">The weight is required !</string>
+    <string name="taille_number">The size must contain numbers only !</string>
+    <string name="poid_number">The weight must contain numbers only !</string>
+    <string name="code_required">The security code is required !</string>
+    <string name="code_number">The security code must contain numbers only !</string>
 </resources>
