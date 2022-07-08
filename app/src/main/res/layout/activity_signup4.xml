@@ -104,7 +104,7 @@
                 android:background="@drawable/rounded_button"
                 android:fontFamily="@font/seg_ui_semibold"
                 android:text="@string/get_started"
-                android:textAllCaps="false"
+                android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
         </RelativeLayout>

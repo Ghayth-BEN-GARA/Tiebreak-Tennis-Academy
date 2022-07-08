@@ -42,7 +42,6 @@ public class ForgetPassword2Activity extends AppCompatActivity {
         onclickFunctions();
         onChangeFunctions();
         onFocusFunctions();
-        //swipe from chiffre to other
     }
 
     @Override
@@ -134,7 +133,9 @@ public class ForgetPassword2Activity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                if(!isEmpty(code1.getText().toString())){
+                    swipeToOtherInput(code2);
+                }
             }
         });
 
@@ -151,7 +152,9 @@ public class ForgetPassword2Activity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                if(!isEmpty(code2.getText().toString())){
+                    swipeToOtherInput(code3);
+                }
             }
         });
 
@@ -168,7 +171,9 @@ public class ForgetPassword2Activity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                if(!isEmpty(code3.getText().toString())){
+                    swipeToOtherInput(code4);
+                }
             }
         });
 
@@ -299,5 +304,9 @@ public class ForgetPassword2Activity extends AppCompatActivity {
             }
         };
         handler.postDelayed(r, 200);
+    }
+
+    public void swipeToOtherInput(TextInputEditText text){
+        text.requestFocus();
     }
 }

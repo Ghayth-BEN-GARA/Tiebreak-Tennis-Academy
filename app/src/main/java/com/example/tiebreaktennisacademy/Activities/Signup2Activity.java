@@ -75,6 +75,10 @@ public class Signup2Activity extends AppCompatActivity {
 
     public void ouvrirSignup3Activity(){
         Intent intent = new Intent(getApplicationContext(), Signup3Activity.class);
+        intent.putExtra("email", email.getText().toString());
+        intent.putExtra("password", password.getText().toString());
+        intent.putExtra("fullname", getIntent().getStringExtra("fullname"));
+        intent.putExtra("gender", getIntent().getStringExtra("gender"));
         startActivity(intent);
         overridePendingTransition(R.anim.right_to_left,R.anim.stay);
     }
@@ -133,7 +137,7 @@ public class Signup2Activity extends AppCompatActivity {
             setErreurNull(erreurPassword);
             setErreurNull(erreurRepeatPassword);
             ouvrirSignup3Activity();
-            //sendData
+            //check email is new in data base
         }
     }
 

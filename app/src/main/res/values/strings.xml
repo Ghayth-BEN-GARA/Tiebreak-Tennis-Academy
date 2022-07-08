@@ -83,4 +83,13 @@
     <string name="poid_number">The weight must contain numbers only !</string>
     <string name="code_required">The security code is required !</string>
     <string name="code_number">The security code must contain numbers only !</string>
+    <string name="signup_facebook">Sign Up with Facebook</string>
+    <string name="desc_signup_facebook">You have chosen to register with your facebook account.</string>
+    <string name="hint_name_reseaux">Fullname..</string>
+    <string name="hint_email_reseaux">E-mail Address..</string>
+    <string name="hint_password_reseaux">Password..</string>
+    <string name="hint_gender_reseaux">Gender..</string>
+    <string name="hint_naissance_reseaux">Date..</string>
+    <string name="hint_size_reseaux">Size(cm)..</string>
+    <string name="hint_poid_reseaux">Weight(kg)..</string>
 </resources>

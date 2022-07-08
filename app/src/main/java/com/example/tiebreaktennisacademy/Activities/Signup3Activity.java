@@ -175,7 +175,7 @@ public class Signup3Activity extends AppCompatActivity {
         }
     }
 
-    public void validateDateNaissance(){
+    public void validateSize(){
         if(isEmpty(taille.getText().toString())){
             setErreurText(erreurTaille,getString(R.string.taille_required));
             isTaille = false;
@@ -235,7 +235,7 @@ public class Signup3Activity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                validateDateNaissance();
+                validateSize();
             }
 
             @Override

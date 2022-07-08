@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import com.example.tiebreaktennisacademy.R;
+import com.google.android.material.textfield.TextInputEditText;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -22,8 +23,9 @@ public class Signup1Activity extends AppCompatActivity {
     private AutoCompleteTextView gender;
     private ImageView back;
     private AppCompatButton next;
-    private TextView fullname,erreurFullname,erreurGender;
+    private TextView erreurFullname,erreurGender;
     private ScrollView scrollView;
+    private TextInputEditText fullname;
     private String[] genderItems;
     private Boolean isFullname = false, isGender = true;
 
@@ -35,7 +37,7 @@ public class Signup1Activity extends AppCompatActivity {
         gender = (AutoCompleteTextView) findViewById(R.id.gender);
         back = (ImageView) findViewById(R.id.back);
         next = (AppCompatButton) findViewById(R.id.next_btn);
-        fullname = (TextView) findViewById(R.id.username);
+        fullname = (TextInputEditText) findViewById(R.id.username);
         erreurFullname = (TextView) findViewById(R.id.erreur_fullname);
         erreurGender = (TextView) findViewById(R.id.erreur_gender);
         scrollView = (ScrollView) findViewById(R.id.scroll_view);
@@ -81,6 +83,8 @@ public class Signup1Activity extends AppCompatActivity {
 
     public void ouvrirSignup2Activity(){
         Intent intent = new Intent(getApplicationContext(), Signup2Activity.class);
+        intent.putExtra("fullname", fullname.getText().toString());
+        intent.putExtra("gender", gender.getText().toString());
         startActivity(intent);
         overridePendingTransition(R.anim.right_to_left,R.anim.stay);
     }
@@ -107,7 +111,6 @@ public class Signup1Activity extends AppCompatActivity {
             setErreurNull(erreurFullname);
             setErreurNull(erreurFullname);
             ouvrirSignup2Activity();
-            //sendData
         }
     }
 

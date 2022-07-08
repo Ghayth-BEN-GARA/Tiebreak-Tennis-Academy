@@ -35,7 +35,7 @@ public class ChoixLoginActivity extends AppCompatActivity {
     }
 
     public void ouvrirSignUp1Activity(){
-        Intent intent = new Intent(getApplicationContext(), Signup1Activity.class);
+        Intent intent = new Intent(getApplicationContext(), SignupWithFacebookActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.right_to_left,R.anim.stay);
     }
