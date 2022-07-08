@@ -92,4 +92,6 @@
     <string name="hint_naissance_reseaux">Date..</string>
     <string name="hint_size_reseaux">Size(cm)..</string>
     <string name="hint_poid_reseaux">Weight(kg)..</string>
+    <string name="signup_google">Sign Up with Google</string>
+    <string name="desc_signup_google">You have chosen to register with your google account.</string>
 </resources>
