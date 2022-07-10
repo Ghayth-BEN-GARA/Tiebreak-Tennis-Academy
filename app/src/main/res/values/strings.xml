@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Tiebreak Tennis Academy</string>
+    <string name="facebook_app_id">1923781277823048</string>
+    <string name="fb_login_protocol_scheme">fb1923781277823048</string>
+    <string name="facebook_client_token">2eac03644b44f414719891efdf916c01</string>
     <string name="copiright1">Copyright (c) </string>
     <string name="copiright2">. All rights reserved.</string>
     <string name="slogan">Keep calm &amp; tennis it !</string>

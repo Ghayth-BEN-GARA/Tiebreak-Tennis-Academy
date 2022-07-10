@@ -19,7 +19,6 @@ public class ChoixLoginActivity extends AppCompatActivity {
         signin = (AppCompatButton) findViewById(R.id.btn_signin);
         signup = (AppCompatButton) findViewById(R.id.btn_signup);
         forget = (AppCompatButton) findViewById(R.id.forget_password) ;
-
         onclickFunctions();
     }
 

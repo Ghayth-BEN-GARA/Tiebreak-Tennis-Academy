@@ -18,8 +18,20 @@ import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.tiebreaktennisacademy.R;
+import com.facebook.AccessToken;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.login.LoginManager;
 import com.google.android.material.textfield.TextInputEditText;
+import org.json.JSONException;
+import org.json.JSONObject;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -37,6 +49,7 @@ public class SignupWithFacebookActivity extends AppCompatActivity {
     private AppCompatButton signup;
     private String[] genderItems;
     private Boolean isFullname = true, isEmail = false, isPassword = false, isNaissance = false, isGender = true, isTaille = false, isPoid = false;
+    private AccessToken accessToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +75,8 @@ public class SignupWithFacebookActivity extends AppCompatActivity {
         onclickFunctions();
         onChangeFunctions();
         onFocusFunctions();
+        intializeToken();
+        getInformationsFromFacebook();
     }
 
     @Override
@@ -482,6 +497,59 @@ public class SignupWithFacebookActivity extends AppCompatActivity {
             setErreurNull(erreurNaissanceGender);
             setErreurNull(erreurTaillePoid);
             //signup
+            logoutFromFacebook();
         }
+    }
+
+    public void intializeToken(){
+        accessToken = AccessToken.getCurrentAccessToken();
+    }
+
+    public void getInformationsFromFacebook(){
+        GraphRequest request = GraphRequest.newMeRequest(accessToken, new GraphRequest.GraphJSONObjectCallback() {
+            @Override
+            public void onCompleted(JSONObject object, GraphResponse response) {
+                try {
+                    fullname.setText(object.getString("name"));
+                    email.setText(object.getString("email"));
+                    String naiss = object.getString("birthday");
+                    naissance.setText(naiss.substring(6, naiss.length())+"-"+naiss.substring(0, 2)+"-"+naiss.substring(3, 5));
+                    String url = "https://genderapi.io/api/?name="+object.getString("first_name");
+
+                    RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+                    StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try{
+                                JSONObject informations = new JSONObject(response);;
+                                gender.setText(informations.getString("gender"));
+
+                            }
+                            catch (JSONException e){
+                                e.printStackTrace();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            //add errors notifications
+                        }
+                    });
+                    requestQueue.add(request);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        Bundle paramestres = new Bundle();
+        paramestres.putString("fields","name,email,first_name,birthday");
+        request.setParameters(paramestres);
+        request.executeAsync();
+    }
+
+    public void logoutFromFacebook(){
+        LoginManager.getInstance().logOut();
     }
 }

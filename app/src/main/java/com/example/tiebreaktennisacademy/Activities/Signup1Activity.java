@@ -13,25 +13,36 @@ import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.example.tiebreaktennisacademy.R;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
 import com.google.android.material.textfield.TextInputEditText;
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Signup1Activity extends AppCompatActivity {
     private ArrayAdapter<String> arrayAdapter;
     private AutoCompleteTextView gender;
-    private ImageView back;
+    private ImageView back, facebook;
     private AppCompatButton next;
     private TextView erreurFullname,erreurGender;
     private ScrollView scrollView;
     private TextInputEditText fullname;
     private String[] genderItems;
     private Boolean isFullname = false, isGender = true;
+    private CallbackManager callbackManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_signup1);
 
         gender = (AutoCompleteTextView) findViewById(R.id.gender);
@@ -41,7 +52,10 @@ public class Signup1Activity extends AppCompatActivity {
         erreurFullname = (TextView) findViewById(R.id.erreur_fullname);
         erreurGender = (TextView) findViewById(R.id.erreur_gender);
         scrollView = (ScrollView) findViewById(R.id.scroll_view);
+        facebook = (ImageView) findViewById(R.id.facebook);
 
+        intializeFacebookItems();
+        loginManagerActions();
         setGenderItems();
         onclickFunctions();
         onChangeFunctions();
@@ -77,6 +91,13 @@ public class Signup1Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 validateFormSignUp1();
+            }
+        });
+
+        facebook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signUpWithFacebook();
             }
         });
     }
@@ -207,5 +228,46 @@ public class Signup1Activity extends AppCompatActivity {
             }
         };
         handler.postDelayed(r, 200);
+    }
+
+    public void intializeFacebookItems(){
+        callbackManager = CallbackManager.Factory.create();
+    }
+
+    public void loginManagerActions(){
+        LoginManager.getInstance().registerCallback(callbackManager,
+                new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess(LoginResult loginResult) {
+                        ouvrirSignupWithFacebookActivity();
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        // add notification cancel
+                    }
+
+                    @Override
+                    public void onError(FacebookException exception) {
+                        // add notification errors
+                    }
+                });
+    }
+
+    public void signUpWithFacebook(){
+        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile","email","user_friends","user_birthday"));
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public void ouvrirSignupWithFacebookActivity(){
+        Intent intent = new Intent(getApplicationContext(), SignupWithFacebookActivity.class);
+        startActivity(intent);
+        finish();
+        overridePendingTransition(R.anim.right_to_left,R.anim.stay);
     }
 }
