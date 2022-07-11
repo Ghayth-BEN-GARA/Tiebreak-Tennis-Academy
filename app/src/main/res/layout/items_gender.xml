@@ -7,6 +7,6 @@
     android:textColor="@color/black"
     android:textSize="10sp"
     android:textStyle="bold"
-    android:paddingStart="18dp"
     android:layout_gravity="center"
-    android:gravity="center"/>
+    android:gravity="center"
+    android:background="@drawable/edi_text_background"/>

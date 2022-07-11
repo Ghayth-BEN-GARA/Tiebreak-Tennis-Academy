@@ -2,19 +2,20 @@ package com.example.tiebreaktennisacademy.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import android.app.Dialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.example.tiebreaktennisacademy.R;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -35,6 +36,7 @@ public class Signup1Activity extends AppCompatActivity {
     private TextView erreurFullname,erreurGender;
     private ScrollView scrollView;
     private TextInputEditText fullname;
+    private Dialog dialog;
     private String[] genderItems;
     private Boolean isFullname = false, isGender = true;
     private CallbackManager callbackManager;
@@ -244,12 +246,12 @@ public class Signup1Activity extends AppCompatActivity {
 
                     @Override
                     public void onCancel() {
-                        // add notification cancel
+                        showErreurDialog();
                     }
 
                     @Override
                     public void onError(FacebookException exception) {
-                        // add notification errors
+                        showErreurDialog();
                     }
                 });
     }
@@ -269,5 +271,25 @@ public class Signup1Activity extends AppCompatActivity {
         startActivity(intent);
         finish();
         overridePendingTransition(R.anim.right_to_left,R.anim.stay);
+    }
+
+    public void showErreurDialog(){
+        dialog = new Dialog(Signup1Activity.this);
+        dialog.setContentView(R.layout.item_erreur_facebook_notification);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.setCanceledOnTouchOutside(false);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.content_erreur_notification));
+        }
+
+        AppCompatButton cancel = dialog.findViewById(R.id.exit_btn);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
     }
 }
