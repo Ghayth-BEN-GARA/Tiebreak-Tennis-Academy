@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import com.example.tiebreaktennisacademy.R;
 import com.facebook.CallbackManager;
@@ -23,7 +23,14 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -31,15 +38,18 @@ import java.util.regex.Pattern;
 public class Signup1Activity extends AppCompatActivity {
     private ArrayAdapter<String> arrayAdapter;
     private AutoCompleteTextView gender;
-    private ImageView back, facebook;
+    private ImageView back, facebook, google;
     private AppCompatButton next;
     private TextView erreurFullname,erreurGender;
-    private ScrollView scrollView;
+    private TextInputLayout inputFullname, inputGender;
     private TextInputEditText fullname;
     private Dialog dialog;
     private String[] genderItems;
     private Boolean isFullname = false, isGender = true;
+    private int signUpGoogle = 1000;
     private CallbackManager callbackManager;
+    private GoogleSignInOptions gso;
+    private GoogleSignInClient gsc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,15 +63,17 @@ public class Signup1Activity extends AppCompatActivity {
         fullname = (TextInputEditText) findViewById(R.id.username);
         erreurFullname = (TextView) findViewById(R.id.erreur_fullname);
         erreurGender = (TextView) findViewById(R.id.erreur_gender);
-        scrollView = (ScrollView) findViewById(R.id.scroll_view);
+        inputFullname = (TextInputLayout) findViewById(R.id.inputlayout_username);
+        inputGender = (TextInputLayout) findViewById(R.id.inputlayout_gender);
         facebook = (ImageView) findViewById(R.id.facebook);
+        google = (ImageView) findViewById(R.id.google);
 
         intializeFacebookItems();
         loginManagerActions();
+        intializeGoogleItems();
         setGenderItems();
         onclickFunctions();
         onChangeFunctions();
-        onFocusFunctions();
     }
 
     public void setGenderItems(){
@@ -102,6 +114,13 @@ public class Signup1Activity extends AppCompatActivity {
                 signUpWithFacebook();
             }
         });
+
+        google.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signUpWithGoogle();
+            }
+        });
     }
 
     public void ouvrirSignup2Activity(){
@@ -124,15 +143,19 @@ public class Signup1Activity extends AppCompatActivity {
     public void validateFormSignUp1(){
         if(isEmpty(fullname.getText().toString())){
             setErreurText(erreurFullname,getString(R.string.username_required));
+            setInputLayoutErrors(inputFullname, fullname);
         }
 
         else if(isEmpty(gender.getText().toString())){
             setErreurText(erreurGender,getString(R.string.gender_required));
+            setInputGenderErrors(inputGender, gender);
         }
 
         else if(isFullname == true && isGender == true){
             setErreurNull(erreurFullname);
             setErreurNull(erreurFullname);
+            setInputLayoutNormal(inputFullname,fullname);
+            setInputGenderNormal(inputGender,gender);
             ouvrirSignup2Activity();
         }
     }
@@ -184,16 +207,19 @@ public class Signup1Activity extends AppCompatActivity {
     public void validateFullname(){
         if(isEmpty(fullname.getText().toString())){
             setErreurText(erreurFullname,getString(R.string.username_required));
+            setInputLayoutErrors(inputFullname,fullname);
             isFullname = false;
         }
 
         else if(!isLetter(fullname.getText().toString())){
             setErreurText(erreurFullname,getString(R.string.username_letter));
+            setInputLayoutErrors(inputFullname,fullname);
             isFullname = false;
         }
 
         else{
             setErreurNull(erreurFullname);
+            setInputLayoutNormal(inputFullname,fullname);
             isFullname = true;
         }
     }
@@ -201,35 +227,51 @@ public class Signup1Activity extends AppCompatActivity {
     public void validateGender(){
         if(isEmpty(gender.getText().toString())){
             setErreurText(erreurGender,getString(R.string.gender_required));
+            setInputGenderErrors(inputGender, gender);
             isGender = false;
         }
 
         else{
             setErreurNull(erreurGender);
+            setInputGenderNormal(inputGender, gender);
             isGender = true;
         }
     }
 
-    public void onFocusFunctions(){
-        fullname.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                scrollToTop();
+    public void setInputLayoutErrors(TextInputLayout input, TextInputEditText text){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            input.setBackground(getDrawable(R.drawable.edit_text_background_erreur));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                text.setCompoundDrawableTintList(ColorStateList.valueOf(getColor(com.google.android.material.R.color.design_default_color_error)));
             }
-        });
+        }
     }
 
-    public void scrollToTop(){
-        final Handler handler;
-        handler = new Handler();
-
-        final Runnable r = new Runnable() {
-            public void run() {
-                scrollView.smoothScrollTo(0, 500);
-                handler.postDelayed(this, 200);
+    public void setInputGenderErrors(TextInputLayout input, AutoCompleteTextView text){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            input.setBackground(getDrawable(R.drawable.edit_text_background_erreur));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                text.setCompoundDrawableTintList(ColorStateList.valueOf(getColor(com.google.android.material.R.color.design_default_color_error)));
             }
-        };
-        handler.postDelayed(r, 200);
+        }
+    }
+
+    public void setInputLayoutNormal(TextInputLayout input, TextInputEditText text){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            input.setBackground(getDrawable(R.drawable.edi_text_background));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                text.setCompoundDrawableTintList(ColorStateList.valueOf(getColor(R.color.black)));
+            }
+        }
+    }
+
+    public void setInputGenderNormal(TextInputLayout input, AutoCompleteTextView text){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            input.setBackground(getDrawable(R.drawable.edi_text_background));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                text.setCompoundDrawableTintList(ColorStateList.valueOf(getColor(R.color.black)));
+            }
+        }
     }
 
     public void intializeFacebookItems(){
@@ -246,12 +288,12 @@ public class Signup1Activity extends AppCompatActivity {
 
                     @Override
                     public void onCancel() {
-                        showErreurDialog();
+                        showErreurFacebookDialog();
                     }
 
                     @Override
                     public void onError(FacebookException exception) {
-                        showErreurDialog();
+                        showErreurFacebookDialog();
                     }
                 });
     }
@@ -262,8 +304,28 @@ public class Signup1Activity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        callbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == signUpGoogle){
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            handledSignedResult(task);
+        }
+
+        else{
+            callbackManager.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    private void handledSignedResult(Task<GoogleSignInAccount> completedTask){
+        try {
+            completedTask.getResult(ApiException.class);
+            ouvrirSignupWithGoogleActivity();
+
+        }
+
+        catch (ApiException e) {
+            showErreurGoogleDialog();
+        }
     }
 
     public void ouvrirSignupWithFacebookActivity(){
@@ -273,9 +335,46 @@ public class Signup1Activity extends AppCompatActivity {
         overridePendingTransition(R.anim.right_to_left,R.anim.stay);
     }
 
-    public void showErreurDialog(){
+    public void showErreurFacebookDialog(){
         dialog = new Dialog(Signup1Activity.this);
         dialog.setContentView(R.layout.item_erreur_facebook_notification);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.setCanceledOnTouchOutside(false);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.content_erreur_notification));
+        }
+
+        AppCompatButton cancel = dialog.findViewById(R.id.exit_btn);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+
+    public void intializeGoogleItems(){
+        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
+        gsc = GoogleSignIn.getClient(this,gso);
+    }
+
+    public void signUpWithGoogle(){
+        Intent signUpIntent = gsc.getSignInIntent();
+        startActivityForResult(signUpIntent,signUpGoogle);
+    }
+
+    public void ouvrirSignupWithGoogleActivity(){
+        Intent intent = new Intent(getApplicationContext(), SignupWithGoogleActivity.class);
+        startActivity(intent);
+        finish();
+        overridePendingTransition(R.anim.right_to_left,R.anim.stay);
+    }
+
+    public void showErreurGoogleDialog(){
+        dialog = new Dialog(Signup1Activity.this);
+        dialog.setContentView(R.layout.item_erreur_google_notification);
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.setCanceledOnTouchOutside(false);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

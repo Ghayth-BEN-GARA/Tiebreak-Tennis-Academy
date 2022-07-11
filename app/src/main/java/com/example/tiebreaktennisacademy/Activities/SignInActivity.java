@@ -10,11 +10,11 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Patterns;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import com.example.tiebreaktennisacademy.R;
+import com.google.android.material.textfield.TextInputEditText;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -22,7 +22,7 @@ public class SignInActivity extends AppCompatActivity {
     private ImageView back;
     private TextView help, erreurEmail, erreurPassword;
     private AppCompatButton signIn;
-    private EditText email, password;
+    private TextInputEditText email, password;
     private ScrollView scrollView;
     private Boolean isEmail = false, isPassword = false;
 
@@ -34,8 +34,8 @@ public class SignInActivity extends AppCompatActivity {
         back = (ImageView) findViewById(R.id.back);
         help = (TextView) findViewById(R.id.help);
         signIn = (AppCompatButton) findViewById(R.id.signin_btn);
-        email = (EditText) findViewById(R.id.email);
-        password = (EditText) findViewById(R.id.password);
+        email = (TextInputEditText) findViewById(R.id.email);
+        password = (TextInputEditText) findViewById(R.id.password);
         erreurEmail = (TextView) findViewById(R.id.erreur_email);
         erreurPassword = (TextView) findViewById(R.id.erreur_password);
         scrollView = (ScrollView) findViewById(R.id.scroll_view);

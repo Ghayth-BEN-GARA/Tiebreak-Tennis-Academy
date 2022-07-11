@@ -111,7 +111,7 @@
                     android:layout_marginTop="40dp"
                     android:orientation="vertical">
 
-                    <EditText
+                    <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/email"
                         android:layout_width="match_parent"
                         android:layout_height="52dp"
@@ -120,12 +120,12 @@
                         android:background="@drawable/edi_text_background"
                         android:drawableEnd="@drawable/email"
                         android:drawableTint="@color/black"
-                        android:fontFamily="@font/seg_ui_semibold"
                         android:hint="@string/hint_email"
                         android:inputType="textEmailAddress"
                         android:paddingStart="26dp"
                         android:paddingEnd="26dp"
                         android:textColor="@color/black"
+                        android:textColorHint="@color/gray"
                         android:textCursorDrawable="@null" />
 
                     <TextView
@@ -141,7 +141,7 @@
                         android:textColor="@color/design_default_color_error"
                         android:textSize="12sp" />
 
-                    <EditText
+                    <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/password"
                         android:layout_width="match_parent"
                         android:layout_height="52dp"
@@ -151,12 +151,12 @@
                         android:background="@drawable/edi_text_background"
                         android:drawableEnd="@drawable/lock"
                         android:drawableTint="@color/black"
-                        android:fontFamily="@font/seg_ui_semibold"
                         android:hint="@string/hint_password"
                         android:inputType="textPassword"
                         android:paddingStart="26dp"
                         android:paddingEnd="26dp"
                         android:textColor="@color/black"
+                        android:textColorHint="@color/gray"
                         android:textCursorDrawable="@null" />
 
                     <TextView

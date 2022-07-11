@@ -11,7 +11,6 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Patterns;
 import android.view.View;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -35,7 +34,6 @@ public class SignupWithFacebookActivity extends AppCompatActivity {
     private TextInputLayout inputFullname, inputEmail, inputPassword, inputGender, inputNaissance, inputTaille, inputPoid;
     private TextInputEditText fullname, email, password, naissance, gender, taille, poid;
     private TextView erreurFullname, erreurEmail, erreurPassword, erreurNaissance, erreurGender, erreurTaille, erreurPoid;
-    private ScrollView scrollView;
     private AppCompatButton signup;
     private Boolean isFullname = true, isEmail = false, isPassword = false, isNaissance = false, isGender = true, isTaille = false, isPoid = false;
     private AccessToken accessToken;
@@ -45,7 +43,6 @@ public class SignupWithFacebookActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup_with_facebook);
 
-        scrollView = (ScrollView) findViewById(R.id.scroll_view);
         fullname = (TextInputEditText) findViewById(R.id.username);
         email = (TextInputEditText) findViewById(R.id.email);
         password = (TextInputEditText) findViewById(R.id.password);

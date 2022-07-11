@@ -8,5 +8,4 @@
     android:textSize="10sp"
     android:textStyle="bold"
     android:layout_gravity="center"
-    android:gravity="center"
-    android:background="@drawable/edi_text_background"/>
+    android:gravity="center" />

@@ -97,6 +97,7 @@
     <string name="signup_google">Sign Up with Google</string>
     <string name="desc_signup_google">You have chosen to register with your google account.</string>
     <string name="erreur_facebook">Sign Up error</string>
-    <string name="desc_erreur_facebook">For technical reasons, you cannot use authentication with facebook at the moment. Please try again later !</string>
+    <string name="desc_erreur_facebook">For technical reasons, you cannot use authentication with Facebook at the moment. Please try again later !</string>
     <string name="understand">I Understand</string>
+    <string name="desc_erreur_google">For technical reasons, you cannot use authentication with Google at the moment. Please try again later !</string>
 </resources>
