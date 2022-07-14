@@ -100,4 +100,8 @@
     <string name="desc_erreur_facebook">For technical reasons, you cannot use authentication with Facebook at the moment. Please try again later !</string>
     <string name="understand">I Understand</string>
     <string name="desc_erreur_google">For technical reasons, you cannot use authentication with Google at the moment. Please try again later !</string>
+    <string name="wait">Wait please..</string>
+    <string name="email_exist">Sorry ! There is another account with this email address. Please choose another email address and try again.</string>
+    <string name="registration">Registration in progress..</string>
+    <string name="error_signup">For technical reasons, you cannot create a new account at the moment. Please try again later !</string>
 </resources>

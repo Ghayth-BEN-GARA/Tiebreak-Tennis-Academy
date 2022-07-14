@@ -1,21 +1,31 @@
 package com.example.tiebreaktennisacademy.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Patterns;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.tiebreaktennisacademy.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -26,6 +36,8 @@ public class Signup2Activity extends AppCompatActivity {
     private TextView erreurEmail, erreurPassword, erreurRepeatPassword;
     private TextInputEditText email, password, repeatPassword;
     private Boolean isEmail = false, isPassword = false, isRepeatPassword = false;
+    private DatabaseReference databaseReference;
+    private Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +58,7 @@ public class Signup2Activity extends AppCompatActivity {
 
         onclickFunctions();
         onChangeFunctions();
+        initialiseDataBase();
     }
 
     public void onclickFunctions(){
@@ -146,8 +159,7 @@ public class Signup2Activity extends AppCompatActivity {
             setInputLayoutNormal(textInputEmail,email);
             setInputLayoutNormal(textInputPassword,password);
             setInputLayoutNormal(textInputRepeatPassword,repeatPassword);
-            ouvrirSignup3Activity();
-            //check email is new in data base
+            chargementIfEmailRegistred();
         }
     }
 
@@ -324,5 +336,71 @@ public class Signup2Activity extends AppCompatActivity {
                 text.setCompoundDrawableTintList(ColorStateList.valueOf(getColor(R.color.black)));
             }
         }
+    }
+
+    public void initialiseDataBase(){
+        databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://tiebreak-tennis--1657542982200-default-rtdb.firebaseio.com/");
+    }
+
+    public void chargementIfEmailRegistred(){
+        final ProgressDialog progressDialog = new ProgressDialog(Signup2Activity.this, R.style.chargement);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage(getString(R.string.wait));
+        progressDialog.show();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                checkIfEmailRegistred();
+                progressDialog.dismiss();
+            }
+        },3000);
+    }
+
+    public void checkIfEmailRegistred(){
+        databaseReference.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.hasChild(encodeString(email.getText().toString()))){
+                    showNotificationError();
+                }
+
+                else{
+                    ouvrirSignup3Activity();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public void showNotificationError(){
+        dialog = new Dialog(Signup2Activity.this);
+        dialog.setContentView(R.layout.item_erreur);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.setCanceledOnTouchOutside(false);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.content_erreur_notification));
+        }
+
+        AppCompatButton cancel = dialog.findViewById(R.id.exit_btn);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        TextView desc = dialog.findViewById(R.id.desc_title_erreur);
+        desc.setText(R.string.email_exist);
+
+        dialog.show();
+    }
+
+    public static String encodeString(String string) {
+        return string.replace(".", ",");
     }
 }

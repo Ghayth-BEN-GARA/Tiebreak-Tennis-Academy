@@ -249,4 +249,8 @@ public class SignInActivity extends AppCompatActivity {
         };
         handler.postDelayed(r, 200);
     }
+
+    public static String DecodeString(String string) {
+        return string.replace(",", ".");
+    }
 }

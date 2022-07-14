@@ -1,8 +1,10 @@
 package com.example.tiebreaktennisacademy.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -16,9 +18,16 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.example.tiebreaktennisacademy.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import java.security.MessageDigest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -34,6 +43,7 @@ public class Signup3Activity extends AppCompatActivity {
     private TextInputLayout textInputNaissance, textInputTaille, textInputPoid;
     private TextView erreurNaissance, erreurTaille, erreurPoid;
     private Boolean isNaissance = false, isTaille = false, isPoid = false;
+    private DatabaseReference databaseReference;
 
 
     @Override
@@ -55,6 +65,7 @@ public class Signup3Activity extends AppCompatActivity {
 
         onclickFunctions();
         onChangeFunctions();
+        initialiseDataBase();
     }
 
     public void onclickFunctions(){
@@ -121,8 +132,9 @@ public class Signup3Activity extends AppCompatActivity {
         }
     }
 
-    public void ouvrirSignup4Activity(){
+    public void ouvrirSignup4Activity(String email){
         Intent intent = new Intent(getApplicationContext(), Signup4Activity.class);
+        intent.putExtra("email",email);
         startActivity(intent);
         overridePendingTransition(R.anim.right_to_left,R.anim.stay);
     }
@@ -167,8 +179,7 @@ public class Signup3Activity extends AppCompatActivity {
             setInputLayoutNormal(textInputNaissance,naissance);
             setInputLayoutNormal(textInputTaille,taille);
             setInputLayoutNormal(textInputPoid,poid);
-            ouvrirSignup4Activity();
-            //signup
+            chargementSignUp();
         }
     }
 
@@ -294,6 +305,86 @@ public class Signup3Activity extends AppCompatActivity {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 text.setCompoundDrawableTintList(ColorStateList.valueOf(getColor(R.color.black)));
             }
+        }
+    }
+
+    public void initialiseDataBase(){
+        databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://tiebreak-tennis--1657542982200-default-rtdb.firebaseio.com/");
+    }
+
+    public void chargementSignUp(){
+        final ProgressDialog progressDialog = new ProgressDialog(Signup3Activity.this, R.style.chargement);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage(getString(R.string.registration));
+        progressDialog.show();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                progressDialog.dismiss();
+                signUpUser();
+                checkIfEmailRegistred();
+            }
+        },3000);
+    }
+
+    public void signUpUser(){
+        String fullnameInput = getIntent().getStringExtra("fullname");
+        String emailInput = getIntent().getStringExtra("email");
+        String passwordInput = getIntent().getStringExtra("password");
+        String genderInput = getIntent().getStringExtra("gender");
+        String naissanceInput = naissance.getText().toString();
+        String tailleInput = taille.getText().toString();
+        String poidInput = poid.getText().toString();
+
+        databaseReference.child("users").child(encodeString(emailInput)).child("fullname").setValue(fullnameInput);
+        databaseReference.child("users").child(encodeString(emailInput)).child("email").setValue(encodeString(emailInput));
+        databaseReference.child("users").child(encodeString(emailInput)).child("password").setValue(hashPassword(passwordInput));
+        databaseReference.child("users").child(encodeString(emailInput)).child("gender").setValue(genderInput);
+        databaseReference.child("users").child(encodeString(emailInput)).child("naissance").setValue(naissanceInput);
+        databaseReference.child("users").child(encodeString(emailInput)).child("taille").setValue(tailleInput);
+        databaseReference.child("users").child(encodeString(emailInput)).child("poid").setValue(poidInput);
+    }
+
+    public static String encodeString(String string) {
+        return string.replace(".", ",");
+    }
+
+    public void checkIfEmailRegistred(){
+        databaseReference.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.hasChild(encodeString(getIntent().getStringExtra("email")))){
+                    ouvrirSignup4Activity(getIntent().getStringExtra("email"));
+                }
+
+                else{
+                    Toast.makeText(getApplicationContext(),getString(R.string.error_signup), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public static String hashPassword(String base) {
+        try{
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(base.getBytes("UTF-8"));
+            StringBuffer hexString = new StringBuffer();
+
+            for (int i = 0; i < hash.length; i++) {
+                String hex = Integer.toHexString(0xff & hash[i]);
+                if(hex.length() == 1) hexString.append('0');
+                hexString.append(hex);
+            }
+
+            return hexString.toString();
+        } catch(Exception ex){
+            throw new RuntimeException(ex);
         }
     }
 }

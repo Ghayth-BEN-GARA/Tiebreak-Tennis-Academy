@@ -1,16 +1,21 @@
 package com.example.tiebreaktennisacademy.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Patterns;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -18,6 +23,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.tiebreaktennisacademy.Models.Session;
 import com.example.tiebreaktennisacademy.R;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
@@ -25,8 +31,14 @@ import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import org.json.JSONException;
 import org.json.JSONObject;
+import java.security.MessageDigest;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -35,8 +47,10 @@ public class SignupWithFacebookActivity extends AppCompatActivity {
     private TextInputEditText fullname, email, password, naissance, gender, taille, poid;
     private TextView erreurFullname, erreurEmail, erreurPassword, erreurNaissance, erreurGender, erreurTaille, erreurPoid;
     private AppCompatButton signup;
+    private Dialog dialog;
     private Boolean isFullname = true, isEmail = false, isPassword = false, isNaissance = false, isGender = true, isTaille = false, isPoid = false;
     private AccessToken accessToken;
+    private DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +84,7 @@ public class SignupWithFacebookActivity extends AppCompatActivity {
         onChangeFunctions();
         intializeToken();
         getInformationsFromFacebook();
+        initialiseDataBase();
     }
 
     @Override
@@ -455,8 +470,7 @@ public class SignupWithFacebookActivity extends AppCompatActivity {
             setInputLayoutNormal(inputNaissance,naissance);
             setInputLayoutNormal(inputTaille,taille);
             setInputLayoutNormal(inputPoid,poid);
-            //signup
-            logoutFromFacebook();
+            chargementIfEmailRegistred();
         }
     }
 
@@ -500,7 +514,7 @@ public class SignupWithFacebookActivity extends AppCompatActivity {
                             try{
                                 JSONObject informations = new JSONObject(response);
                                 if(informations.getString("gender").equals("male")){
-                                    gender.setText("Man");
+                                    gender.setText("Male");
                                 }
 
                                 else{
@@ -516,7 +530,7 @@ public class SignupWithFacebookActivity extends AppCompatActivity {
                     }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            //add errors notifications
+                            showErreurFacebookDialog();
                         }
                     });
                     requestQueue.add(request);
@@ -535,5 +549,156 @@ public class SignupWithFacebookActivity extends AppCompatActivity {
 
     public void logoutFromFacebook(){
         LoginManager.getInstance().logOut();
+    }
+
+    public void initialiseDataBase(){
+        databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://tiebreak-tennis--1657542982200-default-rtdb.firebaseio.com/");
+    }
+
+    public void chargementIfEmailRegistred(){
+        final ProgressDialog progressDialog = new ProgressDialog(SignupWithFacebookActivity.this, R.style.chargement);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage(getString(R.string.wait));
+        progressDialog.show();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                checkIfEmailRegistred();
+                progressDialog.dismiss();
+            }
+        },3000);
+    }
+
+    public void checkIfEmailRegistred(){
+        databaseReference.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.hasChild(encodeString(email.getText().toString()))){
+                    showNotificationError();
+                }
+
+                else{
+                    chargementUserRegistred();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public static String encodeString(String string) {
+        return string.replace(".", ",");
+    }
+
+    public void showNotificationError(){
+        dialog = new Dialog(SignupWithFacebookActivity.this);
+        dialog.setContentView(R.layout.item_erreur);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.setCanceledOnTouchOutside(false);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.content_erreur_notification));
+        }
+
+        AppCompatButton cancel = dialog.findViewById(R.id.exit_btn);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        TextView desc = dialog.findViewById(R.id.desc_title_erreur);
+        desc.setText(R.string.email_exist);
+
+        dialog.show();
+    }
+
+    public void chargementUserRegistred(){
+        final ProgressDialog progressDialog = new ProgressDialog(SignupWithFacebookActivity.this, R.style.chargement);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage(getString(R.string.registration));
+        progressDialog.show();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                progressDialog.dismiss();
+                logoutFromFacebook();
+                signUpUser();
+                ouvrirHomeActivity();
+            }
+        },3000);
+    }
+
+    public void signUpUser(){
+        databaseReference.child("users").child(encodeString(email.getText().toString())).child("fullname").setValue(fullname.getText().toString());
+        databaseReference.child("users").child(encodeString(email.getText().toString())).child("email").setValue(encodeString(email.getText().toString()));
+        databaseReference.child("users").child(encodeString(email.getText().toString())).child("password").setValue(hashPassword(password.getText().toString()));
+        databaseReference.child("users").child(encodeString(email.getText().toString())).child("gender").setValue(gender.getText().toString());
+        databaseReference.child("users").child(encodeString(email.getText().toString())).child("naissance").setValue(naissance.getText().toString());
+        databaseReference.child("users").child(encodeString(email.getText().toString())).child("taille").setValue(taille.getText().toString());
+        databaseReference.child("users").child(encodeString(email.getText().toString())).child("poid").setValue(poid.getText().toString());
+    }
+
+    public static String hashPassword(String base) {
+        try{
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(base.getBytes("UTF-8"));
+            StringBuffer hexString = new StringBuffer();
+
+            for (int i = 0; i < hash.length; i++) {
+                String hex = Integer.toHexString(0xff & hash[i]);
+                if(hex.length() == 1) hexString.append('0');
+                hexString.append(hex);
+            }
+
+            return hexString.toString();
+        } catch(Exception ex){
+            throw new RuntimeException(ex);
+        }
+    }
+
+    public void createSession(){
+        Session session = new Session(getApplicationContext());
+        session.initialiserSharedPreferences();
+        session.saveEmailApplication(decodeString(email.getText().toString()));
+    }
+
+    public void ouvrirHomeActivity(){
+        createSession();
+        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.right_to_left,R.anim.stay);
+    }
+
+    public static String decodeString(String string) {
+        return string.replace(",", ".");
+    }
+
+    public void showErreurFacebookDialog(){
+        dialog = new Dialog(SignupWithFacebookActivity.this);
+        dialog.setContentView(R.layout.item_erreur_facebook_google_notification);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.setCanceledOnTouchOutside(false);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.content_erreur_notification));
+        }
+
+        AppCompatButton cancel = dialog.findViewById(R.id.exit_btn);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        TextView desc = dialog.findViewById(R.id.desc_title_erreur);
+        desc.setText(R.string.desc_erreur_facebook);
+
+        dialog.show();
     }
 }
