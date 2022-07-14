@@ -1,8 +1,13 @@
 package com.example.tiebreaktennisacademy.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -10,25 +15,61 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Patterns;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.TextView;
+import com.example.tiebreaktennisacademy.Models.Session;
 import com.example.tiebreaktennisacademy.R;
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import org.json.JSONException;
+import org.json.JSONObject;
+import java.security.MessageDigest;
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SignInActivity extends AppCompatActivity {
-    private ImageView back;
+    private ImageView back, facebook, google;
     private TextView help, erreurEmail, erreurPassword;
     private AppCompatButton signIn;
     private TextInputEditText email, password;
-    private ScrollView scrollView;
+    private TextInputLayout textLayoutEmail, textInputPassword;
     private Boolean isEmail = false, isPassword = false;
+    private int signUpGoogle = 1000;
+    private Dialog dialog;
+    private DatabaseReference databaseReference;
+    private CallbackManager callbackManager;
+    private AccessToken accessToken;
+    private String emailFromFacebook, emailFromGoogle;
+    private GoogleSignInOptions gso;
+    private GoogleSignInClient gsc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_sign_in);
 
         back = (ImageView) findViewById(R.id.back);
@@ -38,11 +79,20 @@ public class SignInActivity extends AppCompatActivity {
         password = (TextInputEditText) findViewById(R.id.password);
         erreurEmail = (TextView) findViewById(R.id.erreur_email);
         erreurPassword = (TextView) findViewById(R.id.erreur_password);
-        scrollView = (ScrollView) findViewById(R.id.scroll_view);
+        textLayoutEmail = (TextInputLayout) findViewById(R.id.inputlayout_email);
+        textInputPassword = (TextInputLayout) findViewById(R.id.inputlayout_password);
+        facebook = (ImageView) findViewById(R.id.facebook);
+        google = (ImageView) findViewById(R.id.google);
 
         onClickFunctions();
         onChangeFunctions();
-        onFocusFunctions();
+        initialiseDataBase();
+        intializeFacebookItems();
+        loginManagerActions();
+        intializeToken();
+        getInformationsFromFacebook();
+        intializeGoogleItems();
+        getInformationsFromGoogle();
     }
 
     @Override
@@ -83,6 +133,20 @@ public class SignInActivity extends AppCompatActivity {
                 validateFormSignIn();
             }
         });
+
+        facebook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoginManager.getInstance().logInWithReadPermissions(SignInActivity.this, Arrays.asList("public_profile","email","user_friends","user_birthday"));
+            }
+        });
+
+        google.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signUpWithGoogle();
+            }
+        });
     }
 
     public boolean isFormat(String text) {
@@ -114,17 +178,21 @@ public class SignInActivity extends AppCompatActivity {
 
     public void validateFormSignIn(){
         if(isEmpty(email.getText().toString())){
+            setInputLayoutErrors(textLayoutEmail,email);
             setErreurText(erreurEmail,getString(R.string.email_required));
         }
 
         else if(isEmpty(password.getText().toString())){
+            setInputLayoutErrors(textInputPassword,password);
             setErreurText(erreurPassword,getString(R.string.password_required));
         }
 
         else if(isEmail == true && isPassword == true){
             setErreurNull(erreurEmail);
             setErreurNull(erreurPassword);
-            //SignIn
+            setInputLayoutNormal(textLayoutEmail,email);
+            setInputLayoutNormal(textInputPassword,password);
+            chargementIfEmailRegistred();
         }
     }
 
@@ -139,16 +207,19 @@ public class SignInActivity extends AppCompatActivity {
     public void validateEmail(){
         if(isEmpty(email.getText().toString())){
             setErreurText(erreurEmail,getString(R.string.email_required));
+            setInputLayoutErrors(textLayoutEmail,email);
             isEmail = false;
         }
 
         else if(!isFormat(email.getText().toString())){
             setErreurText(erreurEmail,getString(R.string.email_format_invalid));
+            setInputLayoutErrors(textLayoutEmail,email);
             isEmail = false;
         }
 
         else{
             setErreurNull(erreurEmail);
+            setInputLayoutNormal(textLayoutEmail,email);
             isEmail = true;
         }
     }
@@ -156,31 +227,37 @@ public class SignInActivity extends AppCompatActivity {
     public void validatePassword(){
         if(isEmpty(password.getText().toString())){
             setErreurText(erreurPassword,getString(R.string.password_required));
+            setInputLayoutErrors(textInputPassword,password);
             isPassword = false;
         }
 
         else if(!isMinuscule(password.getText().toString())){
             setErreurText(erreurPassword,getString(R.string.password_minisucle));
+            setInputLayoutErrors(textInputPassword,password);
             isPassword = false;
         }
 
         else if(!isMajuscule(password.getText().toString())){
             setErreurText(erreurPassword,getString(R.string.password_majuscule));
+            setInputLayoutErrors(textInputPassword,password);
             isPassword = false;
         }
 
         else if(!isChiffre(password.getText().toString())){
             setErreurText(erreurPassword,getString(R.string.password_number));
+            setInputLayoutErrors(textInputPassword,password);
             isPassword = false;
         }
 
         else if(!isLength(password.getText().toString())){
             setErreurText(erreurPassword,getString(R.string.password_length));
+            setInputLayoutErrors(textInputPassword,password);
             isPassword = false;
         }
 
         else{
             setErreurNull(erreurPassword);
+            setInputLayoutNormal(textInputPassword,password);
             isPassword = true;
         }
     }
@@ -221,36 +298,322 @@ public class SignInActivity extends AppCompatActivity {
         });
     }
 
-    public void onFocusFunctions(){
-        email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                scrollToTop();
+    public void setInputLayoutNormal(TextInputLayout input, TextInputEditText text){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            input.setBackground(getDrawable(R.drawable.edi_text_background));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                text.setCompoundDrawableTintList(ColorStateList.valueOf(getColor(R.color.black)));
             }
-        });
-
-        password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                scrollToTop();
-            }
-        });
+        }
     }
 
-    public void scrollToTop(){
-        final Handler handler;
-        handler = new Handler();
-
-        final Runnable r = new Runnable() {
-            public void run() {
-                scrollView.smoothScrollTo(0, 500);
-                handler.postDelayed(this, 200);
+    public void setInputLayoutErrors(TextInputLayout input, TextInputEditText text){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            input.setBackground(getDrawable(R.drawable.edit_text_background_erreur));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                text.setCompoundDrawableTintList(ColorStateList.valueOf(getColor(com.google.android.material.R.color.design_default_color_error)));
             }
-        };
-        handler.postDelayed(r, 200);
+        }
     }
 
-    public static String DecodeString(String string) {
+    public void initialiseDataBase(){
+        databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://tiebreak-tennis--1657542982200-default-rtdb.firebaseio.com/");
+    }
+
+
+    public static String decodeString(String string) {
         return string.replace(",", ".");
+    }
+
+    public void chargementIfEmailRegistred(){
+        final ProgressDialog progressDialog = new ProgressDialog(SignInActivity.this, R.style.chargement);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage(getString(R.string.wait));
+        progressDialog.show();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                checkIfEmailRegistred();
+                progressDialog.dismiss();
+            }
+        },3000);
+    }
+
+    public void checkIfEmailRegistred(){
+        databaseReference.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(!snapshot.hasChild(encodeString(email.getText().toString()))){
+                    setErreurText(erreurEmail,getString(R.string.no_account_found));
+                }
+
+                else{
+                    setErreurNull(erreurEmail);
+                    signInUser(snapshot);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public static String encodeString(String string) {
+        return string.replace(".", ",");
+    }
+
+
+    public void signInUser(DataSnapshot snapshot){
+        final String getPassword = snapshot.child(encodeString(email.getText().toString())).child("password").getValue(String.class);
+
+        if(!getPassword.equals(hashPassword(password.getText().toString()))){
+            setErreurText(erreurPassword,getString(R.string.wrong_password));
+        }
+
+        else{
+            setErreurNull(erreurPassword);
+            chargementSignIn();
+        }
+    }
+
+    public static String hashPassword(String base) {
+        try{
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(base.getBytes("UTF-8"));
+            StringBuffer hexString = new StringBuffer();
+
+            for (int i = 0; i < hash.length; i++) {
+                String hex = Integer.toHexString(0xff & hash[i]);
+                if(hex.length() == 1) hexString.append('0');
+                hexString.append(hex);
+            }
+
+            return hexString.toString();
+        } catch(Exception ex){
+            throw new RuntimeException(ex);
+        }
+    }
+
+    public void chargementSignIn(){
+        final ProgressDialog progressDialog = new ProgressDialog(SignInActivity.this, R.style.chargement);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage(getString(R.string.signin_progress));
+        progressDialog.show();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ouvrirHomeActivity();
+                progressDialog.dismiss();
+            }
+        },3000);
+    }
+
+    public void createSession(){
+        Session session = new Session(getApplicationContext());
+        session.initialiserSharedPreferences();
+        session.saveEmailApplication(decodeString(email.getText().toString()));
+    }
+
+    public void ouvrirHomeActivity(){
+        createSession();
+        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.right_to_left,R.anim.stay);
+    }
+
+    public void intializeFacebookItems(){
+        callbackManager = CallbackManager.Factory.create();
+    }
+
+    public void loginManagerActions(){
+        LoginManager.getInstance().registerCallback(callbackManager,
+                new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess(LoginResult loginResult) {
+                        signInWithFacebook();
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        showErreurFacebookDialog();
+                    }
+
+                    @Override
+                    public void onError(FacebookException exception) {
+                        showErreurFacebookDialog();
+                    }
+                });
+    }
+
+    public void showErreurFacebookDialog(){
+        dialog = new Dialog(SignInActivity.this);
+        dialog.setContentView(R.layout.item_erreur_facebook_google_notification);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.setCanceledOnTouchOutside(false);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.content_erreur_notification));
+        }
+
+        AppCompatButton cancel = dialog.findViewById(R.id.exit_btn);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        TextView desc = dialog.findViewById(R.id.desc_title_erreur);
+        desc.setText(R.string.desc_erreur_facebook);
+
+        dialog.show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == signUpGoogle){
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            handledSignedResult(task);
+        }
+
+        else{
+            callbackManager.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    public void intializeToken(){
+        accessToken = AccessToken.getCurrentAccessToken();
+    }
+
+    public void getInformationsFromFacebook(){
+        GraphRequest request = GraphRequest.newMeRequest(accessToken, new GraphRequest.GraphJSONObjectCallback() {
+            @Override
+            public void onCompleted(JSONObject object, GraphResponse response) {
+                try {
+                    emailFromFacebook = object.getString("email");
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        Bundle paramestres = new Bundle();
+        paramestres.putString("fields","email");
+        request.setParameters(paramestres);
+        request.executeAsync();
+    }
+
+    public void signInWithFacebook(){
+        databaseReference.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(emailFromFacebook != null && !snapshot.hasChild(encodeString(emailFromFacebook))){
+                    setErreurText(erreurEmail,getString(R.string.no_account_found));
+                }
+
+                else{
+                    setErreurNull(erreurEmail);
+                    chargementSignIn();
+                    logoutFromFacebook();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public void logoutFromFacebook(){
+        LoginManager.getInstance().logOut();
+    }
+
+    public void intializeGoogleItems(){
+        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
+        gsc = GoogleSignIn.getClient(this,gso);
+    }
+
+    public void showErreurGoogleDialog(){
+        dialog = new Dialog(SignInActivity.this);
+        dialog.setContentView(R.layout.item_erreur_facebook_google_notification);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.setCanceledOnTouchOutside(false);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.content_erreur_notification));
+        }
+
+        AppCompatButton cancel = dialog.findViewById(R.id.exit_btn);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        TextView desc = dialog.findViewById(R.id.desc_title_erreur);
+        desc.setText(R.string.desc_erreur_google);
+
+        dialog.show();
+    }
+
+    public void signUpWithGoogle(){
+        Intent signUpIntent = gsc.getSignInIntent();
+        startActivityForResult(signUpIntent,signUpGoogle);
+    }
+
+    private void handledSignedResult(Task<GoogleSignInAccount> completedTask){
+        try {
+            completedTask.getResult(ApiException.class);
+            signInWithGoogle();
+        }
+
+        catch (ApiException e) {
+            showErreurGoogleDialog();
+        }
+    }
+
+    public void getInformationsFromGoogle(){
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        if(account != null){
+            emailFromGoogle = account.getEmail();
+        }
+    }
+
+    public void signInWithGoogle(){
+        databaseReference.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(emailFromGoogle != null && !snapshot.hasChild(encodeString(emailFromGoogle))){
+                    setErreurText(erreurEmail,getString(R.string.no_account_found));
+                }
+
+                else{
+                    setErreurNull(erreurEmail);
+                    chargementSignIn();
+                    logoutFromGoogle();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public void logoutFromGoogle(){
+        gsc.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                ouvrirHomeActivity();
+            }
+        });
     }
 }
