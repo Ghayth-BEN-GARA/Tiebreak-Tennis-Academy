@@ -451,7 +451,7 @@ public class SignInActivity extends AppCompatActivity {
 
     public void showErreurFacebookDialog(){
         dialog = new Dialog(SignInActivity.this);
-        dialog.setContentView(R.layout.item_erreur_facebook_google_notification);
+        dialog.setContentView(R.layout.item_erreur);
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.setCanceledOnTouchOutside(false);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -542,7 +542,7 @@ public class SignInActivity extends AppCompatActivity {
 
     public void showErreurGoogleDialog(){
         dialog = new Dialog(SignInActivity.this);
-        dialog.setContentView(R.layout.item_erreur_facebook_google_notification);
+        dialog.setContentView(R.layout.item_erreur);
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.setCanceledOnTouchOutside(false);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

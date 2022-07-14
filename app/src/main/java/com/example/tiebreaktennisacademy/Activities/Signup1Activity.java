@@ -1,8 +1,10 @@
 package com.example.tiebreaktennisacademy.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Build;
@@ -30,6 +32,11 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -39,14 +46,15 @@ public class Signup1Activity extends AppCompatActivity {
     private AutoCompleteTextView gender;
     private ImageView back, facebook, google;
     private AppCompatButton next;
-    private TextView erreurFullname,erreurGender;
-    private TextInputLayout inputFullname, inputGender;
-    private TextInputEditText fullname;
+    private TextView help, erreurFullname, erreurPhone, erreurGender;
+    private TextInputLayout inputFullname, inputPhone, inputGender;
+    private TextInputEditText fullname, phone;
     private Dialog dialog;
     private String[] genderItems;
-    private Boolean isFullname = false, isGender = true;
+    private Boolean isFullname = false, isPhone = false, isGender = false;
     private int signUpGoogle = 1000;
     private CallbackManager callbackManager;
+    private DatabaseReference databaseReference;
     private GoogleSignInOptions gso;
     private GoogleSignInClient gsc;
 
@@ -60,9 +68,13 @@ public class Signup1Activity extends AppCompatActivity {
         back = (ImageView) findViewById(R.id.back);
         next = (AppCompatButton) findViewById(R.id.next_btn);
         fullname = (TextInputEditText) findViewById(R.id.username);
+        phone = (TextInputEditText) findViewById(R.id.phone);
         erreurFullname = (TextView) findViewById(R.id.erreur_fullname);
         erreurGender = (TextView) findViewById(R.id.erreur_gender);
+        erreurPhone = (TextView) findViewById(R.id.erreur_phone);
+        help = (TextView) findViewById(R.id.help);
         inputFullname = (TextInputLayout) findViewById(R.id.inputlayout_username);
+        inputPhone = (TextInputLayout) findViewById(R.id.inputlayout_phone);
         inputGender = (TextInputLayout) findViewById(R.id.inputlayout_gender);
         facebook = (ImageView) findViewById(R.id.facebook);
         google = (ImageView) findViewById(R.id.google);
@@ -73,6 +85,7 @@ public class Signup1Activity extends AppCompatActivity {
         setGenderItems();
         onclickFunctions();
         onChangeFunctions();
+        initialiseDataBase();
     }
 
     public void setGenderItems(){
@@ -120,11 +133,19 @@ public class Signup1Activity extends AppCompatActivity {
                 signUpWithGoogle();
             }
         });
+
+        help.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ouvrirHelpActivity();
+            }
+        });
     }
 
     public void ouvrirSignup2Activity(){
         Intent intent = new Intent(getApplicationContext(), Signup2Activity.class);
         intent.putExtra("fullname", fullname.getText().toString());
+        intent.putExtra("phone", phone.getText().toString());
         intent.putExtra("gender", gender.getText().toString());
         startActivity(intent);
         overridePendingTransition(R.anim.right_to_left,R.anim.stay);
@@ -139,10 +160,24 @@ public class Signup1Activity extends AppCompatActivity {
         return matcher.matches();
     }
 
+    public boolean isNumber(String text) {
+        Matcher matcher = Pattern.compile("^[0-9]*$").matcher(text);
+        return matcher.matches();
+    }
+
+    public boolean isLength(String text){
+        return text.length() >= 8;
+    }
+
     public void validateFormSignUp1(){
         if(isEmpty(fullname.getText().toString())){
             setErreurText(erreurFullname,getString(R.string.username_required));
             setInputLayoutErrors(inputFullname, fullname);
+        }
+
+        else if(isEmpty(phone.getText().toString())){
+            setErreurText(erreurPhone,getString(R.string.phone_required));
+            setInputLayoutErrors(inputPhone, phone);
         }
 
         else if(isEmpty(gender.getText().toString())){
@@ -150,12 +185,14 @@ public class Signup1Activity extends AppCompatActivity {
             setInputGenderErrors(inputGender, gender);
         }
 
-        else if(isFullname == true && isGender == true){
+        else if(isFullname == true && isPhone == true && isGender == true){
             setErreurNull(erreurFullname);
-            setErreurNull(erreurFullname);
+            setErreurNull(erreurPhone);
+            setErreurNull(erreurGender);
             setInputLayoutNormal(inputFullname,fullname);
+            setInputLayoutNormal(inputPhone,phone);
             setInputGenderNormal(inputGender,gender);
-            ouvrirSignup2Activity();
+            chargementIfPhoneRegistred();
         }
     }
 
@@ -177,6 +214,23 @@ public class Signup1Activity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 validateFullname();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        phone.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                validatePhone();
             }
 
             @Override
@@ -220,6 +274,32 @@ public class Signup1Activity extends AppCompatActivity {
             setErreurNull(erreurFullname);
             setInputLayoutNormal(inputFullname,fullname);
             isFullname = true;
+        }
+    }
+
+    public void validatePhone(){
+        if(isEmpty(phone.getText().toString())){
+            setErreurText(erreurPhone,getString(R.string.phone_required));
+            setInputLayoutErrors(inputPhone, phone);
+            isPhone = false;
+        }
+
+        else if(!isNumber(phone.getText().toString())){
+            setErreurText(erreurPhone,getString(R.string.phone_number));
+            setInputLayoutErrors(inputPhone, phone);
+            isPhone = false;
+        }
+
+        else if(!isLength(phone.getText().toString())){
+            setErreurText(erreurPhone,getString(R.string.phone_length));
+            setInputLayoutErrors(inputPhone, phone);
+            isPhone = false;
+        }
+
+        else{
+            setErreurNull(erreurPhone);
+            setInputLayoutNormal(inputPhone, phone);
+            isPhone = true;
         }
     }
 
@@ -336,7 +416,7 @@ public class Signup1Activity extends AppCompatActivity {
 
     public void showErreurFacebookDialog(){
         dialog = new Dialog(Signup1Activity.this);
-        dialog.setContentView(R.layout.item_erreur_facebook_google_notification);
+        dialog.setContentView(R.layout.item_erreur);
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.setCanceledOnTouchOutside(false);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -376,7 +456,7 @@ public class Signup1Activity extends AppCompatActivity {
 
     public void showErreurGoogleDialog(){
         dialog = new Dialog(Signup1Activity.this);
-        dialog.setContentView(R.layout.item_erreur_facebook_google_notification);
+        dialog.setContentView(R.layout.item_erreur);
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.setCanceledOnTouchOutside(false);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -397,4 +477,49 @@ public class Signup1Activity extends AppCompatActivity {
         dialog.show();
     }
 
+    public void initialiseDataBase(){
+        databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://tiebreak-tennis--1657542982200-default-rtdb.firebaseio.com/");
+    }
+
+    public void chargementIfPhoneRegistred(){
+        final ProgressDialog progressDialog = new ProgressDialog(Signup1Activity.this, R.style.chargement);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage(getString(R.string.wait));
+        progressDialog.show();
+
+        new Thread(new Runnable() {
+            public void run() {
+                checkIfPhoneRegistred(progressDialog);
+            }
+        }).start();
+    }
+
+    public void checkIfPhoneRegistred(ProgressDialog progressDialog){
+        databaseReference.child("users").orderByChild("phone").equalTo(phone.getText().toString()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.getValue() != null ){
+                    setErreurText(erreurPhone,getString(R.string.phone_exist));
+                    progressDialog.dismiss();
+                }
+
+                else{
+                    setErreurNull(erreurPhone);
+                    ouvrirSignup2Activity();
+                    progressDialog.dismiss();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public void ouvrirHelpActivity(){
+        Intent intent = new Intent(getApplicationContext(), HelpActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.right_to_left,R.anim.stay);
+    }
 }

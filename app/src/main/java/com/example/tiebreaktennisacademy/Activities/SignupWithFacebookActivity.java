@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -43,12 +42,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SignupWithFacebookActivity extends AppCompatActivity {
-    private TextInputLayout inputFullname, inputEmail, inputPassword, inputGender, inputNaissance, inputTaille, inputPoid;
-    private TextInputEditText fullname, email, password, naissance, gender, taille, poid;
-    private TextView erreurFullname, erreurEmail, erreurPassword, erreurNaissance, erreurGender, erreurTaille, erreurPoid;
+    private TextInputLayout inputFullname, inputPhone, inputEmail, inputPassword, inputGender, inputNaissance, inputTaille, inputPoid;
+    private TextInputEditText fullname, phone, email, password, naissance, gender, taille, poid;
+    private TextView erreurFullname, erreurPhone, erreurEmail, erreurPassword, erreurNaissance, erreurGender, erreurTaille, erreurPoid;
     private AppCompatButton signup;
     private Dialog dialog;
-    private Boolean isFullname = true, isEmail = false, isPassword = false, isNaissance = false, isGender = true, isTaille = false, isPoid = false;
+    private Boolean isFullname = true, isPhone = false, isEmail = false, isPassword = false, isNaissance = false, isGender = true, isTaille = false, isPoid = false;
     private AccessToken accessToken;
     private DatabaseReference databaseReference;
 
@@ -58,6 +57,7 @@ public class SignupWithFacebookActivity extends AppCompatActivity {
         setContentView(R.layout.activity_signup_with_facebook);
 
         fullname = (TextInputEditText) findViewById(R.id.username);
+        phone = (TextInputEditText) findViewById(R.id.phone);
         email = (TextInputEditText) findViewById(R.id.email);
         password = (TextInputEditText) findViewById(R.id.password);
         naissance = (TextInputEditText) findViewById(R.id.naissance);
@@ -66,6 +66,7 @@ public class SignupWithFacebookActivity extends AppCompatActivity {
         poid = (TextInputEditText) findViewById(R.id.poids);
         signup = (AppCompatButton) findViewById(R.id.signup_btn);
         erreurFullname = (TextView) findViewById(R.id.erreur_fullname);
+        erreurPhone = (TextView) findViewById(R.id.erreur_phone);
         erreurEmail = (TextView) findViewById(R.id.erreur_email);
         erreurPassword = (TextView) findViewById(R.id.erreur_password);
         erreurNaissance = (TextView) findViewById(R.id.erreur_naissance);
@@ -73,6 +74,7 @@ public class SignupWithFacebookActivity extends AppCompatActivity {
         erreurPoid = (TextView) findViewById(R.id.erreur_poid);
         erreurTaille = (TextView) findViewById(R.id.erreur_taille);
         inputFullname = (TextInputLayout) findViewById(R.id.inputlayout_username);
+        inputPhone = (TextInputLayout) findViewById(R.id.inputlayout_phone);
         inputEmail = (TextInputLayout) findViewById(R.id.inputlayout_email);
         inputPassword = (TextInputLayout) findViewById(R.id.inputlayout_password);
         inputGender = (TextInputLayout) findViewById(R.id.inputlayout_gender);
@@ -162,6 +164,23 @@ public class SignupWithFacebookActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 validateFullname();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        phone.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                validatePhone();
             }
 
             @Override
@@ -290,6 +309,32 @@ public class SignupWithFacebookActivity extends AppCompatActivity {
             setErreurNull(erreurFullname);
             setInputLayoutNormal(inputFullname,fullname);
             isFullname = true;
+        }
+    }
+
+    public void validatePhone(){
+        if(isEmpty(phone.getText().toString())){
+            setErreurText(erreurPhone,getString(R.string.phone_required));
+            setInputLayoutErrors(inputPhone, phone);
+            isPhone = false;
+        }
+
+        else if(!isNumber(phone.getText().toString())){
+            setErreurText(erreurPhone,getString(R.string.phone_number));
+            setInputLayoutErrors(inputPhone, phone);
+            isPhone = false;
+        }
+
+        else if(!isLength(phone.getText().toString())){
+            setErreurText(erreurPhone,getString(R.string.phone_length));
+            setInputLayoutErrors(inputPhone, phone);
+            isPhone = false;
+        }
+
+        else{
+            setErreurNull(erreurPhone);
+            setInputLayoutNormal(inputPhone, phone);
+            isPhone = true;
         }
     }
 
@@ -425,6 +470,11 @@ public class SignupWithFacebookActivity extends AppCompatActivity {
             setInputLayoutErrors(inputFullname,fullname);
         }
 
+        else if(isEmpty(phone.getText().toString())){
+            setErreurText(erreurPhone,getString(R.string.phone_required));
+            setInputLayoutErrors(inputPhone, phone);
+        }
+
         else if(isEmpty(email.getText().toString())){
             setErreurText(erreurEmail,getString(R.string.email_required));
             setInputLayoutErrors(inputEmail,email);
@@ -455,8 +505,9 @@ public class SignupWithFacebookActivity extends AppCompatActivity {
             setInputLayoutErrors(inputPoid,poid);
         }
 
-        else if(isFullname == true && isEmail == true && isPassword == true && isGender == true && isNaissance == true && isTaille == true && isPoid == true){
+        else if(isFullname == true && isPhone == true && isEmail == true && isPassword == true && isGender == true && isNaissance == true && isTaille == true && isPoid == true){
             setErreurNull(erreurFullname);
+            setErreurNull(erreurPhone);
             setErreurNull(erreurEmail);
             setErreurNull(erreurPassword);
             setErreurNull(erreurNaissance);
@@ -464,13 +515,14 @@ public class SignupWithFacebookActivity extends AppCompatActivity {
             setErreurNull(erreurTaille);
             setErreurNull(erreurPoid);
             setInputLayoutNormal(inputFullname,fullname);
+            setInputLayoutNormal(inputPhone,phone);
             setInputLayoutNormal(inputEmail,email);
             setInputLayoutNormal(inputPassword,password);
             setInputLayoutNormal(inputGender,gender);
             setInputLayoutNormal(inputNaissance,naissance);
             setInputLayoutNormal(inputTaille,taille);
             setInputLayoutNormal(inputPoid,poid);
-            chargementIfEmailRegistred();
+            chargementIfPhoneRegistred();
         }
     }
 
@@ -555,31 +607,53 @@ public class SignupWithFacebookActivity extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://tiebreak-tennis--1657542982200-default-rtdb.firebaseio.com/");
     }
 
-    public void chargementIfEmailRegistred(){
+    public void chargementIfPhoneRegistred(){
         final ProgressDialog progressDialog = new ProgressDialog(SignupWithFacebookActivity.this, R.style.chargement);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage(getString(R.string.wait));
         progressDialog.show();
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
+        new Thread(new Runnable() {
             public void run() {
-                checkIfEmailRegistred();
-                progressDialog.dismiss();
+                checkIfPhoneRegistred(progressDialog);
             }
-        },3000);
+        }).start();
     }
 
-    public void checkIfEmailRegistred(){
+    public void checkIfPhoneRegistred(ProgressDialog progressDialog){
+        databaseReference.child("users").orderByChild("phone").equalTo(phone.getText().toString()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.getValue() != null ){
+                    setErreurText(erreurPhone,getString(R.string.phone_exist));
+                    progressDialog.dismiss();
+                }
+
+                else{
+                    setErreurNull(erreurPhone);
+                    checkIfEmailRegistred(progressDialog);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public void checkIfEmailRegistred(ProgressDialog progressDialog){
         databaseReference.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.hasChild(encodeString(email.getText().toString()))){
                     showNotificationError();
+                    progressDialog.dismiss();
                 }
 
                 else{
                     chargementUserRegistred();
+                    progressDialog.dismiss();
                 }
             }
 
@@ -623,18 +697,14 @@ public class SignupWithFacebookActivity extends AppCompatActivity {
         progressDialog.setMessage(getString(R.string.registration));
         progressDialog.show();
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
+        new Thread(new Runnable() {
             public void run() {
-                progressDialog.dismiss();
-                logoutFromFacebook();
-                signUpUser();
-                ouvrirHomeActivity();
+                signUpUser(progressDialog);
             }
-        },3000);
+        }).start();
     }
 
-    public void signUpUser(){
+    public void signUpUser(ProgressDialog progressDialog){
         databaseReference.child("users").child(encodeString(email.getText().toString())).child("fullname").setValue(fullname.getText().toString());
         databaseReference.child("users").child(encodeString(email.getText().toString())).child("email").setValue(encodeString(email.getText().toString()));
         databaseReference.child("users").child(encodeString(email.getText().toString())).child("password").setValue(hashPassword(password.getText().toString()));
@@ -642,6 +712,9 @@ public class SignupWithFacebookActivity extends AppCompatActivity {
         databaseReference.child("users").child(encodeString(email.getText().toString())).child("naissance").setValue(naissance.getText().toString());
         databaseReference.child("users").child(encodeString(email.getText().toString())).child("taille").setValue(taille.getText().toString());
         databaseReference.child("users").child(encodeString(email.getText().toString())).child("poid").setValue(poid.getText().toString());
+        logoutFromFacebook();
+        ouvrirHomeActivity();
+        progressDialog.dismiss();
     }
 
     public static String hashPassword(String base) {
@@ -681,7 +754,7 @@ public class SignupWithFacebookActivity extends AppCompatActivity {
 
     public void showErreurFacebookDialog(){
         dialog = new Dialog(SignupWithFacebookActivity.this);
-        dialog.setContentView(R.layout.item_erreur_facebook_google_notification);
+        dialog.setContentView(R.layout.item_erreur);
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.setCanceledOnTouchOutside(false);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

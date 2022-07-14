@@ -1,28 +1,39 @@
 package com.example.tiebreaktennisacademy.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import com.example.tiebreaktennisacademy.R;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class ForgetPassword1Activity extends AppCompatActivity {
     private ImageView back;
     private AppCompatButton next;
     private TextView erreurEmail;
-    private ScrollView scrollView;
     private TextInputEditText email;
+    private TextInputLayout textInputEmail;
     private Boolean isEmail = false;
+    private DatabaseReference databaseReference;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,11 +44,11 @@ public class ForgetPassword1Activity extends AppCompatActivity {
         next = (AppCompatButton) findViewById(R.id.next_btn);
         email = (TextInputEditText) findViewById(R.id.email);
         erreurEmail = (TextView) findViewById(R.id.erreur_email);
-        scrollView = (ScrollView) findViewById(R.id.scroll_view);
+        textInputEmail = (TextInputLayout) findViewById(R.id.inputlayout_email);
 
         onclickFunctions();
         onChangeFunctions();
-        onFocusFunctions();
+        initialiseDataBase();
     }
 
     @Override
@@ -64,12 +75,13 @@ public class ForgetPassword1Activity extends AppCompatActivity {
     public void validateFormForgetPassword1(){
         if(isEmpty(email.getText().toString())){
             setErreurText(erreurEmail,getString(R.string.email_required));
+            setInputLayoutErrors(textInputEmail, email);
         }
 
         else if(isEmail == true){
             setErreurNull(erreurEmail);
-            ouvrirForgetPassword2Activity();
-            //sendEmail
+            setInputLayoutNormal(textInputEmail,email);
+            chargementIfEmailRegistred();
         }
     }
 
@@ -104,16 +116,19 @@ public class ForgetPassword1Activity extends AppCompatActivity {
     public void validateEmail(){
         if(isEmpty(email.getText().toString())){
             setErreurText(erreurEmail,getString(R.string.email_required));
+            setInputLayoutErrors(textInputEmail, email);
             isEmail = false;
         }
 
         else if(!isFormat(email.getText().toString())){
             setErreurText(erreurEmail,getString(R.string.email_format_invalid));
+            setInputLayoutErrors(textInputEmail,email);
             isEmail = false;
         }
 
         else{
             setErreurNull(erreurEmail);
+            setInputLayoutNormal(textInputEmail,email);
             isEmail = true;
         }
     }
@@ -137,25 +152,67 @@ public class ForgetPassword1Activity extends AppCompatActivity {
         });
     }
 
-    public void onFocusFunctions(){
-        email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+    public void setInputLayoutNormal(TextInputLayout input, TextInputEditText text){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            input.setBackground(getDrawable(R.drawable.edi_text_background));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                text.setCompoundDrawableTintList(ColorStateList.valueOf(getColor(R.color.black)));
+            }
+        }
+    }
+
+    public void setInputLayoutErrors(TextInputLayout input, TextInputEditText text){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            input.setBackground(getDrawable(R.drawable.edit_text_background_erreur));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                text.setCompoundDrawableTintList(ColorStateList.valueOf(getColor(com.google.android.material.R.color.design_default_color_error)));
+            }
+        }
+    }
+
+    public void initialiseDataBase(){
+        databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://tiebreak-tennis--1657542982200-default-rtdb.firebaseio.com/");
+    }
+
+    public void chargementIfEmailRegistred(){
+        final ProgressDialog progressDialog = new ProgressDialog(ForgetPassword1Activity.this, R.style.chargement);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage(getString(R.string.wait));
+        progressDialog.show();
+
+        new Thread(new Runnable() {
+            public void run() {
+                checkIfEmailRegistred(progressDialog);
+            }
+        }).start();
+    }
+
+    public void checkIfEmailRegistred(ProgressDialog progressDialog){
+        databaseReference.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                scrollToTop();
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(!snapshot.hasChild(encodeString(email.getText().toString()))){
+                    setErreurText(erreurEmail,getString(R.string.no_account_found));
+                    progressDialog.dismiss();
+                }
+
+                else{
+                    sendLinkResetPassword(progressDialog);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
     }
 
-    public void scrollToTop(){
-        final Handler handler;
-        handler = new Handler();
+    public static String encodeString(String string) {
+        return string.replace(".", ",");
+    }
 
-        final Runnable r = new Runnable() {
-            public void run() {
-                scrollView.smoothScrollTo(0, 500);
-                handler.postDelayed(this, 200);
-            }
-        };
-        handler.postDelayed(r, 200);
+    public void sendLinkResetPassword(ProgressDialog progressDialog){
+
     }
 }

@@ -11,7 +11,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -318,18 +317,16 @@ public class Signup3Activity extends AppCompatActivity {
         progressDialog.setMessage(getString(R.string.registration));
         progressDialog.show();
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
+        new Thread(new Runnable() {
             public void run() {
-                progressDialog.dismiss();
-                signUpUser();
-                checkIfEmailRegistred();
+                signUpUser(progressDialog);
             }
-        },3000);
+        }).start();
     }
 
-    public void signUpUser(){
+    public void signUpUser(ProgressDialog progressDialog){
         String fullnameInput = getIntent().getStringExtra("fullname");
+        String phoneInput = getIntent().getStringExtra("phone");
         String emailInput = getIntent().getStringExtra("email");
         String passwordInput = getIntent().getStringExtra("password");
         String genderInput = getIntent().getStringExtra("gender");
@@ -338,28 +335,33 @@ public class Signup3Activity extends AppCompatActivity {
         String poidInput = poid.getText().toString();
 
         databaseReference.child("users").child(encodeString(emailInput)).child("fullname").setValue(fullnameInput);
+        databaseReference.child("users").child(encodeString(emailInput)).child("phone").setValue(phoneInput);
         databaseReference.child("users").child(encodeString(emailInput)).child("email").setValue(encodeString(emailInput));
         databaseReference.child("users").child(encodeString(emailInput)).child("password").setValue(hashPassword(passwordInput));
         databaseReference.child("users").child(encodeString(emailInput)).child("gender").setValue(genderInput);
         databaseReference.child("users").child(encodeString(emailInput)).child("naissance").setValue(naissanceInput);
         databaseReference.child("users").child(encodeString(emailInput)).child("taille").setValue(tailleInput);
         databaseReference.child("users").child(encodeString(emailInput)).child("poid").setValue(poidInput);
+
+        checkIfEmailRegistred(progressDialog);
     }
 
     public static String encodeString(String string) {
         return string.replace(".", ",");
     }
 
-    public void checkIfEmailRegistred(){
+    public void checkIfEmailRegistred(ProgressDialog dialog){
         databaseReference.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.hasChild(encodeString(getIntent().getStringExtra("email")))){
                     ouvrirSignup4Activity(getIntent().getStringExtra("email"));
+                    dialog.dismiss();
                 }
 
                 else{
                     Toast.makeText(getApplicationContext(),getString(R.string.error_signup), Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
                 }
             }
 

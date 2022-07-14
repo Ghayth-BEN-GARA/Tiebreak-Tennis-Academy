@@ -37,11 +37,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SignupWithGoogleActivity extends AppCompatActivity {
-    private TextInputLayout inputFullname, inputEmail, inputPassword, inputGender, inputNaissance, inputTaille, inputPoid;
-    private TextInputEditText fullname, email, password, naissance, gender, taille, poid;
-    private TextView erreurFullname, erreurEmail, erreurPassword, erreurNaissance, erreurGender, erreurTaille, erreurPoid;
+    private TextInputLayout inputFullname, inputPhone, inputEmail, inputPassword, inputGender, inputNaissance, inputTaille, inputPoid;
+    private TextInputEditText fullname, phone, email, password, naissance, gender, taille, poid;
+    private TextView erreurFullname, erreurPhone, erreurEmail, erreurPassword, erreurNaissance, erreurGender, erreurTaille, erreurPoid;
     private AppCompatButton signup;
-    private Boolean isFullname = true, isEmail = false, isPassword = false, isNaissance = false, isGender = true, isTaille = false, isPoid = false;
+    private Boolean isFullname = true, isPhone = false, isEmail = false, isPassword = false, isNaissance = false, isGender = true, isTaille = false, isPoid = false;
     private GoogleSignInOptions gso;
     private GoogleSignInClient gsc;
     private Dialog dialog;
@@ -53,6 +53,7 @@ public class SignupWithGoogleActivity extends AppCompatActivity {
         setContentView(R.layout.activity_signup_with_google);
 
         fullname = (TextInputEditText) findViewById(R.id.username);
+        phone = (TextInputEditText) findViewById(R.id.phone);
         email = (TextInputEditText) findViewById(R.id.email);
         password = (TextInputEditText) findViewById(R.id.password);
         naissance = (TextInputEditText) findViewById(R.id.naissance);
@@ -61,6 +62,7 @@ public class SignupWithGoogleActivity extends AppCompatActivity {
         poid = (TextInputEditText) findViewById(R.id.poids);
         signup = (AppCompatButton) findViewById(R.id.signup_btn);
         erreurFullname = (TextView) findViewById(R.id.erreur_fullname);
+        erreurPhone = (TextView) findViewById(R.id.erreur_phone);
         erreurEmail = (TextView) findViewById(R.id.erreur_email);
         erreurPassword = (TextView) findViewById(R.id.erreur_password);
         erreurNaissance = (TextView) findViewById(R.id.erreur_naissance);
@@ -157,6 +159,23 @@ public class SignupWithGoogleActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 validateFullname();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        phone.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                validatePhone();
             }
 
             @Override
@@ -287,6 +306,33 @@ public class SignupWithGoogleActivity extends AppCompatActivity {
             isFullname = true;
         }
     }
+
+    public void validatePhone(){
+        if(isEmpty(phone.getText().toString())){
+            setErreurText(erreurPhone,getString(R.string.phone_required));
+            setInputLayoutErrors(inputPhone, phone);
+            isPhone = false;
+        }
+
+        else if(!isNumber(phone.getText().toString())){
+            setErreurText(erreurPhone,getString(R.string.phone_number));
+            setInputLayoutErrors(inputPhone, phone);
+            isPhone = false;
+        }
+
+        else if(!isLength(phone.getText().toString())){
+            setErreurText(erreurPhone,getString(R.string.phone_length));
+            setInputLayoutErrors(inputPhone, phone);
+            isPhone = false;
+        }
+
+        else{
+            setErreurNull(erreurPhone);
+            setInputLayoutNormal(inputPhone, phone);
+            isPhone = true;
+        }
+    }
+
 
     public void validateEmail(){
         if(isEmpty(email.getText().toString())){
@@ -420,6 +466,11 @@ public class SignupWithGoogleActivity extends AppCompatActivity {
             setInputLayoutErrors(inputFullname,fullname);
         }
 
+        else if(isEmpty(phone.getText().toString())){
+            setErreurText(erreurPhone,getString(R.string.phone_required));
+            setInputLayoutErrors(inputPhone, phone);
+        }
+
         else if(isEmpty(email.getText().toString())){
             setErreurText(erreurEmail,getString(R.string.email_required));
             setInputLayoutErrors(inputEmail,email);
@@ -450,8 +501,9 @@ public class SignupWithGoogleActivity extends AppCompatActivity {
             setInputLayoutErrors(inputPoid,poid);
         }
 
-        else if(isFullname == true && isEmail == true && isPassword == true && isGender == true && isNaissance == true && isTaille == true && isPoid == true){
+        else if(isFullname == true && isPhone == true && isEmail == true && isPassword == true && isGender == true && isNaissance == true && isTaille == true && isPoid == true){
             setErreurNull(erreurFullname);
+            setErreurNull(erreurPhone);
             setErreurNull(erreurEmail);
             setErreurNull(erreurPassword);
             setErreurNull(erreurNaissance);
@@ -459,13 +511,14 @@ public class SignupWithGoogleActivity extends AppCompatActivity {
             setErreurNull(erreurTaille);
             setErreurNull(erreurPoid);
             setInputLayoutNormal(inputFullname,fullname);
+            setInputLayoutNormal(inputPhone,phone);
             setInputLayoutNormal(inputEmail,email);
             setInputLayoutNormal(inputPassword,password);
             setInputLayoutNormal(inputGender,gender);
             setInputLayoutNormal(inputNaissance,naissance);
             setInputLayoutNormal(inputTaille,taille);
             setInputLayoutNormal(inputPoid,poid);
-            chargementIfEmailRegistred();
+            chargementIfPhoneRegistred();
         }
     }
 
@@ -513,19 +566,61 @@ public class SignupWithGoogleActivity extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://tiebreak-tennis--1657542982200-default-rtdb.firebaseio.com/");
     }
 
-    public void chargementIfEmailRegistred(){
+    public void chargementIfPhoneRegistred(){
         final ProgressDialog progressDialog = new ProgressDialog(SignupWithGoogleActivity.this, R.style.chargement);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage(getString(R.string.wait));
         progressDialog.show();
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
+        new Thread(new Runnable() {
             public void run() {
-                checkIfEmailRegistred();
-                progressDialog.dismiss();
+                checkIfPhoneRegistred(progressDialog);
             }
-        },3000);
+        }).start();
+    }
+
+    public void checkIfPhoneRegistred(ProgressDialog progressDialog){
+        databaseReference.child("users").orderByChild("phone").equalTo(phone.getText().toString()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.getValue() != null ){
+                    setErreurText(erreurPhone,getString(R.string.phone_exist));
+                    progressDialog.dismiss();
+                }
+
+                else{
+                    setErreurNull(erreurPhone);
+                    checkIfEmailRegistred(progressDialog);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public void checkIfEmailRegistred(ProgressDialog progressDialog){
+        databaseReference.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.hasChild(encodeString(email.getText().toString()))){
+                    showNotificationError();
+                    progressDialog.dismiss();
+                }
+
+                else{
+                    chargementUserRegistred();
+                    progressDialog.dismiss();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     public void checkIfEmailRegistred(){

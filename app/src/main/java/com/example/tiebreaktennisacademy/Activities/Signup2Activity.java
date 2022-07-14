@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -93,6 +92,7 @@ public class Signup2Activity extends AppCompatActivity {
         intent.putExtra("email", email.getText().toString());
         intent.putExtra("password", password.getText().toString());
         intent.putExtra("fullname", getIntent().getStringExtra("fullname"));
+        intent.putExtra("phone", getIntent().getStringExtra("phone"));
         intent.putExtra("gender", getIntent().getStringExtra("gender"));
         startActivity(intent);
         overridePendingTransition(R.anim.right_to_left,R.anim.stay);
@@ -348,25 +348,25 @@ public class Signup2Activity extends AppCompatActivity {
         progressDialog.setMessage(getString(R.string.wait));
         progressDialog.show();
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
+        new Thread(new Runnable() {
             public void run() {
-                checkIfEmailRegistred();
-                progressDialog.dismiss();
+                checkIfEmailRegistred(progressDialog);
             }
-        },3000);
+        }).start();
     }
 
-    public void checkIfEmailRegistred(){
+    public void checkIfEmailRegistred(ProgressDialog progressDialog){
         databaseReference.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.hasChild(encodeString(email.getText().toString()))){
                     showNotificationError();
+                    progressDialog.dismiss();
                 }
 
                 else{
                     ouvrirSignup3Activity();
+                    progressDialog.dismiss();
                 }
             }
 
