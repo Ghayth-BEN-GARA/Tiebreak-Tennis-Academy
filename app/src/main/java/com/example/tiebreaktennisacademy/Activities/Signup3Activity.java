@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -13,10 +15,10 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import com.example.tiebreaktennisacademy.R;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -29,7 +31,7 @@ public class Signup3Activity extends AppCompatActivity {
     private TextInputEditText naissance, taille, poid;
     private DatePickerDialog.OnDateSetListener date;
     private AppCompatButton signUp;
-    private ScrollView scrollView;
+    private TextInputLayout textInputNaissance, textInputTaille, textInputPoid;
     private TextView erreurNaissance, erreurTaille, erreurPoid;
     private Boolean isNaissance = false, isTaille = false, isPoid = false;
 
@@ -44,14 +46,15 @@ public class Signup3Activity extends AppCompatActivity {
         taille = (TextInputEditText) findViewById(R.id.taille);
         poid = (TextInputEditText) findViewById(R.id.poids);
         signUp = (AppCompatButton) findViewById(R.id.signup_btn);
-        scrollView = (ScrollView) findViewById(R.id.scroll_view);
+        textInputNaissance = (TextInputLayout) findViewById(R.id.inputlayout_naissance);
+        textInputPoid = (TextInputLayout) findViewById(R.id.inputlayout_poids);
+        textInputTaille = (TextInputLayout) findViewById(R.id.inputlayout_taille);
         erreurNaissance = (TextView) findViewById(R.id.erreur_naissance);
         erreurTaille = (TextView) findViewById(R.id.erreur_taille);
         erreurPoid = (TextView) findViewById(R.id.erreur_poid);
 
         onclickFunctions();
         onChangeFunctions();
-        onFocusFunctions();
     }
 
     public void onclickFunctions(){
@@ -144,20 +147,26 @@ public class Signup3Activity extends AppCompatActivity {
     public void validateFormSignUp3(){
         if(isEmpty(naissance.getText().toString())){
             setErreurText(erreurNaissance,getString(R.string.naissance_required));
+            setInputLayoutErrors(textInputNaissance,naissance);
         }
 
         else if(isEmpty(taille.getText().toString())){
             setErreurText(erreurTaille,getString(R.string.taille_required));
+            setInputLayoutErrors(textInputTaille,taille);
         }
 
         else if(isEmpty(poid.getText().toString())){
             setErreurText(erreurPoid,getString(R.string.poid_required));
+            setInputLayoutErrors(textInputPoid,poid);
         }
 
         else if(isNaissance == true && isTaille == true && isPoid == true){
             setErreurNull(erreurNaissance);
             setErreurNull(erreurTaille);
             setErreurNull(erreurPoid);
+            setInputLayoutNormal(textInputNaissance,naissance);
+            setInputLayoutNormal(textInputTaille,taille);
+            setInputLayoutNormal(textInputPoid,poid);
             ouvrirSignup4Activity();
             //signup
         }
@@ -166,11 +175,13 @@ public class Signup3Activity extends AppCompatActivity {
     public void validateNaissance(){
         if(isEmpty(naissance.getText().toString())){
             setErreurText(erreurNaissance,getString(R.string.naissance_required));
+            setInputLayoutErrors(textInputNaissance,naissance);
             isNaissance = false;
         }
 
         else{
             setErreurNull(erreurNaissance);
+            setInputLayoutNormal(textInputNaissance,naissance);
             isNaissance = true;
         }
     }
@@ -178,16 +189,19 @@ public class Signup3Activity extends AppCompatActivity {
     public void validateSize(){
         if(isEmpty(taille.getText().toString())){
             setErreurText(erreurTaille,getString(R.string.taille_required));
+            setInputLayoutErrors(textInputTaille,taille);
             isTaille = false;
         }
 
         else if(!isNumber(taille.getText().toString())){
             setErreurText(erreurTaille,getString(R.string.taille_number));
+            setInputLayoutErrors(textInputTaille,taille);
             isTaille = false;
         }
 
         else{
             setErreurNull(erreurTaille);
+            setInputLayoutNormal(textInputTaille,taille);
             isTaille = true;
         }
     }
@@ -195,16 +209,19 @@ public class Signup3Activity extends AppCompatActivity {
     public void validatePoid(){
         if(isEmpty(poid.getText().toString())){
             setErreurText(erreurPoid,getString(R.string.poid_required));
+            setInputLayoutErrors(textInputPoid,poid);
             isPoid = false;
         }
 
         else if(!isNumber(poid.getText().toString())){
             setErreurText(erreurPoid,getString(R.string.poid_number));
+            setInputLayoutErrors(textInputPoid,poid);
             isPoid = false;
         }
 
         else{
             setErreurNull(erreurPoid);
+            setInputLayoutNormal(textInputPoid,poid);
             isPoid = true;
         }
     }
@@ -262,39 +279,21 @@ public class Signup3Activity extends AppCompatActivity {
         });
     }
 
-    public void onFocusFunctions(){
-        naissance.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                scrollToTop();
+    public void setInputLayoutErrors(TextInputLayout input, TextInputEditText text){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            input.setBackground(getDrawable(R.drawable.edit_text_background_erreur));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                text.setCompoundDrawableTintList(ColorStateList.valueOf(getColor(com.google.android.material.R.color.design_default_color_error)));
             }
-        });
-
-        taille.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                scrollToTop();
-            }
-        });
-
-        poid.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                scrollToTop();
-            }
-        });
+        }
     }
 
-    public void scrollToTop(){
-        final Handler handler;
-        handler = new Handler();
-
-        final Runnable r = new Runnable() {
-            public void run() {
-                scrollView.smoothScrollTo(0, 500);
-                handler.postDelayed(this, 200);
+    public void setInputLayoutNormal(TextInputLayout input, TextInputEditText text){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            input.setBackground(getDrawable(R.drawable.edi_text_background));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                text.setCompoundDrawableTintList(ColorStateList.valueOf(getColor(R.color.black)));
             }
-        };
-        handler.postDelayed(r, 200);
+        }
     }
 }

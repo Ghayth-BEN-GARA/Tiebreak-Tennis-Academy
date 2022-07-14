@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "537917669095",
+    "project_id": "tiebreak-tennis--1657542982200",
+    "storage_bucket": "tiebreak-tennis--1657542982200.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:537917669095:android:b49f0b53a12e055242ac42",
+        "android_client_info": {
+          "package_name": "com.example.tiebreaktennisacademy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "537917669095-nos2rok16jgfhuojeojn1chshv628f81.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.tiebreaktennisacademy",
+            "certificate_hash": "7e3ed65ae7dda152ce73ec1d40bbcb69db5a679f"
+          }
+        },
+        {
+          "client_id": "537917669095-b7rj27p6dgqpoiq6sb7jga63s329os5f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCb0GyG24zENluHWdm2Bm1l3nzwd4TRGmc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "537917669095-b7rj27p6dgqpoiq6sb7jga63s329os5f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -337,7 +336,7 @@ public class Signup1Activity extends AppCompatActivity {
 
     public void showErreurFacebookDialog(){
         dialog = new Dialog(Signup1Activity.this);
-        dialog.setContentView(R.layout.item_erreur_facebook_notification);
+        dialog.setContentView(R.layout.item_erreur_facebook_google_notification);
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.setCanceledOnTouchOutside(false);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -351,6 +350,9 @@ public class Signup1Activity extends AppCompatActivity {
                 dialog.dismiss();
             }
         });
+
+        TextView desc = dialog.findViewById(R.id.desc_title_erreur);
+        desc.setText(R.string.desc_erreur_facebook);
 
         dialog.show();
     }
@@ -374,7 +376,7 @@ public class Signup1Activity extends AppCompatActivity {
 
     public void showErreurGoogleDialog(){
         dialog = new Dialog(Signup1Activity.this);
-        dialog.setContentView(R.layout.item_erreur_google_notification);
+        dialog.setContentView(R.layout.item_erreur_facebook_google_notification);
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.setCanceledOnTouchOutside(false);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -389,6 +391,10 @@ public class Signup1Activity extends AppCompatActivity {
             }
         });
 
+        TextView desc = dialog.findViewById(R.id.desc_title_erreur);
+        desc.setText(R.string.desc_erreur_google);
+
         dialog.show();
     }
+
 }
