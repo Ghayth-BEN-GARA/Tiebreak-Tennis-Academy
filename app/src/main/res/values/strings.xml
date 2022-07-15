@@ -120,4 +120,10 @@
     <string name="forget_password_error">Forget Password error</string>
     <string name="account_getted_desc">Well done ! you have successfully recovered your account. Now you need to change your password for account security. </string>
     <string name="forget_not_available">For technical reasons, this functionality is invalid. Please try again later !</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="account">Account</string>
+    <string name="help2">Help</string>
+    <string name="logout">Logout</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
