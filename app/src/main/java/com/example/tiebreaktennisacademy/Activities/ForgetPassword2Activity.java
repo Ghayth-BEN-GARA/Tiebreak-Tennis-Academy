@@ -1,18 +1,29 @@
 package com.example.tiebreaktennisacademy.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import com.example.tiebreaktennisacademy.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthProvider;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -20,10 +31,12 @@ public class ForgetPassword2Activity extends AppCompatActivity {
 
     private ImageView back;
     private AppCompatButton next;
-    private TextInputEditText code1, code2, code3, code4;
-    private ScrollView scrollView;
+    private TextInputEditText code1, code2, code3, code4, code5, code6;
+    private TextInputLayout inputLayoutCode1, inputLayoutCode2, inputLayoutCode3, inputLayoutCode4, inputLayoutCode5, inputLayoutCode6;
     private TextView erreurCode;
-    private Boolean isCode1 = false, isCode2 = false, isCode3 = false, isCode4;
+    private Dialog dialog;
+    private Boolean isCode1 = false, isCode2 = false, isCode3 = false, isCode4 = false, isCode5 = false, isCode6 = false;
+    private String verificationId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,12 +49,19 @@ public class ForgetPassword2Activity extends AppCompatActivity {
         code2 = (TextInputEditText) findViewById(R.id.code2);
         code3 = (TextInputEditText) findViewById(R.id.code3);
         code4 = (TextInputEditText) findViewById(R.id.code4);
-        scrollView = (ScrollView) findViewById(R.id.scroll_view);
+        code5 = (TextInputEditText) findViewById(R.id.code5);
+        code6 = (TextInputEditText) findViewById(R.id.code6);
+        inputLayoutCode1 = (TextInputLayout) findViewById(R.id.input_code1);
+        inputLayoutCode2 = (TextInputLayout) findViewById(R.id.input_code2);
+        inputLayoutCode3 = (TextInputLayout) findViewById(R.id.input_code3);
+        inputLayoutCode4 = (TextInputLayout) findViewById(R.id.input_code4);
+        inputLayoutCode5 = (TextInputLayout) findViewById(R.id.input_code5);
+        inputLayoutCode6 = (TextInputLayout) findViewById(R.id.input_code6);
         erreurCode = (TextView) findViewById(R.id.erreur_code_securite);
 
+        getVerificationId();
         onclickFunctions();
         onChangeFunctions();
-        onFocusFunctions();
     }
 
     @Override
@@ -67,26 +87,44 @@ public class ForgetPassword2Activity extends AppCompatActivity {
 
     public void validateFormForgetPassword2(){
         if(isEmpty(code1.getText().toString())){
+            setInputLayoutErrors(inputLayoutCode1,code1);
             setErreurText(erreurCode,getString(R.string.code_required));
         }
 
         else if(isEmpty(code2.getText().toString())){
+            setInputLayoutErrors(inputLayoutCode2,code2);
             setErreurText(erreurCode,getString(R.string.code_required));
         }
 
         else if(isEmpty(code3.getText().toString())){
+            setInputLayoutErrors(inputLayoutCode3,code3);
             setErreurText(erreurCode,getString(R.string.code_required));
         }
 
         else if(isEmpty(code4.getText().toString())){
+            setInputLayoutErrors(inputLayoutCode4,code4);
             setErreurText(erreurCode,getString(R.string.code_required));
         }
 
-        else if(isCode1 == true && isCode2 == true && isCode3 == true && isCode4 == true){
+        else if(isEmpty(code5.getText().toString())){
+            setInputLayoutErrors(inputLayoutCode5,code5);
+            setErreurText(erreurCode,getString(R.string.code_required));
+        }
+
+        else if(isEmpty(code6.getText().toString())){
+            setInputLayoutErrors(inputLayoutCode6,code6);
+            setErreurText(erreurCode,getString(R.string.code_required));
+        }
+
+        else if(isCode1 == true && isCode2 == true && isCode3 == true && isCode4 == true && isCode5 == true && isCode6 == true){
             setErreurNull(erreurCode);
-            ouvrirForgetPassword3Activity();
-            //testEgaliteCode
-            //showSuccessnotification
+            setInputLayoutNormal(inputLayoutCode1,code1);
+            setInputLayoutNormal(inputLayoutCode2,code2);
+            setInputLayoutNormal(inputLayoutCode3,code3);
+            setInputLayoutNormal(inputLayoutCode4,code4);
+            setInputLayoutNormal(inputLayoutCode5,code5);
+            setInputLayoutNormal(inputLayoutCode6,code6);
+            testEgaliteCodeSecurite();
         }
     }
 
@@ -98,6 +136,7 @@ public class ForgetPassword2Activity extends AppCompatActivity {
 
     public void ouvrirForgetPassword3Activity(){
         Intent intent = new Intent(getApplicationContext(), ForgetPassword3Activity.class);
+        intent.putExtra("email",getIntent().getStringExtra("email"));
         startActivity(intent);
         overridePendingTransition(R.anim.right_to_left,R.anim.stay);
     }
@@ -186,6 +225,46 @@ public class ForgetPassword2Activity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 validateCode4();
+                if(!isEmpty(code4.getText().toString())){
+                    swipeToOtherInput(code5);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        code5.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                validateCode5();
+                if(!isEmpty(code5.getText().toString())){
+                    swipeToOtherInput(code6);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        code6.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                validateCode6();
             }
 
             @Override
@@ -194,6 +273,7 @@ public class ForgetPassword2Activity extends AppCompatActivity {
             }
         });
     }
+
 
     public void validateCode1(){
         if(isEmpty(code1.getText().toString())){
@@ -263,50 +343,127 @@ public class ForgetPassword2Activity extends AppCompatActivity {
         }
     }
 
-    public void onFocusFunctions(){
-        code1.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                scrollToTop();
-            }
-        });
+    public void validateCode5(){
+        if(isEmpty(code4.getText().toString())){
+            setErreurText(erreurCode,getString(R.string.code_required));
+            isCode5 = false;
+        }
 
-        code2.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                scrollToTop();
-            }
-        });
+        else if(!isNumber(code5.getText().toString())){
+            setErreurText(erreurCode,getString(R.string.code_number));
+            isCode5 = false;
+        }
 
-        code3.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                scrollToTop();
-            }
-        });
-
-        code4.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                scrollToTop();
-            }
-        });
+        else{
+            setErreurNull(erreurCode);
+            isCode5 = true;
+        }
     }
 
-    public void scrollToTop(){
-        final Handler handler;
-        handler = new Handler();
+    public void validateCode6(){
+        if(isEmpty(code6.getText().toString())){
+            setErreurText(erreurCode,getString(R.string.code_required));
+            isCode6 = false;
+        }
 
-        final Runnable r = new Runnable() {
-            public void run() {
-                scrollView.smoothScrollTo(0, 500);
-                handler.postDelayed(this, 200);
-            }
-        };
-        handler.postDelayed(r, 200);
+        else if(!isNumber(code4.getText().toString())){
+            setErreurText(erreurCode,getString(R.string.code_number));
+            isCode6 = false;
+        }
+
+        else{
+            setErreurNull(erreurCode);
+            isCode6 = true;
+        }
     }
 
     public void swipeToOtherInput(TextInputEditText text){
         text.requestFocus();
+    }
+
+    public void setInputLayoutErrors(TextInputLayout input, TextInputEditText text){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            input.setBackground(getDrawable(R.drawable.edit_text_background_erreur));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                text.setCompoundDrawableTintList(ColorStateList.valueOf(getColor(com.google.android.material.R.color.design_default_color_error)));
+            }
+        }
+    }
+
+    public void setInputLayoutNormal(TextInputLayout input, TextInputEditText text){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            input.setBackground(getDrawable(R.drawable.edi_text_background));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                text.setCompoundDrawableTintList(ColorStateList.valueOf(getColor(R.color.black)));
+            }
+        }
+    }
+
+    public void getVerificationId(){
+        verificationId = getIntent().getStringExtra("verificationId");
+    }
+
+    public void testEgaliteCodeSecurite(){
+        String codeSaisie = code1.getText().toString() + code2.getText().toString() + code3.getText().toString() +
+                            code4.getText().toString() + code5.getText().toString() + code6.getText().toString();
+
+        final ProgressDialog progressDialog = new ProgressDialog(ForgetPassword2Activity.this, R.style.chargement);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage(getString(R.string.wait));
+        progressDialog.show();
+
+        new Thread(new Runnable() {
+            public void run() {
+                checkIfCodeIsCorrect(progressDialog,codeSaisie);
+            }
+        }).start();
+    }
+
+    public void checkIfCodeIsCorrect(ProgressDialog progressDialog, String code){
+        if(verificationId != null){
+            PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.getCredential(verificationId,code);
+
+            FirebaseAuth.getInstance().signInWithCredential(phoneAuthCredential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if(task.isSuccessful()){
+                        progressDialog.dismiss();
+                        showNotificationSuccess();
+                    }
+
+                    else{
+                        progressDialog.dismiss();
+                        setErreurText(erreurCode,getString(R.string.error_code));
+                    }
+                }
+            });
+        }
+    }
+
+    public void showNotificationSuccess(){
+        dialog = new Dialog(ForgetPassword2Activity.this);
+        dialog.setContentView(R.layout.item_success);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.setCanceledOnTouchOutside(false);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.content_erreur_notification));
+        }
+
+        AppCompatButton cancel = dialog.findViewById(R.id.exit_btn);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                ouvrirForgetPassword3Activity();
+            }
+        });
+
+        TextView desc = dialog.findViewById(R.id.desc_title_success);
+        desc.setText(R.string.account_getted_desc);
+
+        TextView title = dialog.findViewById(R.id.title_success);
+        title.setText(getString(R.string.account_getted));
+
+        dialog.show();
     }
 }

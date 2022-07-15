@@ -625,8 +625,8 @@ public class SignupWithFacebookActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.getValue() != null ){
-                    setErreurText(erreurPhone,getString(R.string.phone_exist));
                     progressDialog.dismiss();
+                    setErreurText(erreurPhone,getString(R.string.phone_exist));
                 }
 
                 else{
@@ -647,13 +647,13 @@ public class SignupWithFacebookActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.hasChild(encodeString(email.getText().toString()))){
-                    showNotificationError();
                     progressDialog.dismiss();
+                    setErreurText(erreurEmail,getString(R.string.email_exist));
                 }
 
                 else{
-                    chargementUserRegistred();
                     progressDialog.dismiss();
+                    chargementUserRegistred();
                 }
             }
 
@@ -666,29 +666,6 @@ public class SignupWithFacebookActivity extends AppCompatActivity {
 
     public static String encodeString(String string) {
         return string.replace(".", ",");
-    }
-
-    public void showNotificationError(){
-        dialog = new Dialog(SignupWithFacebookActivity.this);
-        dialog.setContentView(R.layout.item_erreur);
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        dialog.setCanceledOnTouchOutside(false);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.content_erreur_notification));
-        }
-
-        AppCompatButton cancel = dialog.findViewById(R.id.exit_btn);
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-        TextView desc = dialog.findViewById(R.id.desc_title_erreur);
-        desc.setText(R.string.email_exist);
-
-        dialog.show();
     }
 
     public void chargementUserRegistred(){
@@ -712,9 +689,9 @@ public class SignupWithFacebookActivity extends AppCompatActivity {
         databaseReference.child("users").child(encodeString(email.getText().toString())).child("naissance").setValue(naissance.getText().toString());
         databaseReference.child("users").child(encodeString(email.getText().toString())).child("taille").setValue(taille.getText().toString());
         databaseReference.child("users").child(encodeString(email.getText().toString())).child("poid").setValue(poid.getText().toString());
+        progressDialog.dismiss();
         logoutFromFacebook();
         ouvrirHomeActivity();
-        progressDialog.dismiss();
     }
 
     public static String hashPassword(String base) {
@@ -771,6 +748,9 @@ public class SignupWithFacebookActivity extends AppCompatActivity {
 
         TextView desc = dialog.findViewById(R.id.desc_title_erreur);
         desc.setText(R.string.desc_erreur_facebook);
+
+        TextView title = dialog.findViewById(R.id.title_erreur);
+        title.setText(getString(R.string.erreur_facebook));
 
         dialog.show();
     }

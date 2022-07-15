@@ -70,168 +70,168 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/title_welcome"/>
 
-            <RelativeLayout
-                android:id="@+id/relative1"
+        <RelativeLayout
+            android:id="@+id/relative1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="30dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/desc_welcome">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputlayout_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="30dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/desc_welcome">
+                app:boxStrokeWidthFocused="0dp"
+                app:boxStrokeColor="@null"
+                app:boxStrokeWidth="0dp"
+                app:boxBackgroundColor="@null"
+                app:boxStrokeErrorColor="@null"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
+                app:hintTextColor="@null"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/inputlayout_username"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/username"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:boxStrokeWidthFocused="0dp"
-                    app:boxStrokeColor="@null"
-                    app:boxStrokeWidth="0dp"
-                    app:boxBackgroundColor="@null"
-                    app:boxStrokeErrorColor="@null"
-                    android:layout_marginStart="40dp"
-                    android:layout_marginEnd="40dp"
-                    app:hintTextColor="@null"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentTop="true">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/username"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textPersonName"
-                        android:hint="@string/hint_name"
-                        android:textColorHint="@color/gray"
-                        android:textColor="@color/black"
-                        android:background="@drawable/edi_text_background"
-                        android:padding="18dp"
-                        android:textCursorDrawable="@null"
-                        android:drawableStart="@drawable/person"
-                        android:drawablePadding="18dp"
-                        android:drawableTint="@color/black"/>
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <TextView
-                    android:id="@+id/erreur_fullname"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="40dp"
-                    android:layout_marginTop="3dp"
-                    android:layout_marginEnd="40dp"
-                    android:gravity="center"
-                    android:letterSpacing="0.1"
-                    android:textColor="@color/design_default_color_error"
-                    android:textSize="12sp"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_below="@id/inputlayout_username"/>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/inputlayout_phone"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:boxStrokeWidthFocused="0dp"
-                    app:boxStrokeColor="@null"
-                    app:boxStrokeWidth="0dp"
-                    app:boxBackgroundColor="@null"
-                    app:boxStrokeErrorColor="@null"
-                    android:layout_marginStart="40dp"
-                    android:layout_marginEnd="40dp"
-                    android:layout_marginTop="14dp"
-                    app:hintTextColor="@null"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_below="@id/erreur_fullname">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/phone"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="phone"
-                        android:hint="@string/hint_phoone"
-                        android:textColorHint="@color/gray"
-                        android:textColor="@color/black"
-                        android:background="@drawable/edi_text_background"
-                        android:padding="18dp"
-                        android:maxLength="8"
-                        android:textCursorDrawable="@null"
-                        android:drawableStart="@drawable/phone"
-                        android:drawablePadding="18dp"
-                        android:drawableTint="@color/black"/>
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <TextView
-                    android:id="@+id/erreur_phone"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="40dp"
-                    android:layout_marginTop="3dp"
-                    android:layout_marginEnd="40dp"
-                    android:gravity="center"
-                    android:letterSpacing="0.1"
-                    android:textColor="@color/design_default_color_error"
-                    android:textSize="12sp"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_below="@id/inputlayout_phone"/>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/inputlayout_gender"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:boxStrokeWidthFocused="0dp"
-                    app:boxStrokeColor="@null"
-                    app:boxStrokeWidth="0dp"
-                    app:boxBackgroundColor="@null"
-                    app:boxStrokeErrorColor="@null"
-                    android:layout_marginStart="40dp"
-                    android:layout_marginEnd="40dp"
-                    android:layout_marginTop="14dp"
-                    app:hintTextColor="@null"
-                    app:endIconTint="@color/black"
+                    android:inputType="textPersonName"
+                    android:hint="@string/hint_name"
+                    android:textColorHint="@color/gray"
+                    android:textColor="@color/black"
                     android:background="@drawable/edi_text_background"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_below="@id/erreur_phone">
+                    android:padding="15dp"
+                    android:textCursorDrawable="@null"
+                    android:drawableStart="@drawable/person"
+                    android:drawablePadding="18dp"
+                    android:drawableTint="@color/black"/>
 
-                    <AutoCompleteTextView
-                        android:id="@+id/gender"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="none"
-                        android:hint="@string/hint_sexe"
-                        android:textColorHint="@color/gray"
-                        android:textColor="@color/black"
-                        android:padding="18dp"
-                        android:layout_weight="1"
-                        android:drawableStart="@drawable/genre"
-                        android:drawablePadding="18dp"
-                        android:background="@drawable/edi_text_background"
-                        android:textCursorDrawable="@null" />
-                </com.google.android.material.textfield.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-                <TextView
-                    android:id="@+id/erreur_gender"
+            <TextView
+                android:id="@+id/erreur_fullname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="40dp"
+                android:gravity="center"
+                android:letterSpacing="0.1"
+                android:textColor="@color/design_default_color_error"
+                android:textSize="12sp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@id/inputlayout_username"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputlayout_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:boxStrokeWidthFocused="0dp"
+                app:boxStrokeColor="@null"
+                app:boxStrokeWidth="0dp"
+                app:boxBackgroundColor="@null"
+                app:boxStrokeErrorColor="@null"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
+                android:layout_marginTop="14dp"
+                app:hintTextColor="@null"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@id/erreur_fullname">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="40dp"
-                    android:layout_marginTop="3dp"
-                    android:layout_marginEnd="40dp"
-                    android:gravity="center"
-                    android:letterSpacing="0.1"
-                    android:textColor="@color/design_default_color_error"
-                    android:textSize="12sp"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_below="@id/inputlayout_gender"/>
-            </RelativeLayout>
+                    android:inputType="phone"
+                    android:hint="@string/hint_phoone"
+                    android:textColorHint="@color/gray"
+                    android:textColor="@color/black"
+                    android:background="@drawable/edi_text_background"
+                    android:padding="15dp"
+                    android:maxLength="8"
+                    android:textCursorDrawable="@null"
+                    android:drawableStart="@drawable/phone"
+                    android:drawablePadding="18dp"
+                    android:drawableTint="@color/black"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/erreur_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="40dp"
+                android:gravity="center"
+                android:letterSpacing="0.1"
+                android:textColor="@color/design_default_color_error"
+                android:textSize="12sp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@id/inputlayout_phone"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputlayout_gender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:boxStrokeWidthFocused="0dp"
+                app:boxStrokeColor="@null"
+                app:boxStrokeWidth="0dp"
+                app:boxBackgroundColor="@null"
+                app:boxStrokeErrorColor="@null"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
+                android:layout_marginTop="14dp"
+                app:hintTextColor="@null"
+                app:endIconTint="@color/black"
+                android:background="@drawable/edi_text_background"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@id/erreur_phone">
+
+                <AutoCompleteTextView
+                    android:id="@+id/gender"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:hint="@string/hint_sexe"
+                    android:textColorHint="@color/gray"
+                    android:textColor="@color/black"
+                    android:padding="15dp"
+                    android:layout_weight="1"
+                    android:drawableStart="@drawable/genre"
+                    android:drawablePadding="18dp"
+                    android:background="@drawable/edi_text_background"
+                    android:textCursorDrawable="@null" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/erreur_gender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="40dp"
+                android:gravity="center"
+                android:letterSpacing="0.1"
+                android:textColor="@color/design_default_color_error"
+                android:textSize="12sp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@id/inputlayout_gender"/>
+        </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/need_help_btn_signup"

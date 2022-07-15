@@ -434,6 +434,9 @@ public class Signup1Activity extends AppCompatActivity {
         TextView desc = dialog.findViewById(R.id.desc_title_erreur);
         desc.setText(R.string.desc_erreur_facebook);
 
+        TextView title = dialog.findViewById(R.id.title_erreur);
+        title.setText(getString(R.string.erreur_facebook));
+
         dialog.show();
     }
 
@@ -474,6 +477,9 @@ public class Signup1Activity extends AppCompatActivity {
         TextView desc = dialog.findViewById(R.id.desc_title_erreur);
         desc.setText(R.string.desc_erreur_google);
 
+        TextView title = dialog.findViewById(R.id.title_erreur);
+        title.setText(getString(R.string.erreur_facebook));
+
         dialog.show();
     }
 
@@ -499,14 +505,14 @@ public class Signup1Activity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.getValue() != null ){
-                    setErreurText(erreurPhone,getString(R.string.phone_exist));
                     progressDialog.dismiss();
+                    setErreurText(erreurPhone,getString(R.string.phone_exist));
                 }
 
                 else{
                     setErreurNull(erreurPhone);
-                    ouvrirSignup2Activity();
                     progressDialog.dismiss();
+                    ouvrirSignup2Activity();
                 }
             }
 

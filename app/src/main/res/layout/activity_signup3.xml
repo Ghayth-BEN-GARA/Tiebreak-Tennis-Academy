@@ -105,7 +105,7 @@
                     android:textColorHint="@color/gray"
                     android:textColor="@color/black"
                     android:background="@drawable/edi_text_background"
-                    android:padding="18dp"
+                    android:padding="15dp"
                     android:textCursorDrawable="@null"
                     android:drawableStart="@drawable/naissance"
                     android:drawablePadding="18dp"

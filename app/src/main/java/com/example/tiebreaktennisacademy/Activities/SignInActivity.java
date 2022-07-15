@@ -406,8 +406,8 @@ public class SignInActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                ouvrirHomeActivity();
                 progressDialog.dismiss();
+                ouvrirHomeActivity();
             }
         },3000);
     }
@@ -468,6 +468,9 @@ public class SignInActivity extends AppCompatActivity {
 
         TextView desc = dialog.findViewById(R.id.desc_title_erreur);
         desc.setText(R.string.desc_erreur_facebook);
+
+        TextView title = dialog.findViewById(R.id.title_erreur);
+        title.setText(getString(R.string.signin_error));
 
         dialog.show();
     }
@@ -559,6 +562,9 @@ public class SignInActivity extends AppCompatActivity {
 
         TextView desc = dialog.findViewById(R.id.desc_title_erreur);
         desc.setText(R.string.desc_erreur_google);
+
+        TextView title = dialog.findViewById(R.id.title_erreur);
+        title.setText(getString(R.string.signin_error));
 
         dialog.show();
     }

@@ -355,13 +355,13 @@ public class Signup3Activity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.hasChild(encodeString(getIntent().getStringExtra("email")))){
-                    ouvrirSignup4Activity(getIntent().getStringExtra("email"));
                     dialog.dismiss();
+                    ouvrirSignup4Activity(getIntent().getStringExtra("email"));
                 }
 
                 else{
-                    Toast.makeText(getApplicationContext(),getString(R.string.error_signup), Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
+                    Toast.makeText(getApplicationContext(),getString(R.string.error_signup), Toast.LENGTH_SHORT).show();
                 }
             }
 

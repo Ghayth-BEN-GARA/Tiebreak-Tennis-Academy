@@ -3,7 +3,6 @@ package com.example.tiebreaktennisacademy.Activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -15,7 +14,6 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Patterns;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 import com.example.tiebreaktennisacademy.Models.Session;
 import com.example.tiebreaktennisacademy.R;
@@ -44,7 +42,6 @@ public class SignupWithGoogleActivity extends AppCompatActivity {
     private Boolean isFullname = true, isPhone = false, isEmail = false, isPassword = false, isNaissance = false, isGender = true, isTaille = false, isPoid = false;
     private GoogleSignInOptions gso;
     private GoogleSignInClient gsc;
-    private Dialog dialog;
     private DatabaseReference databaseReference;
 
     @Override
@@ -584,8 +581,8 @@ public class SignupWithGoogleActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.getValue() != null ){
-                    setErreurText(erreurPhone,getString(R.string.phone_exist));
                     progressDialog.dismiss();
+                    setErreurText(erreurPhone,getString(R.string.phone_exist));
                 }
 
                 else{
@@ -606,32 +603,12 @@ public class SignupWithGoogleActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.hasChild(encodeString(email.getText().toString()))){
-                    showNotificationError();
                     progressDialog.dismiss();
+                    setErreurText(erreurEmail,getString(R.string.email_exist));
                 }
 
                 else{
-                    chargementUserRegistred();
                     progressDialog.dismiss();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
-
-    public void checkIfEmailRegistred(){
-        databaseReference.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.hasChild(encodeString(email.getText().toString()))){
-                    showNotificationError();
-                }
-
-                else{
                     chargementUserRegistred();
                 }
             }
@@ -645,29 +622,6 @@ public class SignupWithGoogleActivity extends AppCompatActivity {
 
     public static String encodeString(String string) {
         return string.replace(".", ",");
-    }
-
-    public void showNotificationError(){
-        dialog = new Dialog(SignupWithGoogleActivity.this);
-        dialog.setContentView(R.layout.item_erreur);
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        dialog.setCanceledOnTouchOutside(false);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.content_erreur_notification));
-        }
-
-        AppCompatButton cancel = dialog.findViewById(R.id.exit_btn);
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-        TextView desc = dialog.findViewById(R.id.desc_title_erreur);
-        desc.setText(R.string.email_exist);
-
-        dialog.show();
     }
 
     public void chargementUserRegistred(){

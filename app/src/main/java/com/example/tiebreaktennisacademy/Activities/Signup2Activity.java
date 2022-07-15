@@ -3,7 +3,6 @@ package com.example.tiebreaktennisacademy.Activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -14,7 +13,6 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Patterns;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.tiebreaktennisacademy.R;
@@ -36,7 +34,6 @@ public class Signup2Activity extends AppCompatActivity {
     private TextInputEditText email, password, repeatPassword;
     private Boolean isEmail = false, isPassword = false, isRepeatPassword = false;
     private DatabaseReference databaseReference;
-    private Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -360,13 +357,13 @@ public class Signup2Activity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.hasChild(encodeString(email.getText().toString()))){
-                    showNotificationError();
                     progressDialog.dismiss();
+                    setErreurText(erreurEmail,getString(R.string.email_exist));
                 }
 
                 else{
-                    ouvrirSignup3Activity();
                     progressDialog.dismiss();
+                    ouvrirSignup3Activity();
                 }
             }
 
@@ -375,29 +372,6 @@ public class Signup2Activity extends AppCompatActivity {
 
             }
         });
-    }
-
-    public void showNotificationError(){
-        dialog = new Dialog(Signup2Activity.this);
-        dialog.setContentView(R.layout.item_erreur);
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        dialog.setCanceledOnTouchOutside(false);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.content_erreur_notification));
-        }
-
-        AppCompatButton cancel = dialog.findViewById(R.id.exit_btn);
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-        TextView desc = dialog.findViewById(R.id.desc_title_erreur);
-        desc.setText(R.string.email_exist);
-
-        dialog.show();
     }
 
     public static String encodeString(String string) {
