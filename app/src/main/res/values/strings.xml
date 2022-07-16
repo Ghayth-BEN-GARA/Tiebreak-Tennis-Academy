@@ -124,6 +124,11 @@
     <string name="account">Account</string>
     <string name="help2">Help</string>
     <string name="logout">Logout</string>
+    <string name="question_logout">Are you sure ?</string>
+    <string name="cancel">Cancel</string>
+    <string name="desc_logout">If you have confirmed, your account will be closed automatically.</string>
+    <string name="title_logout">Close my account</string>
+    <string name="logout_progress">Logout in progress..</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

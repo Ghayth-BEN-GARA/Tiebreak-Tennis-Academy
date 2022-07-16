@@ -34,4 +34,10 @@ public class Session {
     public String checkEmailApplication(){
         return session.getString("emailApplication",null);
     }
+
+    public void removeSessionEmail(){
+        SharedPreferences.Editor editor = session.edit();
+        editor.remove("emailApplication");
+        editor.commit();
+    }
 }
