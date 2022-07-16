@@ -14,13 +14,27 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Patterns;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.tiebreaktennisacademy.Models.Session;
 import com.example.tiebreaktennisacademy.R;
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DataSnapshot;
@@ -28,6 +42,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import org.json.JSONException;
+import org.json.JSONObject;
 import java.security.MessageDigest;
 import java.util.Arrays;
 import java.util.regex.Matcher;
@@ -40,14 +56,15 @@ public class SignInActivity extends AppCompatActivity {
     private TextInputEditText email, password;
     private TextInputLayout textLayoutEmail, textInputPassword;
     private Boolean isEmail = false, isPassword = false;
-    private int signUpGoogle = 1000;
     private Dialog dialog;
     private CallbackManager callbackManager;
     private DatabaseReference databaseReference;
+    private AccessToken accessToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_sign_in);
 
         back = (ImageView) findViewById(R.id.back);
@@ -66,6 +83,8 @@ public class SignInActivity extends AppCompatActivity {
         onChangeFunctions();
         initialiseDataBase();
         intializeFacebookItems();
+        loginManagerActions();
+        intializeToken();
     }
 
     @Override
@@ -110,7 +129,7 @@ public class SignInActivity extends AppCompatActivity {
         facebook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LoginManager.getInstance().logInWithReadPermissions(SignInActivity.this, Arrays.asList("public_profile","email"));
+                LoginManager.getInstance().logInWithReadPermissions(SignInActivity.this, Arrays.asList("public_profile","email","user_friends","user_birthday"));
             }
         });
     }
@@ -287,7 +306,31 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     public void intializeFacebookItems(){
-        FacebookSdk.sdkInitialize(getApplicationContext());
+        callbackManager = CallbackManager.Factory.create();
+    }
+
+    public void intializeToken(){
+        accessToken = AccessToken.getCurrentAccessToken();
+    }
+
+    public void loginManagerActions(){
+        LoginManager.getInstance().registerCallback(callbackManager,
+                new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess(LoginResult loginResult) {
+                        chargementFacebookSignIn();
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        showErreurFacebookDialog();
+                    }
+
+                    @Override
+                    public void onError(FacebookException exception) {
+                        showErreurFacebookDialog();
+                    }
+                });
     }
 
     public static String decodeString(String string) {
@@ -380,5 +423,93 @@ public class SignInActivity extends AppCompatActivity {
         }
     }
 
+    public void showErreurFacebookDialog(){
+        dialog = new Dialog(SignInActivity.this);
+        dialog.setContentView(R.layout.item_erreur);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.setCanceledOnTouchOutside(false);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.content_erreur_notification));
+        }
+
+        AppCompatButton cancel = dialog.findViewById(R.id.exit_btn);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        TextView desc = dialog.findViewById(R.id.desc_title_erreur);
+        desc.setText(R.string.desc_erreur_facebook);
+
+        TextView title = dialog.findViewById(R.id.title_erreur);
+        title.setText(getString(R.string.erreur_facebook));
+
+        dialog.show();
+    }
+
+    public void chargementFacebookSignIn(){
+        final ProgressDialog progressDialog = new ProgressDialog(SignInActivity.this, R.style.chargement);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage(getString(R.string.signin_progress));
+        progressDialog.show();
+
+        new Thread(new Runnable() {
+            public void run() {
+                getEmailFromFacebook(progressDialog);
+            }
+        }).start();
+    }
+
+    public void getEmailFromFacebook(ProgressDialog progressDialog){
+        GraphRequest request = GraphRequest.newMeRequest(accessToken, new GraphRequest.GraphJSONObjectCallback() {
+            @Override
+            public void onCompleted(JSONObject object, GraphResponse response) {
+                try {
+                   checkIfEmailRegistred((object.getString("email")),progressDialog);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        Bundle paramestres = new Bundle();
+        paramestres.putString("fields","email");
+        request.setParameters(paramestres);
+        request.executeAsync();
+    }
+
+    public void checkIfEmailRegistred(String email, ProgressDialog progressDialog){
+        databaseReference.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(!snapshot.hasChild(encodeString(email))){
+                    setErreurText(erreurEmail,getString(R.string.no_account_found));
+                    progressDialog.dismiss();
+                }
+
+                else{
+                    setErreurNull(erreurPassword);
+                    createSession();
+                    ouvrirHomeActivity();
+                    progressDialog.dismiss();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
 
 }

@@ -19,6 +19,6 @@
     <color name="light_beu">#ADD8E6</color>
     <color name="light_green">#90ee90</color>
     <color name="end_background">#50FFFFFF</color>
-    <color name="navigation_item">#331194AA</color>
-    <color name="navigation_item_text">#1194AA</color>
+    <color name="navigation_item">#331A6C1E</color>
+    <color name="navigation_item_text">#1A6C1E</color>
 </resources>
