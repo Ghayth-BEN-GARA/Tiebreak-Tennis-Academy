@@ -342,7 +342,7 @@ public class Signup2Activity extends AppCompatActivity {
     public void chargementIfEmailRegistred(){
         final ProgressDialog progressDialog = new ProgressDialog(Signup2Activity.this, R.style.chargement);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage(getString(R.string.wait));
+        progressDialog.setMessage(getString(R.string.verification_email_progress));
         progressDialog.show();
 
         new Thread(new Runnable() {
@@ -357,8 +357,8 @@ public class Signup2Activity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.hasChild(encodeString(email.getText().toString()))){
-                    progressDialog.dismiss();
                     setErreurText(erreurEmail,getString(R.string.email_exist));
+                    progressDialog.dismiss();
                 }
 
                 else{

@@ -490,7 +490,7 @@ public class Signup1Activity extends AppCompatActivity {
     public void chargementIfPhoneRegistred(){
         final ProgressDialog progressDialog = new ProgressDialog(Signup1Activity.this, R.style.chargement);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage(getString(R.string.wait));
+        progressDialog.setMessage(getString(R.string.verification_phone_progress));
         progressDialog.show();
 
         new Thread(new Runnable() {
@@ -505,8 +505,8 @@ public class Signup1Activity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.getValue() != null ){
-                    progressDialog.dismiss();
                     setErreurText(erreurPhone,getString(R.string.phone_exist));
+                    progressDialog.dismiss();
                 }
 
                 else{

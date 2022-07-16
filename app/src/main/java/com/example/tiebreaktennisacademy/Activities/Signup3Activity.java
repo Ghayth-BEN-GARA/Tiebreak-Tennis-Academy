@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -14,10 +15,10 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.example.tiebreaktennisacademy.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -41,6 +42,7 @@ public class Signup3Activity extends AppCompatActivity {
     private AppCompatButton signUp;
     private TextInputLayout textInputNaissance, textInputTaille, textInputPoid;
     private TextView erreurNaissance, erreurTaille, erreurPoid;
+    private Dialog dialog;
     private Boolean isNaissance = false, isTaille = false, isPoid = false;
     private DatabaseReference databaseReference;
 
@@ -178,7 +180,7 @@ public class Signup3Activity extends AppCompatActivity {
             setInputLayoutNormal(textInputNaissance,naissance);
             setInputLayoutNormal(textInputTaille,taille);
             setInputLayoutNormal(textInputPoid,poid);
-            chargementSignUp();
+            chargementNormalSignUp();
         }
     }
 
@@ -311,7 +313,7 @@ public class Signup3Activity extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://tiebreak-tennis--1657542982200-default-rtdb.firebaseio.com/");
     }
 
-    public void chargementSignUp(){
+    public void chargementNormalSignUp(){
         final ProgressDialog progressDialog = new ProgressDialog(Signup3Activity.this, R.style.chargement);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage(getString(R.string.registration));
@@ -360,8 +362,8 @@ public class Signup3Activity extends AppCompatActivity {
                 }
 
                 else{
+                    showErreurNormalSignupDialog();
                     dialog.dismiss();
-                    Toast.makeText(getApplicationContext(),getString(R.string.error_signup), Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -388,5 +390,31 @@ public class Signup3Activity extends AppCompatActivity {
         } catch(Exception ex){
             throw new RuntimeException(ex);
         }
+    }
+
+    public void showErreurNormalSignupDialog(){
+        dialog = new Dialog(Signup3Activity.this);
+        dialog.setContentView(R.layout.item_erreur);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.setCanceledOnTouchOutside(false);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.content_erreur_notification));
+        }
+
+        AppCompatButton cancel = dialog.findViewById(R.id.exit_btn);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        TextView desc = dialog.findViewById(R.id.desc_title_erreur);
+        desc.setText(R.string.error_signup);
+
+        TextView title = dialog.findViewById(R.id.title_erreur);
+        title.setText(getString(R.string.erreur_facebook));
+
+        dialog.show();
     }
 }
