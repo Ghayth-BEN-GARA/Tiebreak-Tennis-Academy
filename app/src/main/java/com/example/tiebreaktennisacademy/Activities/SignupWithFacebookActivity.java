@@ -27,7 +27,6 @@ import com.example.tiebreaktennisacademy.R;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
-import com.facebook.login.LoginManager;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DataSnapshot;
@@ -599,10 +598,6 @@ public class SignupWithFacebookActivity extends AppCompatActivity {
         request.executeAsync();
     }
 
-    public void logoutFromFacebook(){
-        LoginManager.getInstance().logOut();
-    }
-
     public void initialiseDataBase(){
         databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://tiebreak-tennis--1657542982200-default-rtdb.firebaseio.com/");
     }
@@ -610,7 +605,7 @@ public class SignupWithFacebookActivity extends AppCompatActivity {
     public void chargementIfPhoneRegistred(){
         final ProgressDialog progressDialog = new ProgressDialog(SignupWithFacebookActivity.this, R.style.chargement);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage(getString(R.string.wait));
+        progressDialog.setMessage(getString(R.string.verification_phone_progress));
         progressDialog.show();
 
         new Thread(new Runnable() {
@@ -625,8 +620,8 @@ public class SignupWithFacebookActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.getValue() != null ){
+                    setErreurText(erreurPhone,getString(R.string.registration));
                     progressDialog.dismiss();
-                    setErreurText(erreurPhone,getString(R.string.phone_exist));
                 }
 
                 else{
@@ -647,13 +642,12 @@ public class SignupWithFacebookActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.hasChild(encodeString(email.getText().toString()))){
-                    progressDialog.dismiss();
                     setErreurText(erreurEmail,getString(R.string.email_exist));
+                    progressDialog.dismiss();
                 }
 
                 else{
-                    progressDialog.dismiss();
-                    chargementUserRegistred();
+                    signUpWithFacebookUser(progressDialog);
                 }
             }
 
@@ -668,20 +662,7 @@ public class SignupWithFacebookActivity extends AppCompatActivity {
         return string.replace(".", ",");
     }
 
-    public void chargementUserRegistred(){
-        final ProgressDialog progressDialog = new ProgressDialog(SignupWithFacebookActivity.this, R.style.chargement);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage(getString(R.string.registration));
-        progressDialog.show();
-
-        new Thread(new Runnable() {
-            public void run() {
-                signUpUser(progressDialog);
-            }
-        }).start();
-    }
-
-    public void signUpUser(ProgressDialog progressDialog){
+    public void signUpWithFacebookUser(ProgressDialog progressDialog){
         databaseReference.child("users").child(encodeString(email.getText().toString())).child("fullname").setValue(fullname.getText().toString());
         databaseReference.child("users").child(encodeString(email.getText().toString())).child("email").setValue(encodeString(email.getText().toString()));
         databaseReference.child("users").child(encodeString(email.getText().toString())).child("password").setValue(hashPassword(password.getText().toString()));
@@ -690,7 +671,6 @@ public class SignupWithFacebookActivity extends AppCompatActivity {
         databaseReference.child("users").child(encodeString(email.getText().toString())).child("taille").setValue(taille.getText().toString());
         databaseReference.child("users").child(encodeString(email.getText().toString())).child("poid").setValue(poid.getText().toString());
         progressDialog.dismiss();
-        logoutFromFacebook();
         ouvrirHomeActivity();
     }
 

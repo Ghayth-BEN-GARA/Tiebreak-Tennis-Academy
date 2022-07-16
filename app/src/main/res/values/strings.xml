@@ -132,6 +132,8 @@
     <string name="verification_progress">Verification security code in progress..</string>
     <string name="verification_phone_progress">Verification phone number in progress..</string>
     <string name="verification_email_progress">Verification email address in progress..</string>
+    <string name="desc_home">Make your reservations online and make your dreams come true.</string>
+    <string name="courses_booking">Courses booking</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

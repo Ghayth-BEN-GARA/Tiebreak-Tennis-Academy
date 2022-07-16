@@ -21,4 +21,6 @@
     <color name="end_background">#50FFFFFF</color>
     <color name="navigation_item">#331A6C1E</color>
     <color name="navigation_item_text">#1A6C1E</color>
+    <color name="background_color_50">#B3FFFFFF</color>
+    <color name="background_color">#FBFBFD</color>
 </resources>
