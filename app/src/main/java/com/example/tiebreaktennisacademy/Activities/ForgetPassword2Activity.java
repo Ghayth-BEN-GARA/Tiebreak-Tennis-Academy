@@ -409,7 +409,7 @@ public class ForgetPassword2Activity extends AppCompatActivity {
 
         final ProgressDialog progressDialog = new ProgressDialog(ForgetPassword2Activity.this, R.style.chargement);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage(getString(R.string.wait));
+        progressDialog.setMessage(getString(R.string.verification_progress));
         progressDialog.show();
 
         new Thread(new Runnable() {

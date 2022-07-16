@@ -2,26 +2,33 @@ package com.example.tiebreaktennisacademy.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.TextView;
+import com.example.tiebreaktennisacademy.Models.Session;
 import com.example.tiebreaktennisacademy.R;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import java.security.MessageDigest;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ForgetPassword3Activity extends AppCompatActivity {
     private ImageView back;
     private AppCompatButton get;
-    private ScrollView scrollView;
     private TextView erreurPassword, erreurRepeatPassword;
     private TextInputEditText password, repeatPassword;
+    private TextInputLayout inputLayoutPassword, inputLayoutRepeatPassword;
+    private DatabaseReference databaseReference;
     private Boolean isPassword = false, isRepeatPassword = false;
 
     @Override
@@ -31,15 +38,16 @@ public class ForgetPassword3Activity extends AppCompatActivity {
 
         back = (ImageView) findViewById(R.id.back);
         get = (AppCompatButton) findViewById(R.id.get_account_btn);
-        scrollView = (ScrollView) findViewById(R.id.scroll_view);
         erreurPassword = (TextView) findViewById(R.id.erreur_password);
         erreurRepeatPassword = (TextView) findViewById(R.id.erreur_repeat_password);
         password = (TextInputEditText) findViewById(R.id.password);
         repeatPassword = (TextInputEditText) findViewById(R.id.repeat_password);
+        inputLayoutPassword = (TextInputLayout) findViewById(R.id.inputlayout_password);
+        inputLayoutRepeatPassword = (TextInputLayout) findViewById(R.id.inputlayout_repeat_password);
 
         onClickFunctions();
         onChangeFunctions();
-        onFocusFunctions();
+        initialiseDataBase();
     }
 
     @Override
@@ -105,22 +113,27 @@ public class ForgetPassword3Activity extends AppCompatActivity {
     public void validateFormForgetPassword3(){
         if(isEmpty(password.getText().toString())){
             setErreurText(erreurPassword,getString(R.string.password_required));
+            setInputLayoutErrors(inputLayoutPassword,password);
         }
 
         else if(isEmpty(repeatPassword.getText().toString())){
             setErreurText(erreurRepeatPassword,getString(R.string.password_required));
+            setInputLayoutErrors(inputLayoutRepeatPassword,repeatPassword);
         }
 
         else if(!isEquals(password.getText().toString(),repeatPassword.getText().toString())){
             setErreurText(erreurPassword,getString(R.string.password_not_equals));
             setErreurText(erreurRepeatPassword,getString(R.string.password_not_equals));
+            setInputLayoutErrors(inputLayoutPassword,password);
+            setInputLayoutErrors(inputLayoutRepeatPassword,repeatPassword);
         }
 
         else if(isPassword == true && isRepeatPassword == true){
             setErreurNull(erreurPassword);
             setErreurNull(erreurRepeatPassword);
-            ouvrirForgetPassword4Activity();
-            //updatepassword
+            setInputLayoutNormal(inputLayoutPassword,password);
+            setInputLayoutNormal(inputLayoutRepeatPassword,repeatPassword);
+            chargementUpdatePassword();
         }
     }
 
@@ -171,31 +184,37 @@ public class ForgetPassword3Activity extends AppCompatActivity {
     public void validatePassword(){
         if(isEmpty(password.getText().toString())){
             setErreurText(erreurPassword,getString(R.string.password_required));
+            setInputLayoutErrors(inputLayoutPassword,password);
             isPassword = false;
         }
 
         else if(!isMinuscule(password.getText().toString())){
             setErreurText(erreurPassword,getString(R.string.password_minisucle));
+            setInputLayoutErrors(inputLayoutPassword,password);
             isPassword = false;
         }
 
         else if(!isMajuscule(password.getText().toString())){
             setErreurText(erreurPassword,getString(R.string.password_majuscule));
+            setInputLayoutErrors(inputLayoutPassword,password);
             isPassword = false;
         }
 
         else if(!isChiffre(password.getText().toString())){
             setErreurText(erreurPassword,getString(R.string.password_number));
+            setInputLayoutErrors(inputLayoutPassword,password);
             isPassword = false;
         }
 
         else if(!isLength(password.getText().toString())){
             setErreurText(erreurPassword,getString(R.string.password_length));
+            setInputLayoutErrors(inputLayoutPassword,password);
             isPassword = false;
         }
 
         else{
             setErreurNull(erreurPassword);
+            setInputLayoutNormal(inputLayoutPassword,password);
             isPassword = true;
         }
     }
@@ -203,61 +222,120 @@ public class ForgetPassword3Activity extends AppCompatActivity {
     public void validateRepeatPassword(){
         if(isEmpty(repeatPassword.getText().toString())){
             setErreurText(erreurRepeatPassword,getString(R.string.password_required));
+            setInputLayoutErrors(inputLayoutRepeatPassword,repeatPassword);
             isRepeatPassword = false;
         }
 
         else if(!isMinuscule(repeatPassword.getText().toString())){
             setErreurText(erreurRepeatPassword,getString(R.string.password_minisucle));
+            setInputLayoutErrors(inputLayoutRepeatPassword,repeatPassword);
             isRepeatPassword = false;
         }
 
         else if(!isMajuscule(repeatPassword.getText().toString())){
             setErreurText(erreurRepeatPassword,getString(R.string.password_majuscule));
+            setInputLayoutErrors(inputLayoutRepeatPassword,repeatPassword);
             isRepeatPassword = false;
         }
 
         else if(!isChiffre(repeatPassword.getText().toString())){
             setErreurText(erreurRepeatPassword,getString(R.string.password_number));
+            setInputLayoutErrors(inputLayoutRepeatPassword,repeatPassword);
             isRepeatPassword = false;
         }
 
         else if(!isLength(repeatPassword.getText().toString())){
             setErreurText(erreurRepeatPassword,getString(R.string.password_length));
+            setInputLayoutErrors(inputLayoutRepeatPassword,repeatPassword);
             isRepeatPassword = false;
         }
 
         else{
             setErreurNull(erreurRepeatPassword);
+            setInputLayoutNormal(inputLayoutRepeatPassword,repeatPassword);
             isRepeatPassword = true;
         }
     }
 
-    public void onFocusFunctions(){
-        password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                scrollToTop();
+    public void setInputLayoutErrors(TextInputLayout input, TextInputEditText text){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            input.setBackground(getDrawable(R.drawable.edit_text_background_erreur));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                text.setCompoundDrawableTintList(ColorStateList.valueOf(getColor(com.google.android.material.R.color.design_default_color_error)));
             }
-        });
-
-        repeatPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                scrollToTop();
-            }
-        });
+        }
     }
 
-    public void scrollToTop(){
-        final Handler handler;
-        handler = new Handler();
-
-        final Runnable r = new Runnable() {
-            public void run() {
-                scrollView.smoothScrollTo(0, 500);
-                handler.postDelayed(this, 200);
+    public void setInputLayoutNormal(TextInputLayout input, TextInputEditText text){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            input.setBackground(getDrawable(R.drawable.edi_text_background));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                text.setCompoundDrawableTintList(ColorStateList.valueOf(getColor(R.color.black)));
             }
-        };
-        handler.postDelayed(r, 200);
+        }
+    }
+
+    public void chargementUpdatePassword(){
+        final ProgressDialog progressDialog = new ProgressDialog(ForgetPassword3Activity.this, R.style.chargement);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage(getString(R.string.getting_progress));
+        progressDialog.show();
+
+        new Thread(new Runnable() {
+            public void run() {
+                updatePassword(progressDialog);
+            }
+        }).start();
+    }
+
+    public void updatePassword(ProgressDialog progressDialog){
+        if(isPasswordChanged()){
+            createSession();
+            ouvrirForgetPassword4Activity();
+            progressDialog.dismiss();
+        }
+    }
+
+    public boolean isPasswordChanged(){
+        String passwordHashed = hashPassword(password.getText().toString());
+
+        databaseReference.child("users").child(encodeString(getIntent().getStringExtra("email"))).child("password").setValue(passwordHashed);
+        return true;
+    }
+
+    public void initialiseDataBase(){
+        databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://tiebreak-tennis--1657542982200-default-rtdb.firebaseio.com/");
+    }
+
+    public static String hashPassword(String base) {
+        try{
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(base.getBytes("UTF-8"));
+            StringBuffer hexString = new StringBuffer();
+
+            for (int i = 0; i < hash.length; i++) {
+                String hex = Integer.toHexString(0xff & hash[i]);
+                if(hex.length() == 1) hexString.append('0');
+                hexString.append(hex);
+            }
+
+            return hexString.toString();
+        } catch(Exception ex){
+            throw new RuntimeException(ex);
+        }
+    }
+
+    public void createSession(){
+        Session session = new Session(getApplicationContext());
+        session.initialiserSharedPreferences();
+        session.saveEmailApplication(decodeString(getIntent().getStringExtra("email")));
+    }
+
+    public static String decodeString(String string) {
+        return string.replace(",", ".");
+    }
+
+    public static String encodeString(String string) {
+        return string.replace(".", ",");
     }
 }

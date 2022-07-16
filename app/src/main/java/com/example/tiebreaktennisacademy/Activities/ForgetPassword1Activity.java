@@ -186,7 +186,7 @@ public class ForgetPassword1Activity extends AppCompatActivity {
     public void chargementIfEmailRegistred(){
         final ProgressDialog progressDialog = new ProgressDialog(ForgetPassword1Activity.this, R.style.chargement);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage(getString(R.string.wait));
+        progressDialog.setMessage(getString(R.string.getting_progress));
         progressDialog.show();
 
         new Thread(new Runnable() {
@@ -201,8 +201,8 @@ public class ForgetPassword1Activity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(!snapshot.hasChild(encodeString(email.getText().toString()))){
-                    progressDialog.dismiss();
                     setErreurText(erreurEmail,getString(R.string.no_account_found));
+                    progressDialog.dismiss();
                 }
 
                 else{
@@ -234,7 +234,6 @@ public class ForgetPassword1Activity extends AppCompatActivity {
                     @Override
                     public void onVerificationFailed(@NonNull FirebaseException e) {
                         showNotificationErrorFonctionnalite();
-                        erreurEmail.setText(e+"");
                         progressDialog.dismiss();
                     }
 
