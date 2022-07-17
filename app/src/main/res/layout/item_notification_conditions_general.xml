@@ -6,38 +6,42 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
-        android:id="@+id/title_erreur"
+        android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="20dp"
+        android:text="@string/title_general_conditions"
         android:textAllCaps="false"
         android:textSize="20sp"
         android:textColor="@color/black"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
-        android:id="@+id/desc_title_erreur"
+    <CheckBox
+        android:id="@+id/accepte"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="40dp"
+        android:checked="false"
+        android:layout_marginTop="25sp"
+        android:paddingLeft="10dp"
+        android:text="@string/accepte_condition"
         android:textColor="@color/black_light"
         android:textSize="15sp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
         android:lineSpacingExtra="5dp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintTop_toBottomOf="@id/title_erreur"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title"/>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/exit_btn"
+        android:id="@+id/confirm_btn"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:textColor="@color/white"
-        android:background="@drawable/error_button"
-        android:text="@string/cancel"
+        android:textColor="@color/green"
+        android:background="@drawable/background_disabled_button"
+        android:text="@string/confirm"
         android:textAllCaps="true"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="40dp"
@@ -47,6 +51,22 @@
         android:paddingRight="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/desc_title_erreur" />
+        app:layout_constraintTop_toBottomOf="@id/accepte" />
 
+    <TextView
+        android:id="@+id/cancel_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:textColor="@color/green"
+        android:background="@color/white"
+        android:text="@string/cancel"
+        android:textAllCaps="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        app:layout_constraintEnd_toStartOf="@id/confirm_btn"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/accepte" />
 </androidx.constraintlayout.widget.ConstraintLayout>

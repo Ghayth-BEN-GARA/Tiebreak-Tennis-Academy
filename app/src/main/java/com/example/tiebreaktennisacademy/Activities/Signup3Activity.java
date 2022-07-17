@@ -16,6 +16,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -180,7 +182,7 @@ public class Signup3Activity extends AppCompatActivity {
             setInputLayoutNormal(textInputNaissance,naissance);
             setInputLayoutNormal(textInputTaille,taille);
             setInputLayoutNormal(textInputPoid,poid);
-            chargementNormalSignUp();
+            showNotificationConditionGeneral();
         }
     }
 
@@ -415,6 +417,50 @@ public class Signup3Activity extends AppCompatActivity {
         TextView title = dialog.findViewById(R.id.title_erreur);
         title.setText(getString(R.string.erreur_facebook));
 
+        dialog.show();
+    }
+
+    public void showNotificationConditionGeneral(){
+        dialog = new Dialog(Signup3Activity.this);
+        dialog.setContentView(R.layout.item_notification_conditions_general);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.setCanceledOnTouchOutside(false);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.content_erreur_notification));
+        }
+
+        TextView cancel = dialog.findViewById(R.id.cancel_btn);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        AppCompatButton confirm = dialog.findViewById(R.id.confirm_btn);
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                chargementNormalSignUp();
+            }
+        });
+
+        CheckBox accepter = dialog.findViewById(R.id.accepte);
+        accepter.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    confirm.setTextColor(getResources().getColor(R.color.white));
+                    confirm.setBackground(getResources().getDrawable(R.drawable.rounded_button));
+                }
+
+                else{
+                    confirm.setTextColor(getResources().getColor(R.color.navigation_item_text));
+                    confirm.setBackground(getResources().getDrawable(R.drawable.background_disabled_button));
+                }
+            }
+        });
         dialog.show();
     }
 }

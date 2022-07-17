@@ -64,7 +64,7 @@
     <string name="title_password_updated">Password \n Updated</string>
     <string name="success_updated_password">Your password has been updated successfully !</string>
     <string name="title_account_created">Account \n created</string>
-    <string name="success_created_account">Your account has been created successfully !</string>
+    <string name="success_created_account">Congratulations, your new account has been successfully created. You are now registered with Tiebreak Tennis Academy. You will receive a confirmation email for your new account.</string>
     <string name="not_return">You cannot return to the previous screen !</string>
     <string name="not_available">This functionality is invalid !</string>
     <string name="email_required">The email address is required !</string>
@@ -134,6 +134,10 @@
     <string name="verification_email_progress">Verification email address in progress..</string>
     <string name="desc_home">Make your reservations online and make your dreams come true.</string>
     <string name="courses_booking">Courses booking</string>
+    <string name="accepte_condition">I have read and unreservedly accept the <b>General Conditions</b> of Tiebreaker Tennis Academy.</string>
+    <string name="title_general_conditions">General conditions</string>
+    <string name="confirm">Confirm</string>
+    <string name="other">Other</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

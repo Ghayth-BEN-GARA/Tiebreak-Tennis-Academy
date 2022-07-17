@@ -92,10 +92,10 @@
                     android:orientation="vertical">
 
                     <ImageView
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
                         android:layout_margin="20dp"
-                        android:background="@drawable/courses_img_background"
+                        android:background="@drawable/courses_booking_img_background"
                         android:padding="20dp"
                         android:src="@drawable/book_tennis"
                         android:tint="@color/white"/>
@@ -105,7 +105,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/segoe_ui_bold"
                         android:text="@string/courses"
-                        android:textColor="#257FC5"
+                        android:textColor="@color/navigation_item_text"
                         android:textSize="14sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -130,10 +130,10 @@
                     android:orientation="vertical">
 
                     <ImageView
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
                         android:layout_margin="20dp"
-                        android:background="@drawable/coach_img_background"
+                        android:background="@drawable/courses_booking_img_background"
                         android:padding="20dp"
                         android:src="@drawable/tennis_coach"
                         app:tint="@color/white" />
@@ -143,7 +143,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/segoe_ui_bold"
                         android:text="@string/coaches"
-                        android:textColor="#7159CF"
+                        android:textColor="@color/navigation_item_text"
                         android:textSize="14sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -176,10 +176,10 @@
                     android:orientation="vertical">
 
                     <ImageView
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
                         android:layout_margin="20dp"
-                        android:background="@drawable/players_img_background"
+                        android:background="@drawable/courses_booking_img_background"
                         android:padding="20dp"
                         android:src="@drawable/tennis_players"
                         app:tint="@color/white" />
@@ -189,7 +189,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/segoe_ui_bold"
                         android:text="@string/players"
-                        android:textColor="#D84DCA"
+                        android:textColor="@color/navigation_item_text"
                         android:textSize="14sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -214,10 +214,10 @@
                     android:orientation="vertical">
 
                     <ImageView
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
                         android:layout_margin="20dp"
-                        android:background="@drawable/courts_bookng_img_background"
+                        android:background="@drawable/courses_booking_img_background"
                         android:padding="20dp"
                         android:src="@drawable/tennis_court_booking"
                         app:tint="@color/white" />
@@ -227,7 +227,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/segoe_ui_bold"
                         android:text="@string/court"
-                        android:textColor="#C6500F"
+                        android:textColor="@color/navigation_item_text"
                         android:textSize="14sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -259,10 +259,10 @@
                     android:orientation="vertical">
 
                     <ImageView
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
                         android:layout_margin="20dp"
-                        android:background="@drawable/planing_img_background"
+                        android:background="@drawable/courses_booking_img_background"
                         android:padding="20dp"
                         android:src="@drawable/planing"
                         app:tint="@color/white" />
@@ -272,7 +272,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/segoe_ui_bold"
                         android:text="@string/planning"
-                        android:textColor="#5569BF"
+                        android:textColor="@color/navigation_item_text"
                         android:textSize="14sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -297,8 +297,8 @@
                     android:orientation="vertical">
 
                     <ImageView
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
                         android:layout_margin="20dp"
                         android:background="@drawable/courses_booking_img_background"
                         android:padding="20dp"
@@ -310,7 +310,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/segoe_ui_bold"
                         android:text="@string/courses_booking"
-                        android:textColor="#257051"
+                        android:textColor="@color/navigation_item_text"
                         android:textSize="14sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>

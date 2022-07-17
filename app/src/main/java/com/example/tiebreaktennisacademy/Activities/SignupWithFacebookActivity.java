@@ -15,6 +15,8 @@ import android.text.TextWatcher;
 import android.util.Patterns;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -521,7 +523,7 @@ public class SignupWithFacebookActivity extends AppCompatActivity {
             setInputLayoutNormal(inputNaissance,naissance);
             setInputLayoutNormal(inputTaille,taille);
             setInputLayoutNormal(inputPoid,poid);
-            chargementIfPhoneRegistred();
+            showNotificationConditionGeneral();
         }
     }
 
@@ -671,7 +673,7 @@ public class SignupWithFacebookActivity extends AppCompatActivity {
         databaseReference.child("users").child(encodeString(email.getText().toString())).child("taille").setValue(taille.getText().toString());
         databaseReference.child("users").child(encodeString(email.getText().toString())).child("poid").setValue(poid.getText().toString());
         progressDialog.dismiss();
-        ouvrirHomeActivity();
+        ouvrirSignUp4Activity();
     }
 
     public static String hashPassword(String base) {
@@ -692,15 +694,9 @@ public class SignupWithFacebookActivity extends AppCompatActivity {
         }
     }
 
-    public void createSession(){
-        Session session = new Session(getApplicationContext());
-        session.initialiserSharedPreferences();
-        session.saveEmailApplication(decodeString(email.getText().toString()));
-    }
-
-    public void ouvrirHomeActivity(){
-        createSession();
-        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+    public void ouvrirSignUp4Activity(){
+        Intent intent = new Intent(getApplicationContext(), Signup4Activity.class);
+        intent.putExtra("email",email.getText().toString());
         startActivity(intent);
         overridePendingTransition(R.anim.right_to_left,R.anim.stay);
     }
@@ -732,6 +728,50 @@ public class SignupWithFacebookActivity extends AppCompatActivity {
         TextView title = dialog.findViewById(R.id.title_erreur);
         title.setText(getString(R.string.erreur_facebook));
 
+        dialog.show();
+    }
+
+    public void showNotificationConditionGeneral(){
+        dialog = new Dialog(SignupWithFacebookActivity.this);
+        dialog.setContentView(R.layout.item_notification_conditions_general);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.setCanceledOnTouchOutside(false);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.content_erreur_notification));
+        }
+
+        TextView cancel = dialog.findViewById(R.id.cancel_btn);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        AppCompatButton confirm = dialog.findViewById(R.id.confirm_btn);
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                chargementIfPhoneRegistred();
+            }
+        });
+
+        CheckBox accepter = dialog.findViewById(R.id.accepte);
+        accepter.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    confirm.setTextColor(getResources().getColor(R.color.white));
+                    confirm.setBackground(getResources().getDrawable(R.drawable.rounded_button));
+                }
+
+                else{
+                    confirm.setTextColor(getResources().getColor(R.color.navigation_item_text));
+                    confirm.setBackground(getResources().getDrawable(R.drawable.background_disabled_button));
+                }
+            }
+        });
         dialog.show();
     }
 }

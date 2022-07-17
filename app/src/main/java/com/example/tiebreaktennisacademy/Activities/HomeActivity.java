@@ -2,11 +2,14 @@ package com.example.tiebreaktennisacademy.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -14,16 +17,18 @@ import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.example.tiebreaktennisacademy.Fragements.AccountFragment;
 import com.example.tiebreaktennisacademy.Fragements.HomeFragment;
 import com.example.tiebreaktennisacademy.Models.Session;
 import com.example.tiebreaktennisacademy.R;
 
 public class HomeActivity extends AppCompatActivity {
-    private LinearLayout linearLayoutDashboard, linearLayoutProfile, linearLayoutLogout;
-    private ImageView imageViewDashboard, imageViewProfile, imageViewLogout;
-    private TextView textViewDashboard, textViewProfile, textViewLogout;
+    private LinearLayout linearLayoutDashboard, linearLayoutProfile, linearLayoutLogout, linearLayoutOther;
+    private ImageView imageViewDashboard, imageViewProfile, imageViewLogout, imageViewOther;
+    private TextView textViewDashboard, textViewProfile, textViewLogout, textViewOther;
     private Dialog dialog;
+    private DrawerLayout drawerLayout;
     private int selectedTab = 1;
 
     @Override
@@ -34,15 +39,20 @@ public class HomeActivity extends AppCompatActivity {
         linearLayoutDashboard = (LinearLayout) findViewById(R.id.dashboard_item);
         linearLayoutProfile = (LinearLayout) findViewById(R.id.profile_item);
         linearLayoutLogout = (LinearLayout) findViewById(R.id.logout_item);
+        linearLayoutOther = (LinearLayout) findViewById(R.id.other_item);
         imageViewDashboard = (ImageView) findViewById(R.id.dashboard_img);
         imageViewProfile =(ImageView) findViewById(R.id.profile_img);
         imageViewLogout = (ImageView) findViewById(R.id.logout_img);
+        imageViewOther = (ImageView) findViewById(R.id.other_img);
         textViewDashboard = (TextView) findViewById(R.id.dashboard_txt);
         textViewProfile = (TextView) findViewById(R.id.profile_txt);
         textViewLogout = (TextView) findViewById(R.id.logout_txt);
+        textViewOther = (TextView) findViewById(R.id.other_txt);
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         onClickFunctions();
         setHomeFragmentByDefault();
+        setSwipeDrawerDisable();
     }
 
     public void onClickFunctions(){
@@ -67,18 +77,28 @@ public class HomeActivity extends AppCompatActivity {
                 configLinearLayoutLogout();
             }
         });
+
+        linearLayoutOther.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                configLinearLayoutOther();
+            }
+        });
     }
 
     public void configLinearLayoutDashboard(){
         if(selectedTab != 1){
             setVisibilityGone(textViewProfile);
             setVisibilityGone(textViewLogout);
+            setVisibilityGone(textViewOther);
 
             setImageRessource(imageViewProfile,R.drawable.person);
             setImageRessource(imageViewLogout,R.drawable.exit);
+            setImageRessource(imageViewOther,R.drawable.drawer);
 
             setBackgroundColor(linearLayoutProfile,getResources().getColor(R.color.transparent));
             setBackgroundColor(linearLayoutLogout,getResources().getColor(R.color.transparent));
+            setBackgroundColor(linearLayoutOther,getResources().getColor(R.color.transparent));
 
             setVisibilityVisible(textViewDashboard);
             setImageRessource(imageViewDashboard,R.drawable.dashboard_selected);
@@ -95,12 +115,15 @@ public class HomeActivity extends AppCompatActivity {
         if(selectedTab != 2){
             setVisibilityGone(textViewDashboard);
             setVisibilityGone(textViewLogout);
+            setVisibilityGone(textViewOther);
 
             setImageRessource(imageViewDashboard,R.drawable.dashboard);
             setImageRessource(imageViewLogout,R.drawable.exit);
+            setImageRessource(imageViewOther,R.drawable.drawer);
 
             setBackgroundColor(linearLayoutDashboard,getResources().getColor(R.color.transparent));
             setBackgroundColor(linearLayoutLogout,getResources().getColor(R.color.transparent));
+            setBackgroundColor(linearLayoutOther,getResources().getColor(R.color.transparent));
 
             setVisibilityVisible(textViewProfile);
             setImageRessource(imageViewProfile,R.drawable.person_selected);
@@ -116,12 +139,15 @@ public class HomeActivity extends AppCompatActivity {
         if(selectedTab != 3){
             setVisibilityGone(textViewDashboard);
             setVisibilityGone(textViewProfile);
+            setVisibilityGone(textViewOther);
 
             setImageRessource(imageViewDashboard,R.drawable.dashboard);
             setImageRessource(imageViewProfile,R.drawable.person);
+            setImageRessource(imageViewOther,R.drawable.drawer);
 
             setBackgroundColor(linearLayoutDashboard,getResources().getColor(R.color.transparent));
             setBackgroundColor(linearLayoutProfile,getResources().getColor(R.color.transparent));
+            setBackgroundColor(linearLayoutOther,getResources().getColor(R.color.transparent));
 
             setVisibilityVisible(textViewLogout);
             setImageRessource(imageViewLogout,R.drawable.exit_selected);
@@ -130,6 +156,30 @@ public class HomeActivity extends AppCompatActivity {
             setLinearLayoutAnimation(linearLayoutLogout,1.0f);
             setPositionTabSelected(3);
             showQuestionLogout();
+        }
+    }
+
+    public void configLinearLayoutOther(){
+        if(selectedTab != 4){
+            setVisibilityGone(textViewDashboard);
+            setVisibilityGone(textViewProfile);
+            setVisibilityGone(textViewLogout);
+
+            setImageRessource(imageViewDashboard,R.drawable.dashboard);
+            setImageRessource(imageViewProfile,R.drawable.person);
+            setImageRessource(imageViewLogout,R.drawable.exit);
+
+            setBackgroundColor(linearLayoutDashboard,getResources().getColor(R.color.transparent));
+            setBackgroundColor(linearLayoutProfile,getResources().getColor(R.color.transparent));
+            setBackgroundColor(linearLayoutLogout,getResources().getColor(R.color.transparent));
+
+            setVisibilityVisible(textViewOther);
+            setImageRessource(imageViewOther,R.drawable.drawer_selected);
+            setBackgroundRessource(linearLayoutOther,R.drawable.round_back_navigation_bottom);
+
+            setLinearLayoutAnimation(linearLayoutOther,1.0f);
+            setPositionTabSelected(4);
+            openDrawerLayout();
         }
     }
 
@@ -166,6 +216,7 @@ public class HomeActivity extends AppCompatActivity {
 
     public void setHomeFragmentByDefault(){
         getSupportFragmentManager().beginTransaction().setReorderingAllowed(true).replace(R.id.main_container, HomeFragment.class,null).commit();
+        openDrawerLayout();
     }
 
     public void openFragmentClicked(Class fragment){
@@ -188,12 +239,15 @@ public class HomeActivity extends AppCompatActivity {
                 dialog.dismiss();
                 setVisibilityGone(textViewProfile);
                 setVisibilityGone(textViewLogout);
+                setVisibilityGone(textViewOther);
 
                 setImageRessource(imageViewProfile,R.drawable.person);
                 setImageRessource(imageViewLogout,R.drawable.exit);
+                setImageRessource(imageViewOther,R.drawable.drawer);
 
                 setBackgroundColor(linearLayoutProfile,getResources().getColor(R.color.transparent));
                 setBackgroundColor(linearLayoutLogout,getResources().getColor(R.color.transparent));
+                setBackgroundColor(linearLayoutOther,getResources().getColor(R.color.transparent));
 
                 setVisibilityVisible(textViewDashboard);
                 setImageRessource(imageViewDashboard,R.drawable.dashboard_selected);
@@ -246,4 +300,23 @@ public class HomeActivity extends AppCompatActivity {
         startActivity(intent);
         overridePendingTransition(R.anim.left_to_right,R.anim.stay);
     }
+
+    public void openDrawerLayout(){
+        linearLayoutOther.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawerLayout.openDrawer(GravityCompat.END);
+            }
+        });
+    }
+
+    public void setSwipeDrawerDisable(){
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(getApplicationContext(),R.string.not_return,Toast.LENGTH_LONG).show();
+    }
+
 }
