@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.bumptech.glide.Glide;
 import com.example.tiebreaktennisacademy.Fragements.AccountFragment;
 import com.example.tiebreaktennisacademy.Fragements.HomeFragment;
 import com.example.tiebreaktennisacademy.Models.Session;
@@ -30,6 +31,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class HomeActivity extends AppCompatActivity {
     private LinearLayout linearLayoutDashboard, linearLayoutProfile, linearLayoutLogout, linearLayoutOther;
@@ -39,8 +41,9 @@ public class HomeActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private Menu menuItem;
-    MenuItem logoutItem, profilItem;
+    private  MenuItem logoutItem, profilItem;
     private View header;
+    private CircleImageView imageViewProfil;
     private DatabaseReference databaseReference;
     private int selectedTab = 1;
 
@@ -68,6 +71,7 @@ public class HomeActivity extends AppCompatActivity {
         photoProfil = header.findViewById(R.id.photo_profil);
         showProfil = header.findViewById(R.id.view_my_profil);
         menuItem = navigationView.getMenu();
+        imageViewProfil = (CircleImageView) header.findViewById(R.id.photo_profil);
 
         onClickFunctions();
         setHomeFragmentByDefault();
@@ -75,6 +79,7 @@ public class HomeActivity extends AppCompatActivity {
         setConfigNavigationView();
         initialiseDataBase();
         setFullnamePersonne();
+        setImagePersonne();
         setItemsMenuAction();
         setHeaderMenuAction();
     }
@@ -420,6 +425,36 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ouvrirProfilActivity();
+            }
+        });
+    }
+
+    public void setImagePersonne(){
+        Session session = new Session(getApplicationContext());
+        session.initialiserSharedPreferences();
+        String email = session.getEmailSession();
+
+        databaseReference.child("images_users").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.child(encodeString(email)).child("photo").getValue(String.class) != null){
+
+                    Glide
+                            .with(getApplicationContext())
+                            .load(snapshot.child(encodeString(email)).child("photo").getValue(String.class))
+                            .centerCrop()
+                            .into(imageViewProfil);
+                }
+
+                else{
+                    imageViewProfil.setImageResource(R.drawable.user);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
     }

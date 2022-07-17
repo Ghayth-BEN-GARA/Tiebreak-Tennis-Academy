@@ -157,7 +157,11 @@
     <string name="taille">Size</string>
     <string name="poid">Weight</string>
     <string name="second_informations">Adding profile</string>
-    <string name="edit_image">Edit image</string>
+    <string name="edit_password_btn">Edit password</string>
+    <string name="photo_profil">Profile picture</string>
+    <string name="desc_title_image_profil">Please upload a profile picture so that you will be visible to others.</string>
+    <string name="update">Upload</string>
+    <string name="update_image_progress">Update profile picture in progress..</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
