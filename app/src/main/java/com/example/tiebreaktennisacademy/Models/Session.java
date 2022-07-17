@@ -40,4 +40,8 @@ public class Session {
         editor.remove("emailApplication");
         editor.commit();
     }
+
+    public String getEmailSession(){
+        return session.getString("emailApplication",null);
+    }
 }

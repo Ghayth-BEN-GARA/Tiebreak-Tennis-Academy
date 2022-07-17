@@ -326,10 +326,6 @@ public class SignInActivity extends AppCompatActivity {
                 });
     }
 
-    public static String decodeString(String string) {
-        return string.replace(",", ".");
-    }
-
     public static String encodeString(String string) {
         return string.replace(".", ",");
     }
@@ -355,11 +351,10 @@ public class SignInActivity extends AppCompatActivity {
     public void createSession(){
         Session session = new Session(getApplicationContext());
         session.initialiserSharedPreferences();
-        session.saveEmailApplication(decodeString(email.getText().toString()));
+        session.saveEmailApplication(email.getText().toString());
     }
 
     public void ouvrirHomeActivity(){
-        createSession();
         Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.right_to_left,R.anim.stay);
@@ -485,9 +480,7 @@ public class SignInActivity extends AppCompatActivity {
 
                 else{
                     setErreurNull(erreurPassword);
-                    createSession();
-                    ouvrirHomeActivity();
-                    progressDialog.dismiss();
+                    createSessionFacebook(email, progressDialog);
                 }
             }
 
@@ -503,6 +496,14 @@ public class SignInActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public void createSessionFacebook(String email, ProgressDialog progressDialog){
+        Session session = new Session(getApplicationContext());
+        session.initialiserSharedPreferences();
+        session.saveEmailApplication(email);
+        progressDialog.dismiss();
+        ouvrirHomeActivity();
     }
 
 }

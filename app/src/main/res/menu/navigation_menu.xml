@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="@string/profil">
+        <menu>
+            <item
+                android:id="@+id/my_profil"
+                android:title="@string/my_profil"
+                android:icon="@drawable/account"
+                android:iconTint="@color/green" />
+
+            <item
+                android:id="@+id/edit_profil"
+                android:title="@string/edit_profil"
+                android:icon="@drawable/edit"
+                android:iconTint="@color/green" />
+        </menu>
+    </item>
+
+    <item android:title="@string/courts">
+        <menu>
+            <item
+                android:id="@+id/my_courts_res"
+                android:title="@string/show_courts"
+                android:icon="@drawable/list"
+                android:iconTint="@color/green" />
+
+            <item
+                android:id="@+id/add_profil"
+                android:title="@string/add_courts"
+                android:icon="@drawable/tennis_court_booking_selected"
+                android:iconTint="@color/green" />
+        </menu>
+    </item>
+
+    <item android:title="@string/courses">
+        <menu>
+            <item
+                android:id="@+id/my_courses_res"
+                android:title="@string/show_courts"
+                android:icon="@drawable/list"
+                android:iconTint="@color/green" />
+
+            <item
+                android:id="@+id/add_courses"
+                android:title="@string/add_courses"
+                android:icon="@drawable/book_tennis"
+                android:iconTint="@color/green" />
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/logout"
+        android:title="@string/logout"
+        android:icon="@drawable/exit_selected"
+        android:iconTint="@color/green" />
+</menu>

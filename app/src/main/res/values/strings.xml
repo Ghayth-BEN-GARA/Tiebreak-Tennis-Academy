@@ -138,6 +138,16 @@
     <string name="title_general_conditions">General conditions</string>
     <string name="confirm">Confirm</string>
     <string name="other">Other</string>
+    <string name="profil">Profile</string>
+    <string name="my_profil">My profile</string>
+    <string name="edit_profil">Edit profile</string>
+    <string name="courts">Courts</string>
+    <string name="show_courts">List of booking</string>
+    <string name="add_courts">Book a court</string>
+    <string name="add_courses">Book a course</string>
+    <string name="parametres">Setings</string>
+    <string name="menu">Menu</string>
+    <string name="voir_profil">Show my profile</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
