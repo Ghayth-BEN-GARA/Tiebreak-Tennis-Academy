@@ -132,7 +132,7 @@
     <string name="verification_progress">Verification security code in progress..</string>
     <string name="verification_phone_progress">Verification phone number in progress..</string>
     <string name="verification_email_progress">Verification email address in progress..</string>
-    <string name="desc_home">Make your reservations online and make your dreams come true.</string>
+    <string name="desc_home">Make your reservations online and let your dreams come true.</string>
     <string name="courses_booking">Courses booking</string>
     <string name="accepte_condition">I have read and unreservedly accept the <b>General Conditions</b> of Tiebreaker Tennis Academy.</string>
     <string name="title_general_conditions">General conditions</string>
@@ -148,6 +148,16 @@
     <string name="parametres">Setings</string>
     <string name="menu">Menu</string>
     <string name="voir_profil">Show my profile</string>
+    <string name="my">My</string>
+    <string name="fullname">Name of person</string>
+    <string name="email">Email of person</string>
+    <string name="mobile">Number of person</string>
+    <string name="genre">Gender of person</string>
+    <string name="naissance">Date of birth</string>
+    <string name="taille">Size</string>
+    <string name="poid">Weight</string>
+    <string name="second_informations">Adding profile</string>
+    <string name="edit_image">Edit image</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

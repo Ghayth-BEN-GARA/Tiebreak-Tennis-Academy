@@ -666,6 +666,7 @@ public class SignupWithFacebookActivity extends AppCompatActivity {
 
     public void signUpWithFacebookUser(ProgressDialog progressDialog){
         databaseReference.child("users").child(encodeString(email.getText().toString())).child("fullname").setValue(fullname.getText().toString());
+        databaseReference.child("users").child(encodeString(email.getText().toString())).child("phone").setValue(encodeString(phone.getText().toString()));
         databaseReference.child("users").child(encodeString(email.getText().toString())).child("email").setValue(encodeString(email.getText().toString()));
         databaseReference.child("users").child(encodeString(email.getText().toString())).child("password").setValue(hashPassword(password.getText().toString()));
         databaseReference.child("users").child(encodeString(email.getText().toString())).child("gender").setValue(gender.getText().toString());

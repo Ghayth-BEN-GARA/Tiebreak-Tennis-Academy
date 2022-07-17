@@ -10,6 +10,8 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -31,11 +33,13 @@ import com.google.firebase.database.ValueEventListener;
 
 public class HomeActivity extends AppCompatActivity {
     private LinearLayout linearLayoutDashboard, linearLayoutProfile, linearLayoutLogout, linearLayoutOther;
-    private ImageView imageViewDashboard, imageViewProfile, imageViewLogout, imageViewOther;
-    private TextView textViewDashboard, textViewProfile, textViewLogout, textViewOther, fullname;
+    private ImageView imageViewDashboard, imageViewProfile, imageViewLogout, imageViewOther,photoProfil;
+    private TextView textViewDashboard, textViewProfile, textViewLogout, textViewOther, fullname, showProfil;
     private Dialog dialog;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
+    private Menu menuItem;
+    MenuItem logoutItem, profilItem;
     private View header;
     private DatabaseReference databaseReference;
     private int selectedTab = 1;
@@ -61,6 +65,9 @@ public class HomeActivity extends AppCompatActivity {
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
         header = navigationView.getHeaderView(0);
         fullname = header.findViewById(R.id.fullname);
+        photoProfil = header.findViewById(R.id.photo_profil);
+        showProfil = header.findViewById(R.id.view_my_profil);
+        menuItem = navigationView.getMenu();
 
         onClickFunctions();
         setHomeFragmentByDefault();
@@ -68,6 +75,8 @@ public class HomeActivity extends AppCompatActivity {
         setConfigNavigationView();
         initialiseDataBase();
         setFullnamePersonne();
+        setItemsMenuAction();
+        setHeaderMenuAction();
     }
 
     public void onClickFunctions(){
@@ -361,6 +370,56 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
+            }
+        });
+    }
+
+    public void setItemsMenuAction(){
+        logoutItem = menuItem.findItem(R.id.logout);
+        profilItem = menuItem.findItem(R.id.my_profil);
+
+        logoutItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                showQuestionLogout();
+                return true;
+            }
+        });
+
+        profilItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                ouvrirProfilActivity();
+                return true;
+            }
+        });
+    }
+
+    public void ouvrirProfilActivity(){
+        Intent intent = new Intent(getApplicationContext(), ProfilActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.right_to_left,R.anim.stay);
+    }
+
+    public void setHeaderMenuAction(){
+        fullname.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ouvrirProfilActivity();
+            }
+        });
+
+        photoProfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ouvrirProfilActivity();
+            }
+        });
+
+        showProfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ouvrirProfilActivity();
             }
         });
     }

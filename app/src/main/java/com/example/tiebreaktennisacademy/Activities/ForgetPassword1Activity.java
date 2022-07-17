@@ -270,4 +270,5 @@ public class ForgetPassword1Activity extends AppCompatActivity {
 
         dialog.show();
     }
+
 }

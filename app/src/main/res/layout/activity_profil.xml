@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    android:background="@color/background_color"
+    tools:context=".Activities.ProfilActivity">
+
+    <ImageView
+        android:id="@+id/back"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:padding="5dp"
+        android:src="@drawable/back_24"
+        android:background="@drawable/icon_background_gray"
+        app:tint="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <LinearLayout
+        android:id="@+id/linear_layout_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:layout_marginTop="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/back">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/profil"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/profil"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:elevation="8dp"
+            android:fontFamily="@font/segoe_ui_bold"
+            android:background="@drawable/background_white_button"
+            android:textColor="@color/black"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/edit_profil"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/edit_profil"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:elevation="8dp"
+            android:layout_marginStart="5dp"
+            android:fontFamily="@font/segoe_ui_bold"
+            android:background="@drawable/background_disabled_button"
+            android:textColor="@color/green"/>
+    </LinearLayout>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/photo_profil"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/user"
+        android:layout_marginTop="15dp"
+        android:scaleType="centerCrop"
+        app:civ_border_width="3dp"
+        app:civ_border_color="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/linear_layout_button"/>
+
+    <ImageView
+        android:id="@+id/update_photo"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/camera"
+        android:tint="@color/black"
+        app:layout_constraintEnd_toEndOf="@id/photo_profil"
+        app:layout_constraintStart_toEndOf="@id/photo_profil"
+        app:layout_constraintBottom_toBottomOf="@id/photo_profil"/>
+
+    <ScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:scrollbars="vertical"
+        android:fadeScrollbars="false"
+        android:scrollbarFadeDuration="0"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/photo_profil"
+        app:layout_constraintBottom_toTopOf="@id/linear_layout2_button">
+
+        <RelativeLayout
+            android:id="@+id/relative1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="20dp"
+            android:paddingBottom="10dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/verification_code_background"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/photo_profil">
+
+            <TextView
+                android:id="@+id/title_fullname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="20dp"
+                android:drawableStart="@drawable/person"
+                android:drawablePadding="10dp"
+                android:drawableTint="@color/green"
+                android:fontFamily="@font/segoe_ui_bold"
+                android:text="@string/fullname"
+                android:textColor="@color/black"
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/fullname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="17sp"
+                android:fontFamily="@font/seg_ui_semibold"
+                android:textColor="@color/black_light"
+                android:layout_marginStart="55dp"
+                android:layout_marginTop="1dp"
+                android:layout_below="@id/title_fullname"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentStart="true"/>
+
+            <TextView
+                android:id="@+id/title_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/fullname"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="15dp"
+                android:drawableStart="@drawable/email"
+                android:drawablePadding="10dp"
+                android:drawableTint="@color/green"
+                android:fontFamily="@font/segoe_ui_bold"
+                android:text="@string/email"
+                android:textColor="@color/black"
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/title_email"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="55dp"
+                android:layout_marginTop="1dp"
+                android:fontFamily="@font/seg_ui_semibold"
+                android:textColor="@color/black_light"
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/title_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/email"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="15dp"
+                android:drawableStart="@drawable/phone"
+                android:drawablePadding="10dp"
+                android:drawableTint="@color/green"
+                android:fontFamily="@font/segoe_ui_bold"
+                android:text="@string/mobile"
+                android:textColor="@color/black"
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/mobile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="17sp"
+                android:fontFamily="@font/seg_ui_semibold"
+                android:textColor="@color/black_light"
+                android:layout_marginStart="55dp"
+                android:layout_marginTop="1dp"
+                android:layout_below="@id/title_phone"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentStart="true"/>
+
+            <TextView
+                android:id="@+id/title_gender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/mobile"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="15dp"
+                android:drawableStart="@drawable/genre"
+                android:drawablePadding="10dp"
+                android:drawableTint="@color/green"
+                android:fontFamily="@font/segoe_ui_bold"
+                android:text="@string/genre"
+                android:textColor="@color/black"
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/gender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="17sp"
+                android:fontFamily="@font/seg_ui_semibold"
+                android:textColor="@color/black_light"
+                android:layout_marginStart="55dp"
+                android:layout_marginTop="1dp"
+                android:layout_below="@id/title_gender"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentStart="true"/>
+
+            <TextView
+                android:id="@+id/title_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/gender"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="15dp"
+                android:drawableStart="@drawable/naissance"
+                android:drawablePadding="10dp"
+                android:drawableTint="@color/green"
+                android:fontFamily="@font/segoe_ui_bold"
+                android:text="@string/naissance"
+                android:textColor="@color/black"
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/naissance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="17sp"
+                android:fontFamily="@font/seg_ui_semibold"
+                android:textColor="@color/black_light"
+                android:layout_marginStart="55dp"
+                android:layout_marginTop="1dp"
+                android:layout_below="@id/title_date"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentStart="true"/>
+
+            <TextView
+                android:id="@+id/title_taille"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/naissance"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="15dp"
+                android:drawableStart="@drawable/size"
+                android:drawablePadding="10dp"
+                android:drawableTint="@color/green"
+                android:fontFamily="@font/segoe_ui_bold"
+                android:text="@string/taille"
+                android:textColor="@color/black"
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/taille"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="17sp"
+                android:fontFamily="@font/seg_ui_semibold"
+                android:textColor="@color/black_light"
+                android:layout_marginStart="55dp"
+                android:layout_marginTop="1dp"
+                android:layout_below="@id/title_taille"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentStart="true"/>
+
+            <TextView
+                android:id="@+id/title_poid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/taille"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="15dp"
+                android:drawableStart="@drawable/weight"
+                android:drawablePadding="10dp"
+                android:drawableTint="@color/green"
+                android:fontFamily="@font/segoe_ui_bold"
+                android:text="@string/poid"
+                android:textColor="@color/black"
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/poid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="17sp"
+                android:fontFamily="@font/seg_ui_semibold"
+                android:textColor="@color/black_light"
+                android:layout_marginStart="55dp"
+                android:layout_marginTop="1dp"
+                android:layout_below="@id/title_poid"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentStart="true"/>
+        </RelativeLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/linear_layout2_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/adding_profil"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/second_informations"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:elevation="8dp"
+            android:fontFamily="@font/segoe_ui_bold"
+            android:background="@drawable/green_stroke_button"
+            android:textColor="@color/green"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/edit_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/edit_image"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:elevation="8dp"
+            android:layout_marginStart="5dp"
+            android:fontFamily="@font/segoe_ui_bold"
+            android:background="@drawable/rounded_button"
+            android:textColor="@color/white"/>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
