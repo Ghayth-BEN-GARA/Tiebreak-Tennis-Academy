@@ -104,13 +104,13 @@
             android:fontFamily="@font/segoe_ui_bold"
             android:text="@string/fullname"
             android:textColor="@color/black"
-            android:textSize="17sp" />
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/fullname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="17sp"
+            android:textSize="13sp"
             android:fontFamily="@font/seg_ui_semibold"
             android:textColor="@color/black_light"
             android:layout_marginStart="55dp"
@@ -134,7 +134,7 @@
             android:fontFamily="@font/segoe_ui_bold"
             android:text="@string/email"
             android:textColor="@color/black"
-            android:textSize="17sp" />
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/email"
@@ -147,7 +147,7 @@
             android:layout_marginTop="1dp"
             android:fontFamily="@font/seg_ui_semibold"
             android:textColor="@color/black_light"
-            android:textSize="17sp" />
+            android:textSize="13sp" />
 
         <TextView
             android:id="@+id/title_phone"
@@ -164,13 +164,13 @@
             android:fontFamily="@font/segoe_ui_bold"
             android:text="@string/mobile"
             android:textColor="@color/black"
-            android:textSize="17sp" />
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/mobile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="17sp"
+            android:textSize="13sp"
             android:fontFamily="@font/seg_ui_semibold"
             android:textColor="@color/black_light"
             android:layout_marginStart="55dp"
@@ -194,13 +194,13 @@
             android:fontFamily="@font/segoe_ui_bold"
             android:text="@string/genre"
             android:textColor="@color/black"
-            android:textSize="17sp" />
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/gender"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="17sp"
+            android:textSize="13sp"
             android:fontFamily="@font/seg_ui_semibold"
             android:textColor="@color/black_light"
             android:layout_marginStart="55dp"
@@ -224,13 +224,13 @@
             android:fontFamily="@font/segoe_ui_bold"
             android:text="@string/naissance"
             android:textColor="@color/black"
-            android:textSize="17sp" />
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/naissance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="17sp"
+            android:textSize="13sp"
             android:fontFamily="@font/seg_ui_semibold"
             android:textColor="@color/black_light"
             android:layout_marginStart="55dp"
@@ -254,13 +254,13 @@
             android:fontFamily="@font/segoe_ui_bold"
             android:text="@string/taille"
             android:textColor="@color/black"
-            android:textSize="17sp" />
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/taille"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="17sp"
+            android:textSize="13sp"
             android:fontFamily="@font/seg_ui_semibold"
             android:textColor="@color/black_light"
             android:layout_marginStart="55dp"
@@ -284,13 +284,13 @@
             android:fontFamily="@font/segoe_ui_bold"
             android:text="@string/poid"
             android:textColor="@color/black"
-            android:textSize="17sp" />
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/poid"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="17sp"
+            android:textSize="13sp"
             android:fontFamily="@font/seg_ui_semibold"
             android:textColor="@color/black_light"
             android:layout_marginStart="55dp"
@@ -328,7 +328,7 @@
             android:textColor="@color/green"/>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/edit_image"
+            android:id="@+id/btn_edit_password"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"

@@ -48,7 +48,7 @@ public class ProfilActivity extends AppCompatActivity {
     private Dialog dialog;
     private CircleImageView imageAlert, imageViewProfil;
     private Uri imageUri;
-    private AppCompatButton editPassword;
+    private AppCompatButton editPassword, editProfil, addInformations;
     private TextInputLayout inputLayoutOldPassword, inputLayoutNewPassword;
     private TextInputEditText oldPassword, newPassword;
     private DatabaseReference databaseReference;
@@ -71,6 +71,8 @@ public class ProfilActivity extends AppCompatActivity {
         updatePhoto = (ImageView) findViewById(R.id.update_photo);
         imageViewProfil = (CircleImageView) findViewById(R.id.photo_profil);
         editPassword = (AppCompatButton) findViewById(R.id.btn_edit_password);
+        editProfil = (AppCompatButton) findViewById(R.id.edit_profil);
+        addInformations = (AppCompatButton) findViewById(R.id.adding_profil);
 
         onclickFunctions();
         initialiseDataBase();
@@ -142,6 +144,20 @@ public class ProfilActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 showFormUpdatePassword();
+            }
+        });
+
+        editProfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ouvrirEditProfilActivity();
+            }
+        });
+
+        addInformations.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ouvrirAddInformationsProfilActivity();
             }
         });
     }
@@ -268,7 +284,6 @@ public class ProfilActivity extends AppCompatActivity {
         Session session = new Session(getApplicationContext());
         session.initialiserSharedPreferences();
         String email = session.getEmailSession();
-
 
         databaseReference.child("images_users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -623,5 +638,15 @@ public class ProfilActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    public void ouvrirEditProfilActivity(){
+        Intent intent = new Intent(getApplicationContext(), EditProfilActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.right_to_left,R.anim.stay);
+    }
 
+    public void ouvrirAddInformationsProfilActivity(){
+        Intent intent = new Intent(getApplicationContext(), AddInformationsProfilActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.right_to_left,R.anim.stay);
+    }
 }
