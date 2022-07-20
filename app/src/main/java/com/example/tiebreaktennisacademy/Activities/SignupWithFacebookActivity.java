@@ -48,7 +48,7 @@ public class SignupWithFacebookActivity extends AppCompatActivity {
     private TextView erreurFullname, erreurPhone, erreurEmail, erreurPassword, erreurNaissance, erreurGender, erreurTaille, erreurPoid;
     private AppCompatButton signup;
     private Dialog dialog;
-    private Boolean isFullname = true, isPhone = false, isEmail = false, isPassword = false, isNaissance = false, isGender = true, isTaille = false, isPoid = false;
+    private Boolean isFullname = true, isPhone = false, isEmail = false, isPassword = false, isNaissance = false, isGender = false, isTaille = false, isPoid = false;
     private AccessToken accessToken;
     private DatabaseReference databaseReference;
 

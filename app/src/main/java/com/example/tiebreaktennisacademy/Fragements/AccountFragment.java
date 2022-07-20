@@ -20,7 +20,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.tiebreaktennisacademy.Activities.AddInformationsProfilActivity;
-import com.example.tiebreaktennisacademy.Activities.EditProfilActivity;
 import com.example.tiebreaktennisacademy.Models.Session;
 import com.example.tiebreaktennisacademy.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -147,7 +146,7 @@ public class AccountFragment extends Fragment {
         editProfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ouvrirEditProfilActivity();
+                showFormEditProfile();
             }
         });
 
@@ -622,10 +621,8 @@ public class AccountFragment extends Fragment {
         dialog.show();
     }
 
-    public void ouvrirEditProfilActivity(){
-        Intent intent = new Intent(getActivity(), EditProfilActivity.class);
-        startActivity(intent);
-        getActivity().overridePendingTransition(R.anim.right_to_left,R.anim.stay);
+    public void showFormEditProfile(){
+
     }
 
     public void ouvrirAddInformationsProfilActivity(){

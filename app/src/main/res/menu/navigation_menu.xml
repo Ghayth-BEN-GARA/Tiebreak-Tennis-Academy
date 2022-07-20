@@ -4,14 +4,8 @@
         <menu>
             <item
                 android:id="@+id/my_profil"
-                android:title="@string/my_profil"
+                android:title="@string/profil"
                 android:icon="@drawable/account"
-                android:iconTint="@color/green" />
-
-            <item
-                android:id="@+id/edit_profil"
-                android:title="@string/edit_profil"
-                android:icon="@drawable/edit"
                 android:iconTint="@color/green" />
         </menu>
     </item>
@@ -48,9 +42,13 @@
         </menu>
     </item>
 
-    <item
-        android:id="@+id/logout"
-        android:title="@string/logout"
-        android:icon="@drawable/exit_selected"
-        android:iconTint="@color/green" />
+    <item android:title="@string/other">
+        <menu>
+            <item
+                android:id="@+id/logout"
+                android:title="@string/logout"
+                android:icon="@drawable/exit_selected"
+                android:iconTint="@color/green" />
+        </menu>
+    </item>
 </menu>
