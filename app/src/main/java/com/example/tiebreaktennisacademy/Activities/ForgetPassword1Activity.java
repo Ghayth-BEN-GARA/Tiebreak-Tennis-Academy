@@ -6,7 +6,6 @@ import androidx.appcompat.widget.AppCompatButton;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -81,12 +80,10 @@ public class ForgetPassword1Activity extends AppCompatActivity {
     public void validateFormForgetPassword1(){
         if(isEmpty(email.getText().toString())){
             setErreurText(erreurEmail,getString(R.string.email_required));
-            setInputLayoutErrors(textInputEmail, email);
         }
 
         else if(isEmail == true){
             setErreurNull(erreurEmail);
-            setInputLayoutNormal(textInputEmail,email);
             chargementIfEmailRegistred();
         }
     }
@@ -125,19 +122,16 @@ public class ForgetPassword1Activity extends AppCompatActivity {
     public void validateEmail(){
         if(isEmpty(email.getText().toString())){
             setErreurText(erreurEmail,getString(R.string.email_required));
-            setInputLayoutErrors(textInputEmail, email);
             isEmail = false;
         }
 
         else if(!isFormat(email.getText().toString())){
             setErreurText(erreurEmail,getString(R.string.email_format_invalid));
-            setInputLayoutErrors(textInputEmail,email);
             isEmail = false;
         }
 
         else{
             setErreurNull(erreurEmail);
-            setInputLayoutNormal(textInputEmail,email);
             isEmail = true;
         }
     }
@@ -159,24 +153,6 @@ public class ForgetPassword1Activity extends AppCompatActivity {
 
             }
         });
-    }
-
-    public void setInputLayoutNormal(TextInputLayout input, TextInputEditText text){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            input.setBackground(getDrawable(R.drawable.edi_text_background));
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                text.setCompoundDrawableTintList(ColorStateList.valueOf(getColor(R.color.black)));
-            }
-        }
-    }
-
-    public void setInputLayoutErrors(TextInputLayout input, TextInputEditText text){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            input.setBackground(getDrawable(R.drawable.edit_text_background_erreur));
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                text.setCompoundDrawableTintList(ColorStateList.valueOf(getColor(com.google.android.material.R.color.design_default_color_error)));
-            }
-        }
     }
 
     public void initialiseDataBase(){

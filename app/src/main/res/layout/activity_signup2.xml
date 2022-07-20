@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/white"
     android:padding="10dp"
     android:fillViewport="true"
@@ -13,7 +13,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:id="@+id/linear_layout_header"
@@ -91,7 +91,12 @@
                 app:boxStrokeErrorColor="@null"
                 android:layout_marginStart="40dp"
                 android:layout_marginEnd="40dp"
-                app:hintTextColor="@null"
+                app:endIconMode="clear_text"
+                app:startIconDrawable="@drawable/email"
+                app:startIconTint="@color/black"
+                android:hint="@string/hint_email"
+                app:hintTextColor="@color/gray"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentTop="true">
@@ -101,14 +106,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textEmailAddress"
-                    android:hint="@string/hint_email"
-                    android:textColorHint="@color/gray"
                     android:textColor="@color/black"
                     android:background="@drawable/edi_text_background"
                     android:padding="15dp"
                     android:textCursorDrawable="@null"
-                    android:drawableStart="@drawable/email"
-                    android:drawablePadding="18dp"
                     android:drawableTint="@color/black"/>
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -141,9 +142,12 @@
                 android:layout_marginStart="40dp"
                 android:layout_marginEnd="40dp"
                 android:layout_marginTop="14dp"
-                app:hintTextColor="@null"
-                app:passwordToggleEnabled="true"
-                app:passwordToggleTint="@color/black"
+                app:endIconMode="clear_text"
+                app:startIconDrawable="@drawable/lock"
+                app:startIconTint="@color/black"
+                android:hint="@string/hint_password"
+                app:hintTextColor="@color/gray"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
                 android:layout_below="@id/erreur_email">
@@ -153,13 +157,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
-                    android:hint="@string/hint_password"
-                    android:textColorHint="@color/gray"
                     android:textColor="@color/black"
                     android:padding="15dp"
-                    android:drawableStart="@drawable/lock"
                     android:drawableTint="@color/black"
-                    android:drawablePadding="18dp"
                     android:background="@drawable/edi_text_background"
                     android:textCursorDrawable="@null" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -192,7 +192,12 @@
                 android:layout_marginStart="40dp"
                 android:layout_marginEnd="40dp"
                 android:layout_marginTop="14dp"
-                app:hintTextColor="@null"
+                app:endIconMode="clear_text"
+                app:startIconDrawable="@drawable/lock"
+                app:startIconTint="@color/black"
+                android:hint="@string/hint_repeat_password"
+                app:hintTextColor="@color/gray"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 app:passwordToggleEnabled="true"
                 app:passwordToggleTint="@color/black"
                 android:layout_alignParentStart="true"
@@ -204,12 +209,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
-                    android:hint="@string/hint_repeat_password"
-                    android:textColorHint="@color/gray"
                     android:textColor="@color/black"
                     android:padding="15dp"
-                    android:drawableStart="@drawable/lock"
-                    android:drawablePadding="18dp"
                     android:drawableTint="@color/black"
                     android:background="@drawable/edi_text_background"
                     android:textCursorDrawable="@null" />

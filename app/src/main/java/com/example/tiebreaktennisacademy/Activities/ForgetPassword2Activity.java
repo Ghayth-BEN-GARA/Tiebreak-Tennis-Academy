@@ -6,7 +6,6 @@ import androidx.appcompat.widget.AppCompatButton;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -87,43 +86,31 @@ public class ForgetPassword2Activity extends AppCompatActivity {
 
     public void validateFormForgetPassword2(){
         if(isEmpty(code1.getText().toString())){
-            setInputLayoutErrors(inputLayoutCode1,code1);
             setErreurText(erreurCode,getString(R.string.code_required));
         }
 
         else if(isEmpty(code2.getText().toString())){
-            setInputLayoutErrors(inputLayoutCode2,code2);
             setErreurText(erreurCode,getString(R.string.code_required));
         }
 
         else if(isEmpty(code3.getText().toString())){
-            setInputLayoutErrors(inputLayoutCode3,code3);
             setErreurText(erreurCode,getString(R.string.code_required));
         }
 
         else if(isEmpty(code4.getText().toString())){
-            setInputLayoutErrors(inputLayoutCode4,code4);
             setErreurText(erreurCode,getString(R.string.code_required));
         }
 
         else if(isEmpty(code5.getText().toString())){
-            setInputLayoutErrors(inputLayoutCode5,code5);
             setErreurText(erreurCode,getString(R.string.code_required));
         }
 
         else if(isEmpty(code6.getText().toString())){
-            setInputLayoutErrors(inputLayoutCode6,code6);
             setErreurText(erreurCode,getString(R.string.code_required));
         }
 
         else if(isCode1 == true && isCode2 == true && isCode3 == true && isCode4 == true && isCode5 == true && isCode6 == true){
             setErreurNull(erreurCode);
-            setInputLayoutNormal(inputLayoutCode1,code1);
-            setInputLayoutNormal(inputLayoutCode2,code2);
-            setInputLayoutNormal(inputLayoutCode3,code3);
-            setInputLayoutNormal(inputLayoutCode4,code4);
-            setInputLayoutNormal(inputLayoutCode5,code5);
-            setInputLayoutNormal(inputLayoutCode6,code6);
             testEgaliteCodeSecurite();
         }
     }
@@ -379,24 +366,6 @@ public class ForgetPassword2Activity extends AppCompatActivity {
 
     public void swipeToOtherInput(TextInputEditText text){
         text.requestFocus();
-    }
-
-    public void setInputLayoutErrors(TextInputLayout input, TextInputEditText text){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            input.setBackground(getDrawable(R.drawable.edit_text_background_erreur));
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                text.setCompoundDrawableTintList(ColorStateList.valueOf(getColor(com.google.android.material.R.color.design_default_color_error)));
-            }
-        }
-    }
-
-    public void setInputLayoutNormal(TextInputLayout input, TextInputEditText text){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            input.setBackground(getDrawable(R.drawable.edi_text_background));
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                text.setCompoundDrawableTintList(ColorStateList.valueOf(getColor(R.color.black)));
-            }
-        }
     }
 
     public void getVerificationId(){

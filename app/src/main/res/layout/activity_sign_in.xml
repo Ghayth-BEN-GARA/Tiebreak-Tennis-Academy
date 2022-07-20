@@ -122,21 +122,22 @@
                         app:boxStrokeErrorColor="@null"
                         android:layout_marginStart="40dp"
                         android:layout_marginEnd="40dp"
-                        app:hintTextColor="@null">
+                        app:endIconMode="clear_text"
+                        app:startIconDrawable="@drawable/person"
+                        app:startIconTint="@color/black"
+                        android:hint="@string/hint_name"
+                        app:hintTextColor="@color/gray"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/email"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textEmailAddress"
-                            android:hint="@string/hint_email"
-                            android:textColorHint="@color/gray"
                             android:textColor="@color/black"
                             android:background="@drawable/edi_text_background"
                             android:padding="18dp"
-                            android:textCursorDrawable="@null"
-                            android:drawableEnd="@drawable/email"
-                            android:drawableTint="@color/black" />
+                            android:textCursorDrawable="@null" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <TextView
@@ -164,21 +165,22 @@
                         android:layout_marginTop="14dp"
                         android:layout_marginStart="40dp"
                         android:layout_marginEnd="40dp"
-                        app:hintTextColor="@null">
+                        app:endIconMode="clear_text"
+                        app:startIconDrawable="@drawable/lock"
+                        app:startIconTint="@color/black"
+                        android:hint="@string/hint_password"
+                        app:hintTextColor="@color/gray"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/password"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textPassword"
-                            android:hint="@string/hint_password"
-                            android:textColorHint="@color/gray"
                             android:textColor="@color/black"
                             android:background="@drawable/edi_text_background"
                             android:padding="18dp"
-                            android:textCursorDrawable="@null"
-                            android:drawableEnd="@drawable/lock"
-                            android:drawableTint="@color/black" />
+                            android:textCursorDrawable="@null" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <TextView

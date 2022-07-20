@@ -6,7 +6,6 @@ import androidx.appcompat.widget.AppCompatButton;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -24,7 +23,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.tiebreaktennisacademy.Models.Session;
 import com.example.tiebreaktennisacademy.R;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
@@ -296,19 +294,16 @@ public class SignupWithFacebookActivity extends AppCompatActivity {
     public void validateFullname(){
         if(isEmpty(fullname.getText().toString())){
             setErreurText(erreurFullname,getString(R.string.username_required));
-            setInputLayoutErrors(inputFullname,fullname);
             isFullname = false;
         }
 
         else if(!isLetter(fullname.getText().toString())){
             setErreurText(erreurFullname,getString(R.string.username_letter));
-            setInputLayoutErrors(inputFullname,fullname);
             isFullname = false;
         }
 
         else{
             setErreurNull(erreurFullname);
-            setInputLayoutNormal(inputFullname,fullname);
             isFullname = true;
         }
     }
@@ -316,25 +311,21 @@ public class SignupWithFacebookActivity extends AppCompatActivity {
     public void validatePhone(){
         if(isEmpty(phone.getText().toString())){
             setErreurText(erreurPhone,getString(R.string.phone_required));
-            setInputLayoutErrors(inputPhone, phone);
             isPhone = false;
         }
 
         else if(!isNumber(phone.getText().toString())){
             setErreurText(erreurPhone,getString(R.string.phone_number));
-            setInputLayoutErrors(inputPhone, phone);
             isPhone = false;
         }
 
         else if(!isLength(phone.getText().toString())){
             setErreurText(erreurPhone,getString(R.string.phone_length));
-            setInputLayoutErrors(inputPhone, phone);
             isPhone = false;
         }
 
         else{
             setErreurNull(erreurPhone);
-            setInputLayoutNormal(inputPhone, phone);
             isPhone = true;
         }
     }
@@ -342,19 +333,16 @@ public class SignupWithFacebookActivity extends AppCompatActivity {
     public void validateEmail(){
         if(isEmpty(email.getText().toString())){
             setErreurText(erreurEmail,getString(R.string.email_required));
-            setInputLayoutErrors(inputEmail,email);
             isEmail = false;
         }
 
         else if(!isFormat(email.getText().toString())){
             setErreurText(erreurEmail,getString(R.string.email_format_invalid));
-            setInputLayoutErrors(inputEmail,email);
             isEmail = false;
         }
 
         else{
             setErreurNull(erreurEmail);
-            setInputLayoutNormal(inputEmail,email);
             isEmail = true;
         }
     }
@@ -362,37 +350,31 @@ public class SignupWithFacebookActivity extends AppCompatActivity {
     public void validatePassword(){
         if(isEmpty(password.getText().toString())){
             setErreurText(erreurPassword,getString(R.string.password_required));
-            setInputLayoutErrors(inputPassword,password);
             isPassword = false;
         }
 
         else if(!isMinuscule(password.getText().toString())){
             setErreurText(erreurPassword,getString(R.string.password_minisucle));
-            setInputLayoutErrors(inputPassword,password);
             isPassword = false;
         }
 
         else if(!isMajuscule(password.getText().toString())){
             setErreurText(erreurPassword,getString(R.string.password_majuscule));
-            setInputLayoutErrors(inputPassword,password);
             isPassword = false;
         }
 
         else if(!isChiffre(password.getText().toString())){
             setErreurText(erreurPassword,getString(R.string.password_number));
-            setInputLayoutErrors(inputPassword,password);
             isPassword = false;
         }
 
         else if(!isLength(password.getText().toString())){
             setErreurText(erreurPassword,getString(R.string.password_length));
-            setInputLayoutErrors(inputPassword,password);
             isPassword = false;
         }
 
         else{
             setErreurNull(erreurPassword);
-            setInputLayoutNormal(inputPassword,password);
             isPassword = true;
         }
     }
@@ -400,13 +382,11 @@ public class SignupWithFacebookActivity extends AppCompatActivity {
     public void validateGender(){
         if(isEmpty(gender.getText().toString())){
             setErreurText(erreurGender,getString(R.string.gender_required));
-            setInputLayoutErrors(inputGender,gender);
             isGender = false;
         }
 
         else{
             setErreurNull(erreurGender);
-            setInputLayoutNormal(inputGender,gender);
             isGender = true;
         }
     }
@@ -414,13 +394,11 @@ public class SignupWithFacebookActivity extends AppCompatActivity {
     public void validateNaissance(){
         if(isEmpty(naissance.getText().toString())){
             setErreurText(erreurNaissance,getString(R.string.naissance_required));
-            setInputLayoutErrors(inputNaissance,naissance);
             isNaissance = false;
         }
 
         else{
             setErreurNull(erreurNaissance);
-            setInputLayoutNormal(inputNaissance,naissance);
             isNaissance = true;
         }
     }
@@ -428,19 +406,16 @@ public class SignupWithFacebookActivity extends AppCompatActivity {
     public void validateSize(){
         if(isEmpty(taille.getText().toString())){
             setErreurText(erreurTaille,getString(R.string.taille_required));
-            setInputLayoutErrors(inputTaille,taille);
             isTaille = false;
         }
 
         else if(!isNumber(taille.getText().toString())){
             setErreurText(erreurTaille,getString(R.string.taille_number));
-            setInputLayoutErrors(inputTaille,taille);
             isTaille = false;
         }
 
         else{
             setErreurNull(erreurTaille);
-            setInputLayoutNormal(inputTaille,taille);
             isTaille = true;
         }
     }
@@ -448,19 +423,16 @@ public class SignupWithFacebookActivity extends AppCompatActivity {
     public void validatePoid(){
         if(isEmpty(poid.getText().toString())){
             setErreurText(erreurPoid,getString(R.string.poid_required));
-            setInputLayoutErrors(inputPoid,poid);
             isPoid = false;
         }
 
         else if(!isNumber(poid.getText().toString())){
             setErreurText(erreurPoid,getString(R.string.poid_number));
-            setInputLayoutErrors(inputPoid,poid);
             isPoid = false;
         }
 
         else{
             setErreurNull(erreurPoid);
-            setInputLayoutNormal(inputPoid,poid);
             isPoid = true;
         }
     }
@@ -468,42 +440,34 @@ public class SignupWithFacebookActivity extends AppCompatActivity {
     public void validateFormSignUpWithFacebook(){
         if(isEmpty(fullname.getText().toString())){
             setErreurText(erreurFullname,getString(R.string.username_required));
-            setInputLayoutErrors(inputFullname,fullname);
         }
 
         else if(isEmpty(phone.getText().toString())){
             setErreurText(erreurPhone,getString(R.string.phone_required));
-            setInputLayoutErrors(inputPhone, phone);
         }
 
         else if(isEmpty(email.getText().toString())){
             setErreurText(erreurEmail,getString(R.string.email_required));
-            setInputLayoutErrors(inputEmail,email);
         }
 
         else if(isEmpty(password.getText().toString())){
             setErreurText(erreurPassword,getString(R.string.password_required));
-            setInputLayoutErrors(inputPassword,password);
         }
 
         else if(isEmpty(gender.getText().toString())){
             setErreurText(erreurGender,getString(R.string.gender_required));
-            setInputLayoutErrors(inputGender,gender);
         }
 
         else if(isEmpty(naissance.getText().toString())){
             setErreurText(erreurNaissance,getString(R.string.naissance_required));
-            setInputLayoutErrors(inputNaissance,naissance);
         }
 
         else if(isEmpty(taille.getText().toString())){
             setErreurText(erreurTaille,getString(R.string.taille_required));
-            setInputLayoutErrors(inputTaille,taille);
         }
 
         else if(isEmpty(poid.getText().toString())){
             setErreurText(erreurPoid,getString(R.string.poid_required));
-            setInputLayoutErrors(inputPoid,poid);
         }
 
         else if(isFullname == true && isPhone == true && isEmail == true && isPassword == true && isGender == true && isNaissance == true && isTaille == true && isPoid == true){
@@ -515,33 +479,7 @@ public class SignupWithFacebookActivity extends AppCompatActivity {
             setErreurNull(erreurGender);
             setErreurNull(erreurTaille);
             setErreurNull(erreurPoid);
-            setInputLayoutNormal(inputFullname,fullname);
-            setInputLayoutNormal(inputPhone,phone);
-            setInputLayoutNormal(inputEmail,email);
-            setInputLayoutNormal(inputPassword,password);
-            setInputLayoutNormal(inputGender,gender);
-            setInputLayoutNormal(inputNaissance,naissance);
-            setInputLayoutNormal(inputTaille,taille);
-            setInputLayoutNormal(inputPoid,poid);
             showNotificationConditionGeneral();
-        }
-    }
-
-    public void setInputLayoutErrors(TextInputLayout input, TextInputEditText text){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            input.setBackground(getDrawable(R.drawable.edit_text_background_erreur));
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                text.setCompoundDrawableTintList(ColorStateList.valueOf(getColor(com.google.android.material.R.color.design_default_color_error)));
-            }
-        }
-    }
-
-    public void setInputLayoutNormal(TextInputLayout input, TextInputEditText text){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            input.setBackground(getDrawable(R.drawable.edi_text_background));
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                text.setCompoundDrawableTintList(ColorStateList.valueOf(getColor(R.color.black)));
-            }
         }
     }
 

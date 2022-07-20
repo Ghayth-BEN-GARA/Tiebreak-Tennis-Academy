@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/white"
     android:padding="10dp"
     android:fillViewport="true"
@@ -13,7 +13,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:id="@+id/linear_layout_header"
@@ -91,7 +91,12 @@
                 app:boxStrokeErrorColor="@null"
                 android:layout_marginStart="40dp"
                 android:layout_marginEnd="40dp"
-                app:hintTextColor="@null"
+                app:endIconMode="clear_text"
+                app:startIconDrawable="@drawable/person"
+                app:startIconTint="@color/black"
+                android:hint="@string/hint_name"
+                app:hintTextColor="@color/gray"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentTop="true">
@@ -101,15 +106,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName"
-                    android:hint="@string/hint_name"
-                    android:textColorHint="@color/gray"
                     android:textColor="@color/black"
                     android:background="@drawable/edi_text_background"
                     android:padding="15dp"
-                    android:textCursorDrawable="@null"
-                    android:drawableStart="@drawable/person"
-                    android:drawablePadding="18dp"
-                    android:drawableTint="@color/black"/>
+                    android:textCursorDrawable="@null" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -141,7 +141,12 @@
                 android:layout_marginStart="40dp"
                 android:layout_marginEnd="40dp"
                 android:layout_marginTop="14dp"
-                app:hintTextColor="@null"
+                app:endIconMode="clear_text"
+                app:startIconDrawable="@drawable/phone"
+                app:startIconTint="@color/black"
+                android:hint="@string/hint_phoone"
+                app:hintTextColor="@color/gray"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
                 android:layout_below="@id/erreur_fullname">
@@ -151,16 +156,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="phone"
-                    android:hint="@string/hint_phoone"
-                    android:textColorHint="@color/gray"
                     android:textColor="@color/black"
                     android:background="@drawable/edi_text_background"
                     android:padding="15dp"
                     android:maxLength="8"
-                    android:textCursorDrawable="@null"
-                    android:drawableStart="@drawable/phone"
-                    android:drawablePadding="18dp"
-                    android:drawableTint="@color/black"/>
+                    android:textCursorDrawable="@null"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -192,10 +192,13 @@
                 android:layout_marginStart="40dp"
                 android:layout_marginEnd="40dp"
                 android:layout_marginTop="14dp"
-                app:hintTextColor="@null"
+                app:hintTextColor="@color/gray"
                 app:endIconTint="@color/black"
+                app:startIconTint="@color/black"
                 android:background="@drawable/edi_text_background"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:hint="@string/hint_sexe"
+                app:startIconDrawable="@drawable/genre"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
                 android:layout_below="@id/erreur_phone">
@@ -205,12 +208,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="none"
-                    android:hint="@string/hint_sexe"
-                    android:textColorHint="@color/gray"
                     android:textColor="@color/black"
                     android:padding="15dp"
-                    android:drawableStart="@drawable/genre"
-                    android:drawablePadding="18dp"
                     android:background="@drawable/edi_text_background"
                     android:textCursorDrawable="@null" />
             </com.google.android.material.textfield.TextInputLayout>

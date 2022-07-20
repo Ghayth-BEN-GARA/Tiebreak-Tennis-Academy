@@ -4,8 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -113,26 +111,20 @@ public class ForgetPassword3Activity extends AppCompatActivity {
     public void validateFormForgetPassword3(){
         if(isEmpty(password.getText().toString())){
             setErreurText(erreurPassword,getString(R.string.password_required));
-            setInputLayoutErrors(inputLayoutPassword,password);
         }
 
         else if(isEmpty(repeatPassword.getText().toString())){
             setErreurText(erreurRepeatPassword,getString(R.string.password_required));
-            setInputLayoutErrors(inputLayoutRepeatPassword,repeatPassword);
         }
 
         else if(!isEquals(password.getText().toString(),repeatPassword.getText().toString())){
             setErreurText(erreurPassword,getString(R.string.password_not_equals));
             setErreurText(erreurRepeatPassword,getString(R.string.password_not_equals));
-            setInputLayoutErrors(inputLayoutPassword,password);
-            setInputLayoutErrors(inputLayoutRepeatPassword,repeatPassword);
         }
 
         else if(isPassword == true && isRepeatPassword == true){
             setErreurNull(erreurPassword);
             setErreurNull(erreurRepeatPassword);
-            setInputLayoutNormal(inputLayoutPassword,password);
-            setInputLayoutNormal(inputLayoutRepeatPassword,repeatPassword);
             chargementUpdatePassword();
         }
     }
@@ -184,37 +176,31 @@ public class ForgetPassword3Activity extends AppCompatActivity {
     public void validatePassword(){
         if(isEmpty(password.getText().toString())){
             setErreurText(erreurPassword,getString(R.string.password_required));
-            setInputLayoutErrors(inputLayoutPassword,password);
             isPassword = false;
         }
 
         else if(!isMinuscule(password.getText().toString())){
             setErreurText(erreurPassword,getString(R.string.password_minisucle));
-            setInputLayoutErrors(inputLayoutPassword,password);
             isPassword = false;
         }
 
         else if(!isMajuscule(password.getText().toString())){
             setErreurText(erreurPassword,getString(R.string.password_majuscule));
-            setInputLayoutErrors(inputLayoutPassword,password);
             isPassword = false;
         }
 
         else if(!isChiffre(password.getText().toString())){
             setErreurText(erreurPassword,getString(R.string.password_number));
-            setInputLayoutErrors(inputLayoutPassword,password);
             isPassword = false;
         }
 
         else if(!isLength(password.getText().toString())){
             setErreurText(erreurPassword,getString(R.string.password_length));
-            setInputLayoutErrors(inputLayoutPassword,password);
             isPassword = false;
         }
 
         else{
             setErreurNull(erreurPassword);
-            setInputLayoutNormal(inputLayoutPassword,password);
             isPassword = true;
         }
     }
@@ -222,56 +208,32 @@ public class ForgetPassword3Activity extends AppCompatActivity {
     public void validateRepeatPassword(){
         if(isEmpty(repeatPassword.getText().toString())){
             setErreurText(erreurRepeatPassword,getString(R.string.password_required));
-            setInputLayoutErrors(inputLayoutRepeatPassword,repeatPassword);
             isRepeatPassword = false;
         }
 
         else if(!isMinuscule(repeatPassword.getText().toString())){
             setErreurText(erreurRepeatPassword,getString(R.string.password_minisucle));
-            setInputLayoutErrors(inputLayoutRepeatPassword,repeatPassword);
             isRepeatPassword = false;
         }
 
         else if(!isMajuscule(repeatPassword.getText().toString())){
             setErreurText(erreurRepeatPassword,getString(R.string.password_majuscule));
-            setInputLayoutErrors(inputLayoutRepeatPassword,repeatPassword);
             isRepeatPassword = false;
         }
 
         else if(!isChiffre(repeatPassword.getText().toString())){
             setErreurText(erreurRepeatPassword,getString(R.string.password_number));
-            setInputLayoutErrors(inputLayoutRepeatPassword,repeatPassword);
             isRepeatPassword = false;
         }
 
         else if(!isLength(repeatPassword.getText().toString())){
             setErreurText(erreurRepeatPassword,getString(R.string.password_length));
-            setInputLayoutErrors(inputLayoutRepeatPassword,repeatPassword);
             isRepeatPassword = false;
         }
 
         else{
             setErreurNull(erreurRepeatPassword);
-            setInputLayoutNormal(inputLayoutRepeatPassword,repeatPassword);
             isRepeatPassword = true;
-        }
-    }
-
-    public void setInputLayoutErrors(TextInputLayout input, TextInputEditText text){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            input.setBackground(getDrawable(R.drawable.edit_text_background_erreur));
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                text.setCompoundDrawableTintList(ColorStateList.valueOf(getColor(com.google.android.material.R.color.design_default_color_error)));
-            }
-        }
-    }
-
-    public void setInputLayoutNormal(TextInputLayout input, TextInputEditText text){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            input.setBackground(getDrawable(R.drawable.edi_text_background));
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                text.setCompoundDrawableTintList(ColorStateList.valueOf(getColor(R.color.black)));
-            }
         }
     }
 

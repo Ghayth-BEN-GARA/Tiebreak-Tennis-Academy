@@ -6,7 +6,6 @@ import androidx.appcompat.widget.AppCompatButton;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -172,26 +171,20 @@ public class Signup1Activity extends AppCompatActivity {
     public void validateFormSignUp1(){
         if(isEmpty(fullname.getText().toString())){
             setErreurText(erreurFullname,getString(R.string.username_required));
-            setInputLayoutErrors(inputFullname, fullname);
         }
 
         else if(isEmpty(phone.getText().toString())){
             setErreurText(erreurPhone,getString(R.string.phone_required));
-            setInputLayoutErrors(inputPhone, phone);
         }
 
         else if(isEmpty(gender.getText().toString())){
             setErreurText(erreurGender,getString(R.string.gender_required));
-            setInputGenderErrors(inputGender, gender);
         }
 
         else if(isFullname == true && isPhone == true && isGender == true){
             setErreurNull(erreurFullname);
             setErreurNull(erreurPhone);
             setErreurNull(erreurGender);
-            setInputLayoutNormal(inputFullname,fullname);
-            setInputLayoutNormal(inputPhone,phone);
-            setInputGenderNormal(inputGender,gender);
             chargementIfPhoneRegistred();
         }
     }
@@ -260,19 +253,16 @@ public class Signup1Activity extends AppCompatActivity {
     public void validateFullname(){
         if(isEmpty(fullname.getText().toString())){
             setErreurText(erreurFullname,getString(R.string.username_required));
-            setInputLayoutErrors(inputFullname,fullname);
             isFullname = false;
         }
 
         else if(!isLetter(fullname.getText().toString())){
             setErreurText(erreurFullname,getString(R.string.username_letter));
-            setInputLayoutErrors(inputFullname,fullname);
             isFullname = false;
         }
 
         else{
             setErreurNull(erreurFullname);
-            setInputLayoutNormal(inputFullname,fullname);
             isFullname = true;
         }
     }
@@ -280,25 +270,21 @@ public class Signup1Activity extends AppCompatActivity {
     public void validatePhone(){
         if(isEmpty(phone.getText().toString())){
             setErreurText(erreurPhone,getString(R.string.phone_required));
-            setInputLayoutErrors(inputPhone, phone);
             isPhone = false;
         }
 
         else if(!isNumber(phone.getText().toString())){
             setErreurText(erreurPhone,getString(R.string.phone_number));
-            setInputLayoutErrors(inputPhone, phone);
             isPhone = false;
         }
 
         else if(!isLength(phone.getText().toString())){
             setErreurText(erreurPhone,getString(R.string.phone_length));
-            setInputLayoutErrors(inputPhone, phone);
             isPhone = false;
         }
 
         else{
             setErreurNull(erreurPhone);
-            setInputLayoutNormal(inputPhone, phone);
             isPhone = true;
         }
     }
@@ -306,50 +292,12 @@ public class Signup1Activity extends AppCompatActivity {
     public void validateGender(){
         if(isEmpty(gender.getText().toString())){
             setErreurText(erreurGender,getString(R.string.gender_required));
-            setInputGenderErrors(inputGender, gender);
             isGender = false;
         }
 
         else{
             setErreurNull(erreurGender);
-            setInputGenderNormal(inputGender, gender);
             isGender = true;
-        }
-    }
-
-    public void setInputLayoutErrors(TextInputLayout input, TextInputEditText text){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            input.setBackground(getDrawable(R.drawable.edit_text_background_erreur));
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                text.setCompoundDrawableTintList(ColorStateList.valueOf(getColor(com.google.android.material.R.color.design_default_color_error)));
-            }
-        }
-    }
-
-    public void setInputGenderErrors(TextInputLayout input, AutoCompleteTextView text){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            input.setBackground(getDrawable(R.drawable.edit_text_background_erreur));
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                text.setCompoundDrawableTintList(ColorStateList.valueOf(getColor(com.google.android.material.R.color.design_default_color_error)));
-            }
-        }
-    }
-
-    public void setInputLayoutNormal(TextInputLayout input, TextInputEditText text){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            input.setBackground(getDrawable(R.drawable.edi_text_background));
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                text.setCompoundDrawableTintList(ColorStateList.valueOf(getColor(R.color.black)));
-            }
-        }
-    }
-
-    public void setInputGenderNormal(TextInputLayout input, AutoCompleteTextView text){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            input.setBackground(getDrawable(R.drawable.edi_text_background));
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                text.setCompoundDrawableTintList(ColorStateList.valueOf(getColor(R.color.black)));
-            }
         }
     }
 

@@ -5,8 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -129,33 +127,25 @@ public class Signup2Activity extends AppCompatActivity {
     public void validateFormSignUp2(){
         if(isEmpty(email.getText().toString())){
             setErreurText(erreurEmail,getString(R.string.email_required));
-            setInputLayoutErrors(textInputEmail,email);
         }
 
         else if(isEmpty(password.getText().toString())){
             setErreurText(erreurPassword,getString(R.string.password_required));
-            setInputLayoutErrors(textInputPassword,password);
         }
 
         else if(isEmpty(repeatPassword.getText().toString())){
             setErreurText(erreurRepeatPassword,getString(R.string.password_required));
-            setInputLayoutErrors(textInputRepeatPassword,repeatPassword);
         }
 
         else if(!isEquals(password.getText().toString(),repeatPassword.getText().toString())){
             setErreurText(erreurPassword,getString(R.string.password_not_equals));
-            setErreurText(erreurRepeatPassword,getString(R.string.password_not_equals));
-            setInputLayoutErrors(textInputPassword,password);
-            setInputLayoutErrors(textInputRepeatPassword,repeatPassword);
+            setErreurText(erreurRepeatPassword,getString(R.string.password_not_equals));;
         }
 
         else if(isEmail == true && isPassword == true && isRepeatPassword == true){
             setErreurNull(erreurEmail);
             setErreurNull(erreurPassword);
             setErreurNull(erreurRepeatPassword);
-            setInputLayoutNormal(textInputEmail,email);
-            setInputLayoutNormal(textInputPassword,password);
-            setInputLayoutNormal(textInputRepeatPassword,repeatPassword);
             chargementIfEmailRegistred();
         }
     }
@@ -224,19 +214,16 @@ public class Signup2Activity extends AppCompatActivity {
     public void validateEmail(){
         if(isEmpty(email.getText().toString())){
             setErreurText(erreurEmail,getString(R.string.email_required));
-            setInputLayoutErrors(textInputEmail,email);
             isEmail = false;
         }
 
         else if(!isFormat(email.getText().toString())){
             setErreurText(erreurEmail,getString(R.string.email_format_invalid));
-            setInputLayoutErrors(textInputEmail,email);
             isEmail = false;
         }
 
         else{
             setErreurNull(erreurEmail);
-            setInputLayoutNormal(textInputEmail,email);
             isEmail = true;
         }
     }
@@ -244,37 +231,31 @@ public class Signup2Activity extends AppCompatActivity {
     public void validatePassword(){
         if(isEmpty(password.getText().toString())){
             setErreurText(erreurPassword,getString(R.string.password_required));
-            setInputLayoutErrors(textInputPassword,password);
             isPassword = false;
         }
 
         else if(!isMinuscule(password.getText().toString())){
             setErreurText(erreurPassword,getString(R.string.password_minisucle));
-            setInputLayoutErrors(textInputPassword,password);
             isPassword = false;
         }
 
         else if(!isMajuscule(password.getText().toString())){
             setErreurText(erreurPassword,getString(R.string.password_majuscule));
-            setInputLayoutErrors(textInputPassword,password);
             isPassword = false;
         }
 
         else if(!isChiffre(password.getText().toString())){
             setErreurText(erreurPassword,getString(R.string.password_number));
-            setInputLayoutErrors(textInputPassword,password);
             isPassword = false;
         }
 
         else if(!isLength(password.getText().toString())){
             setErreurText(erreurPassword,getString(R.string.password_length));
-            setInputLayoutErrors(textInputPassword,password);
             isPassword = false;
         }
 
         else{
             setErreurNull(erreurPassword);
-            setInputLayoutNormal(textInputPassword,password);
             isPassword = true;
         }
     }
@@ -282,56 +263,32 @@ public class Signup2Activity extends AppCompatActivity {
     public void validateRepeatPassword(){
         if(isEmpty(repeatPassword.getText().toString())){
             setErreurText(erreurRepeatPassword,getString(R.string.password_required));
-            setInputLayoutErrors(textInputRepeatPassword,repeatPassword);
             isRepeatPassword = false;
         }
 
         else if(!isMinuscule(repeatPassword.getText().toString())){
             setErreurText(erreurRepeatPassword,getString(R.string.password_minisucle));
-            setInputLayoutErrors(textInputRepeatPassword,repeatPassword);
             isRepeatPassword = false;
         }
 
         else if(!isMajuscule(repeatPassword.getText().toString())){
             setErreurText(erreurRepeatPassword,getString(R.string.password_majuscule));
-            setInputLayoutErrors(textInputRepeatPassword,repeatPassword);
             isRepeatPassword = false;
         }
 
         else if(!isChiffre(repeatPassword.getText().toString())){
             setErreurText(erreurRepeatPassword,getString(R.string.password_number));
-            setInputLayoutErrors(textInputRepeatPassword,repeatPassword);
             isRepeatPassword = false;
         }
 
         else if(!isLength(repeatPassword.getText().toString())){
             setErreurText(erreurRepeatPassword,getString(R.string.password_length));
-            setInputLayoutErrors(textInputRepeatPassword,repeatPassword);
             isRepeatPassword = false;
         }
 
         else{
             setErreurNull(erreurRepeatPassword);
-            setInputLayoutErrors(textInputRepeatPassword,repeatPassword);
             isRepeatPassword = true;
-        }
-    }
-
-    public void setInputLayoutErrors(TextInputLayout input, TextInputEditText text){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            input.setBackground(getDrawable(R.drawable.edit_text_background_erreur));
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                text.setCompoundDrawableTintList(ColorStateList.valueOf(getColor(com.google.android.material.R.color.design_default_color_error)));
-            }
-        }
-    }
-
-    public void setInputLayoutNormal(TextInputLayout input, TextInputEditText text){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            input.setBackground(getDrawable(R.drawable.edi_text_background));
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                text.setCompoundDrawableTintList(ColorStateList.valueOf(getColor(R.color.black)));
-            }
         }
     }
 
