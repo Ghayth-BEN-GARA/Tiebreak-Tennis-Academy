@@ -198,8 +198,6 @@
                 android:hint="@string/hint_repeat_password"
                 app:hintTextColor="@color/gray"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                app:passwordToggleEnabled="true"
-                app:passwordToggleTint="@color/black"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
                 android:layout_below="@id/erreur_password">

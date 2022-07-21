@@ -123,9 +123,9 @@
                         android:layout_marginStart="40dp"
                         android:layout_marginEnd="40dp"
                         app:endIconMode="clear_text"
-                        app:startIconDrawable="@drawable/person"
+                        app:startIconDrawable="@drawable/email"
                         app:startIconTint="@color/black"
-                        android:hint="@string/hint_name"
+                        android:hint="@string/hint_email"
                         app:hintTextColor="@color/gray"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
