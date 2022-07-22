@@ -492,8 +492,6 @@ public class ProfilActivity extends AppCompatActivity {
         }
     }
 
-
-
     public void validateFormUpdatePassword(){
         if(isEmpty(oldPassword.getText().toString())){
             setErreurText(erreurOldPassword,getString(R.string.password_required));
@@ -621,7 +619,7 @@ public class ProfilActivity extends AppCompatActivity {
     public void showFormEditProfile(){
         dialog = new Dialog(ProfilActivity.this);
         dialog.setContentView(R.layout.item_edit_profil);
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.setCanceledOnTouchOutside(false);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.content_erreur_notification));
@@ -1025,7 +1023,7 @@ public class ProfilActivity extends AppCompatActivity {
         databaseReference.child("users").orderByChild("phone").equalTo(phoneEdit.getText().toString()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.getValue() != null ){
+                if(snapshot.getValue() != null && !snapshot.hasChild(encodeString(emailEdit.getText().toString()))){
                     setErreurText(erreurPhoneE,getString(R.string.phone_exist));
                     progressDialog.dismiss();
                 }

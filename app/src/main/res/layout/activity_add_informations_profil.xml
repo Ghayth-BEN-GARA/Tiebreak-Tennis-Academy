@@ -1,9 +1,229 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="10dp"
+    android:background="@color/background_color"
     tools:context=".Activities.AddInformationsProfilActivity">
 
+    <ImageView
+        android:id="@+id/back"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:padding="5dp"
+        android:src="@drawable/back_24"
+        android:background="@drawable/icon_background_gray"
+        app:tint="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <LinearLayout
+        android:id="@+id/linear_layout_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:layout_marginTop="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/back">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/add_informations_profil"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/second_informations"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:elevation="8dp"
+            android:fontFamily="@font/segoe_ui_bold"
+            android:background="@drawable/background_white_button"
+            android:textColor="@color/black"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/profil"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/profil"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:elevation="8dp"
+            android:layout_marginStart="5dp"
+            android:fontFamily="@font/segoe_ui_bold"
+            android:background="@drawable/background_disabled_button"
+            android:textColor="@color/green"/>
+    </LinearLayout>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/photo_profil"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/user"
+        android:layout_marginTop="15dp"
+        android:scaleType="centerCrop"
+        app:civ_border_width="3dp"
+        app:civ_border_color="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/linear_layout_button"/>
+
+    <ScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:scrollbars="vertical"
+        android:fadeScrollbars="false"
+        android:scrollbarFadeDuration="0"
+        android:layout_marginTop="10dp"
+        android:isScrollContainer="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/photo_profil">
+
+        <RelativeLayout
+            android:id="@+id/relative1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="20dp"
+            android:paddingBottom="10dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/verification_code_background"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/photo_profil">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputlayout_cin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:boxStrokeWidthFocused="0dp"
+                app:boxStrokeColor="@null"
+                app:boxStrokeWidth="0dp"
+                app:boxBackgroundColor="@null"
+                app:boxStrokeErrorColor="@null"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
+                android:layout_marginTop="10dp"
+                app:endIconMode="clear_text"
+                app:startIconDrawable="@drawable/cin"
+                app:startIconTint="@color/black"
+                android:hint="@string/cin_hint"
+                app:hintTextColor="@color/gray"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:counterMaxLength="8"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/cin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:textColor="@color/black"
+                    android:background="@drawable/edi_text_background"
+                    android:padding="15dp"
+                    android:textCursorDrawable="@null"
+                    android:maxLength="8"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/erreur_cin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="40dp"
+                android:gravity="center"
+                android:letterSpacing="0.1"
+                android:textColor="@color/design_default_color_error"
+                android:textSize="12sp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@id/inputlayout_cin"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputlayout_ville"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:boxStrokeWidthFocused="0dp"
+                app:boxStrokeColor="@null"
+                app:boxStrokeWidth="0dp"
+                app:boxBackgroundColor="@null"
+                app:boxStrokeErrorColor="@null"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
+                android:layout_marginTop="5dp"
+                app:endIconMode="clear_text"
+                app:startIconDrawable="@drawable/ville"
+                app:startIconTint="@color/black"
+                android:hint="@string/ville_hint"
+                app:hintTextColor="@color/gray"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@id/erreur_cin">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/ville"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:textColor="@color/black"
+                    android:background="@drawable/edi_text_background"
+                    android:padding="15dp"
+                    android:textCursorDrawable="@null" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/erreur_ville"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="40dp"
+                android:gravity="center"
+                android:letterSpacing="0.1"
+                android:textColor="@color/design_default_color_error"
+                android:textSize="12sp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@id/inputlayout_ville"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/edit_informations_btn"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:background="@drawable/rounded_button"
+                android:fontFamily="@font/seg_ui_semibold"
+                android:text="@string/edit_add_informations"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:layout_marginStart="60dp"
+                android:layout_marginEnd="60dp"
+                android:layout_marginTop="20dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@id/erreur_ville"/>
+        </RelativeLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

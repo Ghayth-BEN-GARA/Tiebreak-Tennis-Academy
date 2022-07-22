@@ -1015,7 +1015,7 @@ public class AccountFragment extends Fragment {
         databaseReference.child("users").orderByChild("phone").equalTo(phoneEdit.getText().toString()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.getValue() != null ){
+                if(snapshot.getValue() != null && !snapshot.hasChild(encodeString(emailEdit.getText().toString()))){
                     setErreurText(erreurPhoneE,getString(R.string.phone_exist));
                     progressDialog.dismiss();
                 }

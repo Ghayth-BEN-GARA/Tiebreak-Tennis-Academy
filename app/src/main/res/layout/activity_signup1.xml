@@ -9,6 +9,7 @@
     android:padding="10dp"
     android:fillViewport="true"
     android:id="@+id/scroll_view"
+    android:isScrollContainer="true"
     tools:context=".Activities.Signup1Activity">
 
     <androidx.constraintlayout.widget.ConstraintLayout

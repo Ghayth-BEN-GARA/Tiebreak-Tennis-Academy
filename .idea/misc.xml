@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Ghayth Ben Gara/AndroidStudioProjects/TiebreakTennisAcademy/app/src/main/res/drawable/adresse.xml" value="0.1" />
         <entry key="..\:/Users/Ghayth Ben Gara/AndroidStudioProjects/TiebreakTennisAcademy/app/src/main/res/drawable/app_logo_background.xml" value="0.174" />
         <entry key="..\:/Users/Ghayth Ben Gara/AndroidStudioProjects/TiebreakTennisAcademy/app/src/main/res/drawable/back_24.xml" value="0.1345" />
         <entry key="..\:/Users/Ghayth Ben Gara/AndroidStudioProjects/TiebreakTennisAcademy/app/src/main/res/drawable/background_card_view.xml" value="0.1185" />
@@ -25,6 +26,7 @@
         <entry key="..\:/Users/Ghayth Ben Gara/AndroidStudioProjects/TiebreakTennisAcademy/app/src/main/res/drawable/drawer.xml" value="0.1185" />
         <entry key="..\:/Users/Ghayth Ben Gara/AndroidStudioProjects/TiebreakTennisAcademy/app/src/main/res/drawable/drawer_selected.xml" value="0.1185" />
         <entry key="..\:/Users/Ghayth Ben Gara/AndroidStudioProjects/TiebreakTennisAcademy/app/src/main/res/drawable/edi_text_background.xml" value="0.1755" />
+        <entry key="..\:/Users/Ghayth Ben Gara/AndroidStudioProjects/TiebreakTennisAcademy/app/src/main/res/drawable/edit_text_background_add_infos.xml" value="0.1" />
         <entry key="..\:/Users/Ghayth Ben Gara/AndroidStudioProjects/TiebreakTennisAcademy/app/src/main/res/drawable/edit_text_background_disabed.xml" value="0.1" />
         <entry key="..\:/Users/Ghayth Ben Gara/AndroidStudioProjects/TiebreakTennisAcademy/app/src/main/res/drawable/edit_text_background_erreur.xml" value="0.131" />
         <entry key="..\:/Users/Ghayth Ben Gara/AndroidStudioProjects/TiebreakTennisAcademy/app/src/main/res/drawable/error_button.xml" value="0.131" />
