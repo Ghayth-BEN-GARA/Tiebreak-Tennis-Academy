@@ -51,7 +51,7 @@ import java.util.regex.Pattern;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AccountFragment extends Fragment {
-    private TextView fullname, emailP, phone, gender, naissance, taille, poid, erreurPhoto, erreurOldPassword, erreurNewPassword,
+    private TextView fullname, emailP, phone, gender, naissance, taille, poid, description, erreurPhoto, erreurOldPassword, erreurNewPassword,
             erreurFullnameE, erreurNaissanceE, erreurPhoneE, erreurGenderE, erreurTailleE, erreurPoidE, cinTitle, cin, adresseTitle, adresse;
     private ImageView updatePhoto;
     private Dialog dialog;
@@ -89,11 +89,13 @@ public class AccountFragment extends Fragment {
         cin = (TextView) view.findViewById(R.id.cin);
         adresse = (TextView) view.findViewById(R.id.adress);
         adresseTitle = (TextView) view.findViewById(R.id.title_adresse);
+        description = (TextView) view.findViewById(R.id.description);
 
 
         onclickFunctions();
         initialiseDataBase();
         setDataPersonne();
+        setDescriptionPersonne();
         setImagePersonne();
         checkIfSecondDataExist();
 
@@ -1090,6 +1092,28 @@ public class AccountFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 cin.setText(snapshot.child(encodeString(emailP.getText().toString())).child("cin").getValue(String.class));
                 adresse.setText(snapshot.child(encodeString(emailP.getText().toString())).child("adresse").getValue(String.class));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public void setDescriptionPersonne(){
+        Session session = new Session(getActivity());
+        session.initialiserSharedPreferences();
+        String email = session.getEmailSession();
+
+        databaseReference.child("second_infos_users").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.child(encodeString(email)).child("seconde_name").getValue(String.class) != null){
+                    description.setVisibility(View.VISIBLE);
+                    description.setText("(" + snapshot.child(encodeString(email)).child("seconde_name").getValue(String.class) + ")");
+                }
+
             }
 
             @Override

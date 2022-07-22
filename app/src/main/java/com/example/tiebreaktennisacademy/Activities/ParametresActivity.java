@@ -10,7 +10,7 @@ import com.example.tiebreaktennisacademy.R;
 import java.util.Calendar;
 
 public class ParametresActivity extends AppCompatActivity {
-    private TextView copiright, personalAccountInfo;
+    private TextView copiright, personalAccountInfo, profileInformations;
     private ImageView back;
 
     @Override
@@ -21,6 +21,7 @@ public class ParametresActivity extends AppCompatActivity {
         copiright = (TextView) findViewById(R.id.copyright_app);
         personalAccountInfo = (TextView) findViewById(R.id.title_infos_account);
         back = (ImageView) findViewById(R.id.back);
+        profileInformations = (TextView) findViewById(R.id.title_infos_profil);
 
         setCopyrightText();
         onclickFunctions();
@@ -48,6 +49,13 @@ public class ParametresActivity extends AppCompatActivity {
                 ouvrirHomeActivity();
             }
         });
+
+        profileInformations.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ouvrirProfileActivity();
+            }
+        });
     }
 
     public void ouvrirPersonalAccountActivity(){
@@ -66,5 +74,11 @@ public class ParametresActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.left_to_right,R.anim.stay);
+    }
+
+    public void ouvrirProfileActivity(){
+        Intent intent = new Intent(getApplicationContext(), ProfilActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.right_to_left,R.anim.stay);
     }
 }

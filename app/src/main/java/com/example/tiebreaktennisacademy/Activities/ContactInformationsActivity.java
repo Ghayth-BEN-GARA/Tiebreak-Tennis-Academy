@@ -26,35 +26,31 @@ import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class FullnameActivity extends AppCompatActivity {
+public class ContactInformationsActivity extends AppCompatActivity {
     private ImageView back;
-    private TextView copiright, erreurFullname, erreurSecondeName;
-    private TextInputEditText fullname, secondeName;
-    private AppCompatButton cancel, update;
+    private TextView copiright, phone, email, erreurNumber;
+    private AppCompatButton btnWhatssapp;
     private Dialog dialog;
+    private TextInputEditText number;
     private DatabaseReference databaseReference;
-    private Boolean isFullname = true;
+    private Boolean isNumberWhatsapp = true;
+    private String removedPhoneFromString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fullname);
+        setContentView(R.layout.activity_contact_informations);
 
         back = (ImageView) findViewById(R.id.back);
         copiright = (TextView) findViewById(R.id.copyright_app);
-        fullname = (TextInputEditText) findViewById(R.id.fullname);
-        secondeName = (TextInputEditText) findViewById(R.id.second_name);
-        erreurFullname = (TextView) findViewById(R.id.erreur_fullname);
-        erreurSecondeName = (TextView) findViewById(R.id.erreur_seconde_name);
-        cancel = (AppCompatButton) findViewById(R.id.cancel_btn);
-        update = (AppCompatButton) findViewById(R.id.update_btn);
+        phone = (TextView) findViewById(R.id.phone);
+        email = (TextView) findViewById(R.id.email);
+        btnWhatssapp = (AppCompatButton) findViewById(R.id.add_whatsup_btn);
 
         onclickFunctions();
         setCopyrightText();
         initialiseDataBase();
-        setFullnamePersonne();
-        setSecondeNamePersonne();
-        onChangeFunctions();
+        setDataPersonne();
     }
 
     public void onclickFunctions(){
@@ -65,17 +61,10 @@ public class FullnameActivity extends AppCompatActivity {
             }
         });
 
-        cancel.setOnClickListener(new View.OnClickListener() {
+        btnWhatssapp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                resetAllInputs();
-            }
-        });
-
-        update.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                validerFormFullname();
+                showNotificationAddWatsApp();
             }
         });
     }
@@ -114,11 +103,13 @@ public class FullnameActivity extends AppCompatActivity {
         return(session.getEmailSession());
     }
 
-    public void setFullnamePersonne(){
+    public void setDataPersonne(){
         databaseReference.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                fullname.setText(snapshot.child(encodeString(emailSession())).child("fullname").getValue(String.class));
+                email.setText(emailSession());
+                removedPhoneFromString = snapshot.child(encodeString(emailSession())).child("phone").getValue(String.class);
+                phone.setText("(+216) " + removedPhoneFromString.substring(0,2) + " " + removedPhoneFromString.substring(2,5) + " " + removedPhoneFromString.substring(5,8));
             }
 
             @Override
@@ -128,8 +119,43 @@ public class FullnameActivity extends AppCompatActivity {
         });
     }
 
-    public void onChangeFunctions(){
-        fullname.addTextChangedListener(new TextWatcher() {
+    public void showNotificationAddWatsApp(){
+        dialog = new Dialog(ContactInformationsActivity.this);
+        dialog.setContentView(R.layout.item_add_watssapp);
+        dialog.getWindow().getDecorView().setLeft(30);
+        dialog.getWindow().getDecorView().setRight(30);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.setCanceledOnTouchOutside(false);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.content_erreur_notification));
+        }
+
+        TextView cancel = dialog.findViewById(R.id.cancel_btn);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        number = dialog.findViewById(R.id.whatsapp);
+        erreurNumber = dialog.findViewById(R.id.erreur_whatsapp);
+        AppCompatButton update = dialog.findViewById(R.id.update_whatsapp_btn);
+        update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                validerFormNumber();
+            }
+        });
+
+        setNumberPersonne();
+        onChangeEditWhatsappFunctions();
+
+        dialog.show();
+    }
+
+    public void onChangeEditWhatsappFunctions(){
+        number.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -137,7 +163,7 @@ public class FullnameActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                validateFullname();
+                validateNumber();
             }
 
             @Override
@@ -147,20 +173,25 @@ public class FullnameActivity extends AppCompatActivity {
         });
     }
 
-    public void validateFullname(){
-        if(isEmpty(fullname.getText().toString())){
-            setErreurText(erreurFullname,getString(R.string.username_required));
-            isFullname = false;
+    public void validateNumber(){
+        if(isEmpty(number.getText().toString())){
+            setErreurText(erreurNumber,getString(R.string.phone_required));
+            isNumberWhatsapp = false;
         }
 
-        else if(!isLetter(fullname.getText().toString())){
-            setErreurText(erreurFullname,getString(R.string.username_letter));
-            isFullname = false;
+        else if(!isNumber(number.getText().toString())){
+            setErreurText(erreurNumber,getString(R.string.phone_number));
+            isNumberWhatsapp = false;
+        }
+
+        else if(!isLength(number.getText().toString())){
+            setErreurText(erreurNumber,getString(R.string.phone_length));
+            isNumberWhatsapp = false;
         }
 
         else{
-            setErreurNull(erreurFullname);
-            isFullname = true;
+            setErreurNull(erreurNumber);
+            isNumberWhatsapp = true;
         }
     }
 
@@ -176,64 +207,98 @@ public class FullnameActivity extends AppCompatActivity {
         return text.isEmpty();
     }
 
-    public boolean isLetter(String text) {
-        Matcher matcher = Pattern.compile("^[a-z A-Z]*$").matcher(text);
+    public boolean isLength(String text){
+        return text.length() >= 8;
+    }
+
+    public boolean isNumber(String text) {
+        Matcher matcher = Pattern.compile("^[0-9]*$").matcher(text);
         return matcher.matches();
     }
 
-    public void resetAllInputs(){
-        fullname.setText("");
-        secondeName.setText("");
-        setErreurNull(erreurFullname);
-        setErreurNull(erreurSecondeName);
-    }
-
-    public void validerFormFullname(){
-        if(isEmpty(fullname.getText().toString())){
-            setErreurText(erreurFullname,getString(R.string.username_required));
+    public void validerFormNumber(){
+        if(isEmpty(number.getText().toString())){
+            setErreurText(erreurNumber,getString(R.string.phone_required));
         }
 
-        else if(isFullname == true){
-            chargementUpdateNames();
+        else if(isNumberWhatsapp == true){
+            setErreurNull(erreurNumber);
+            chargementUpdateNumber();
         }
     }
 
-    public void chargementUpdateNames(){
-        final ProgressDialog progressDialog = new ProgressDialog(FullnameActivity.this, R.style.chargement);
+    public void chargementUpdateNumber(){
+        final ProgressDialog progressDialog = new ProgressDialog(ContactInformationsActivity.this, R.style.chargement);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage(getString(R.string.update_names_progress));
+        progressDialog.setMessage(getString(R.string.whatssapp_progress));
         progressDialog.show();
 
         new Thread(new Runnable() {
             public void run() {
-                updateNames(progressDialog);
+                checkIfPhoneExist(progressDialog);
             }
         }).start();
     }
 
-    public void updateNames(ProgressDialog progressDialog){
-        databaseReference.child("second_infos_users").child(encodeString(emailSession())).child("email").setValue(encodeString(emailSession()));
-        if(secondeName.getText().toString() != null){
-            databaseReference.child("second_infos_users").child(encodeString(emailSession())).child("seconde_name").setValue(secondeName.getText().toString());
-            checkIfSecondeUpdated(progressDialog);
-        }
+    public void checkIfPhoneExist(ProgressDialog progressDialog){
+        databaseReference.child("users").orderByChild("phone").equalTo(number.getText().toString()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.getValue() != null && !snapshot.hasChild(encodeString(emailSession()))){
+                    setErreurText(erreurNumber, getString(R.string.whatsapp_exist));
+                    progressDialog.dismiss();
+                }
 
-        else{
-            checkIfFulnameUpdated(progressDialog);
-        }
-        databaseReference.child("users").child(encodeString(emailSession())).child("fullname").setValue(fullname.getText().toString());
+                else{
+                    chechIfNumberWhatsAppExist(progressDialog);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
-    public void checkIfSecondeUpdated(ProgressDialog progressDialog){
+    public void chechIfNumberWhatsAppExist(ProgressDialog progressDialog){
+        databaseReference.child("second_infos_users").orderByChild("whatsapp").equalTo(number.getText().toString()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.getValue() != null && !snapshot.hasChild(encodeString(emailSession()))){
+                    setErreurText(erreurNumber, getString(R.string.whatsapp_exist));
+                    progressDialog.dismiss();
+                }
+
+                else{
+                    addWhatsappNumber(progressDialog);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public void addWhatsappNumber(ProgressDialog progressDialog){
+        databaseReference.child("second_infos_users").child(encodeString(emailSession())).child("whatsapp").setValue(number.getText().toString());
+        checkIfFirebaseUpdated(progressDialog);
+    }
+
+    public void checkIfFirebaseUpdated(ProgressDialog progressDialog){
         databaseReference.child("second_infos_users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.hasChild(encodeString(emailSession()))){
                     progressDialog.dismiss();
+                    dialog.dismiss();
                     showSuccessNotificationFireBaseUpdated();
                 }
 
                 else{
+                    dialog.dismiss();
                     showErreurNotificationFireBaseNotUpdated();
                     progressDialog.dismiss();
                 }
@@ -247,7 +312,7 @@ public class FullnameActivity extends AppCompatActivity {
     }
 
     public void showSuccessNotificationFireBaseUpdated(){
-        dialog = new Dialog(FullnameActivity.this);
+        dialog = new Dialog(ContactInformationsActivity.this);
         dialog.setContentView(R.layout.item_success);
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.setCanceledOnTouchOutside(false);
@@ -273,7 +338,7 @@ public class FullnameActivity extends AppCompatActivity {
     }
 
     public void showErreurNotificationFireBaseNotUpdated(){
-        dialog = new Dialog(FullnameActivity.this);
+        dialog = new Dialog(ContactInformationsActivity.this);
         dialog.setContentView(R.layout.item_erreur);
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.setCanceledOnTouchOutside(false);
@@ -298,34 +363,16 @@ public class FullnameActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    public void checkIfFulnameUpdated(ProgressDialog progressDialog){
-        databaseReference.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.child(encodeString(emailSession())).child("fullname").equals(fullname.getText().toString())){
-                    progressDialog.dismiss();
-                    showSuccessNotificationFireBaseUpdated();
-                }
-
-                else{
-                    showErreurNotificationFireBaseNotUpdated();
-                    progressDialog.dismiss();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
-
-    public void setSecondeNamePersonne(){
+    public void setNumberPersonne(){
         databaseReference.child("second_infos_users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.child(encodeString(emailSession())).child("seconde_name").getValue(String.class) != null){
-                    secondeName.setText(snapshot.child(encodeString(emailSession())).child("seconde_name").getValue(String.class));
+                if((snapshot.child(encodeString(emailSession())).child("whatsapp").getValue(String.class) != null) && (snapshot.child(encodeString(emailSession())).child("adresse").getValue(String.class) != null)){
+                    number.setText(snapshot.child(encodeString(emailSession())).child("whatsapp").getValue(String.class));
+                }
+
+                else{
+                    number.setText(removedPhoneFromString);
                 }
             }
 
@@ -335,4 +382,5 @@ public class FullnameActivity extends AppCompatActivity {
             }
         });
     }
+
 }

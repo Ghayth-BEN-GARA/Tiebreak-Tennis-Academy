@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/whatsup"
+        android:textAllCaps="false"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/desc_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black_light"
+        android:textSize="15sp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:lineSpacingExtra="5dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/desc_whatsapp"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputlayout_whatsapp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="5dp"
+        app:boxStrokeWidthFocused="0dp"
+        app:boxStrokeColor="@null"
+        app:boxStrokeWidth="0dp"
+        app:boxBackgroundColor="@null"
+        app:boxStrokeErrorColor="@null"
+        app:endIconMode="clear_text"
+        app:startIconDrawable="@drawable/whatsup"
+        app:startIconTint="@color/black"
+        android:hint="@string/whatsapp_hint"
+        app:hintTextColor="@color/gray"
+        app:counterMaxLength="8"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/desc_title">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/whatsapp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:textColor="@color/black"
+            android:padding="15dp"
+            android:background="@drawable/edi_text_background"
+            android:textCursorDrawable="@null"
+            android:maxLength="8"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/erreur_whatsapp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="40dp"
+        android:gravity="center"
+        android:letterSpacing="0.1"
+        android:textColor="@color/design_default_color_error"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/inputlayout_whatsapp"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/update_whatsapp_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:textColor="@color/navigation_item_text"
+        android:background="@drawable/background_disabled_button"
+        android:text="@string/update2"
+        android:textAllCaps="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/erreur_whatsapp" />
+
+    <TextView
+        android:id="@+id/cancel_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:textColor="@color/navigation_item_text"
+        android:background="@color/white"
+        android:text="@string/cancel"
+        android:textAllCaps="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        app:layout_constraintEnd_toStartOf="@id/update_whatsapp_btn"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/erreur_whatsapp" />
+</androidx.constraintlayout.widget.ConstraintLayout>

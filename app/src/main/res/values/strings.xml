@@ -203,7 +203,16 @@
     <string name="desc_coordonnes">Manage your mobile numbers and email addresses.</string>
     <string name="propriete">Account ownership and control</string>
     <string name="desc_propriete">Control and delete your account.</string>
-    <string name="second_fullname_hint">Enter Seconde Fullname..</string>
+    <string name="second_fullname_hint">Enter Description..</string>
     <string name="text_seconde_name_changing">Warning: If you have changed your name on Tie Break Tennis Academy, it may take a few minutes for the new one to appear. Thanks for understanding.</string>
     <string name="update_names_progress">Update names in progress..</string>
+    <string name="gerer_coordonner">Manage contact informations</string>
+    <string name="description_person">Decription of person</string>
+    <string name="mobile_principale">Main phone number</string>
+    <string name="email_principale">Main email address</string>
+    <string name="whatsup">Add whatsapp number</string>
+    <string name="desc_whatsapp">Please enter your whatsapp number if you want others to find you easily.</string>
+    <string name="whatsapp_hint">Enter the Whatsapp Number..</string>
+    <string name="whatssapp_progress">Update whatsapp number in progress..</string>
+    <string name="whatsapp_exist">Sorry ! There is another account created with this whatsapp number. Please choose another number and try again.</string>
 </resources>

@@ -75,6 +75,20 @@
         app:layout_constraintStart_toEndOf="@id/photo_profil"
         app:layout_constraintBottom_toBottomOf="@id/photo_profil"/>
 
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:fontFamily="@font/seg_ui_semibold"
+        android:textColor="@color/black_light"
+        android:layout_marginTop="1dp"
+        android:visibility="invisible"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/photo_profil"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
     <RelativeLayout
         android:id="@+id/relative1"
         android:layout_width="match_parent"
@@ -88,7 +102,7 @@
         android:background="@drawable/verification_code_background"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/photo_profil">
+        app:layout_constraintTop_toBottomOf="@id/description">
 
         <TextView
             android:id="@+id/title_fullname"
