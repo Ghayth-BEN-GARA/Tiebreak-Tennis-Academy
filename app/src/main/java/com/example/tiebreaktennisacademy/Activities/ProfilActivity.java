@@ -49,7 +49,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfilActivity extends AppCompatActivity {
     private TextView fullname, emailP, phone, gender, naissance, taille, poid, erreurPhoto, erreurOldPassword, erreurNewPassword,
-    erreurFullnameE, erreurNaissanceE, erreurPhoneE, erreurGenderE, erreurTailleE, erreurPoidE;
+    erreurFullnameE, erreurNaissanceE, erreurPhoneE, erreurGenderE, erreurTailleE, erreurPoidE, cinTitle, cin, adresseTitle, adresse;
     private ImageView back, updatePhoto;
     private Dialog dialog;
     private CircleImageView imageAlert, imageViewProfil;
@@ -83,11 +83,16 @@ public class ProfilActivity extends AppCompatActivity {
         editPassword = (AppCompatButton) findViewById(R.id.btn_edit_password);
         editProfil = (AppCompatButton) findViewById(R.id.edit_profil);
         addInformations = (AppCompatButton) findViewById(R.id.adding_profil);
+        cinTitle = (TextView) findViewById(R.id.title_cin);
+        cin = (TextView) findViewById(R.id.cin);
+        adresse = (TextView) findViewById(R.id.adress);
+        adresseTitle = (TextView) findViewById(R.id.title_adresse);
 
         onclickFunctions();
         initialiseDataBase();
         setDataPersonne();
         setImagePersonne();
+        checkIfSecondDataExist();
     }
 
     public void initialiseDataBase(){
@@ -1052,4 +1057,53 @@ public class ProfilActivity extends AppCompatActivity {
         poid.setText(poidEdit.getText().toString() + " kg");
     }
 
+    public void checkIfSecondDataExist(){
+        databaseReference.child("second_infos_users").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.hasChild(encodeString(emailP.getText().toString()))){
+                    setTextViewVisible(cinTitle);
+                    setTextViewVisible(cin);
+                    setTextViewVisible(adresseTitle);
+                    setTextViewVisible(adresse);
+                    setSecondDataPersonne();
+                }
+
+                else{
+                    setTextViewInvisible(cinTitle);
+                    setTextViewInvisible(cin);
+                    setTextViewInvisible(adresseTitle);
+                    setTextViewInvisible(adresse);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public void setTextViewVisible(TextView input){
+        input.setVisibility(View.VISIBLE);
+    }
+
+    public void setTextViewInvisible(TextView input){
+        input.setVisibility(View.INVISIBLE);
+    }
+
+    public void setSecondDataPersonne(){
+        databaseReference.child("second_infos_users").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                cin.setText(snapshot.child(encodeString(emailP.getText().toString())).child("cin").getValue(String.class));
+                adresse.setText(snapshot.child(encodeString(emailP.getText().toString())).child("adresse").getValue(String.class));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 }

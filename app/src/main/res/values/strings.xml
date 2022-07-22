@@ -189,5 +189,6 @@
     <string name="cin_exist">Sorry ! There is another account created with this CIN. Please choose another CIN and try again.</string>
     <string name="update_infos_error">Update profil error</string>
     <string name="error_update_infos_error">For technical reasons, you cannot update your informations at the moment. Please try again later.</string>
+    <string name="adresse">Address of person</string>
 
 </resources>
