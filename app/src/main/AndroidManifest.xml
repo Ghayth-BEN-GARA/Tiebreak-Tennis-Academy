@@ -18,6 +18,9 @@
         tools:replace="android:icon"
         tools:targetApi="31">
         <activity
+            android:name=".Activities.ParametresActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.AddInformationsProfilActivity"
             android:exported="false"
             android:screenOrientation="portrait"

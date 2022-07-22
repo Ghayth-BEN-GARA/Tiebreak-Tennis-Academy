@@ -190,5 +190,13 @@
     <string name="update_infos_error">Update profil error</string>
     <string name="error_update_infos_error">For technical reasons, you cannot update your informations at the moment. Please try again later.</string>
     <string name="adresse">Address of person</string>
-
+    <string name="parametres_confidentialites">Settings and privacy</string>
+    <string name="desc_title_account">Update your informations to keep your account safe.</string>
+    <string name="title_account_profil">Personal and account informations</string>
+    <string name="title_password_securite">Password and security</string>
+    <string name="assistance">Privacy support</string>
+    <string name="desc_assistance">Guided review of important privacy and security settings.</string>
+    <string name="audience">Audience and visibility</string>
+    <string name="title_infos_profil">Profile informations</string>
+    <string name="desc_audience">Control your personal informations that is displayed in your profile.</string>
 </resources>

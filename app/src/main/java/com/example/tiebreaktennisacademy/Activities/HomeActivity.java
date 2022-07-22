@@ -35,7 +35,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class HomeActivity extends AppCompatActivity {
     private LinearLayout linearLayoutDashboard, linearLayoutProfile, linearLayoutLogout, linearLayoutOther;
-    private ImageView imageViewDashboard, imageViewProfile, imageViewLogout, imageViewOther,photoProfil;
+    private ImageView imageViewDashboard, imageViewProfile, imageViewLogout, imageViewOther,photoProfil, paramatresHeader;
     private TextView textViewDashboard, textViewProfile, textViewLogout, textViewOther, fullname, showProfil;
     private Dialog dialog;
     private DrawerLayout drawerLayout;
@@ -68,8 +68,9 @@ public class HomeActivity extends AppCompatActivity {
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
         header = navigationView.getHeaderView(0);
         fullname = header.findViewById(R.id.fullname);
-        photoProfil = header.findViewById(R.id.photo_profil);
-        showProfil = header.findViewById(R.id.view_my_profil);
+        photoProfil = (ImageView) header.findViewById(R.id.photo_profil);
+        showProfil = (TextView) header.findViewById(R.id.view_my_profil);
+        paramatresHeader = (ImageView) header.findViewById(R.id.config_header);
         menuItem = navigationView.getMenu();
         imageViewProfil = (CircleImageView) header.findViewById(R.id.photo_profil);
 
@@ -406,6 +407,12 @@ public class HomeActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.right_to_left,R.anim.stay);
     }
 
+    public void ouvrirParametresActivity(){
+        Intent intent = new Intent(getApplicationContext(), ParametresActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.right_to_left,R.anim.stay);
+    }
+
     public void setHeaderMenuAction(){
         fullname.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -425,6 +432,13 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ouvrirProfilActivity();
+            }
+        });
+
+        paramatresHeader.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ouvrirParametresActivity();
             }
         });
     }
