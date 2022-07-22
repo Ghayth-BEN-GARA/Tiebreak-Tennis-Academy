@@ -199,4 +199,11 @@
     <string name="audience">Audience and visibility</string>
     <string name="title_infos_profil">Profile informations</string>
     <string name="desc_audience">Control your personal informations that is displayed in your profile.</string>
+    <string name="coordonnes">Contact information</string>
+    <string name="desc_coordonnes">Manage your mobile numbers and email addresses.</string>
+    <string name="propriete">Account ownership and control</string>
+    <string name="desc_propriete">Control and delete your account.</string>
+    <string name="second_fullname_hint">Enter Seconde Fullname..</string>
+    <string name="text_seconde_name_changing">Warning: If you have changed your name on Tie Break Tennis Academy, it may take a few minutes for the new one to appear. Thanks for understanding.</string>
+    <string name="update_names_progress">Update names in progress..</string>
 </resources>
