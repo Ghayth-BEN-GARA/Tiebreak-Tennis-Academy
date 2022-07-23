@@ -215,4 +215,18 @@
     <string name="whatsapp_hint">Enter the Whatsapp Number..</string>
     <string name="whatssapp_progress">Update whatsapp number in progress..</string>
     <string name="whatsapp_exist">Sorry ! There is another account created with this whatsapp number. Please choose another number and try again.</string>
+    <string name="delete_disabled">disabling and Deleting account</string>
+    <string name="title_delete_disabled">Deleting or disabling your account</string>
+    <string name="desc_title_delete_disable">If you want to pause your Tiebreak Tennis Academy activity, you can disable your account. If you want to permanently delete your Tiebreak Tennis Academy account, let us know.</string>
+    <string name="account_desactiver">Disable Account</string>
+    <string name="desc_account_desactiver"><b>Disabling your account is temporary</b>. Your account will be disabled, and your name and profile picture will be removed from most of the content you have followed.</string>
+    <string name="delete_account">Delete account</string>
+    <string name="desc_account_delete"><b>Deleting your account is permanent</b>. When you delete your Tiebreak Tennis Academy account, you can no longer retrieve content or information that you have shared on Tiebreak Tennis Academy.</string>
+    <string name="desc_item_disable">If you choose to disabled your account, your shared posts will be invisible to other members.</string>
+    <string name="disable">Disable</string>
+    <string name="disable_progress">Disable account in progress..</string>
+    <string name="desactive_success">Your account has been successfully disabled. Note that you can reactivate it at any time.</string>
+    <string name="account_desactiver_success">Account Disabled</string>
+    <string name="account_desactiver_error">Disable Account Error</string>
+    <string name="error_account_disabled">For technical reasons, you cannot disable your account at the moment. Please try again later.</string>
 </resources>

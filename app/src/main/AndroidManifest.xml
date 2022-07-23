@@ -18,8 +18,12 @@
         tools:replace="android:icon"
         tools:targetApi="31">
         <activity
-            android:name=".Activities.ContactInformationsActivity"
+            android:name=".Activities.ControlAccountActivity"
             android:exported="false" />
+        <activity
+            android:name=".Activities.ContactInformationsActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.FullnameActivity"
             android:exported="false"

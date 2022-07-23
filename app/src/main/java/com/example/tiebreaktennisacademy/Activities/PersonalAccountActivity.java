@@ -17,8 +17,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.Calendar;
 
 public class PersonalAccountActivity extends AppCompatActivity {
-    private ImageView back, goFullname, goContact;
-    private TextView fullname, copiright, titleFullname, titleContact, contact;
+    private ImageView back, goFullname, goContact, goControl;
+    private TextView fullname, copiright, titleFullname, titleContact, contact, titleControl, control;
     private DatabaseReference databaseReference;
 
     @Override
@@ -34,6 +34,9 @@ public class PersonalAccountActivity extends AppCompatActivity {
         goContact = (ImageView) findViewById(R.id.go_coordonnes);
         contact = (TextView) findViewById(R.id.desc_coordonnes);
         titleContact = (TextView) findViewById(R.id.title_coordonnes);
+        goControl = (ImageView) findViewById(R.id.go_propriete);
+        titleControl = (TextView) findViewById(R.id.title_propriete);
+        control = (TextView) findViewById(R.id.desc_propriete);
 
         onclickFunctions();
         initialiseDataBase();
@@ -88,6 +91,27 @@ public class PersonalAccountActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ouvrirContactInformationsActivity();
+            }
+        });
+
+        goControl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ouvrirControlActivity();
+            }
+        });
+
+        titleControl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ouvrirControlActivity();
+            }
+        });
+
+        control.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ouvrirControlActivity();
             }
         });
     }
@@ -148,6 +172,12 @@ public class PersonalAccountActivity extends AppCompatActivity {
 
     public void ouvrirContactInformationsActivity(){
         Intent intent = new Intent(getApplicationContext(), ContactInformationsActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.right_to_left,R.anim.stay);
+    }
+
+    public void ouvrirControlActivity(){
+        Intent intent = new Intent(getApplicationContext(), ControlAccountActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.right_to_left,R.anim.stay);
     }
