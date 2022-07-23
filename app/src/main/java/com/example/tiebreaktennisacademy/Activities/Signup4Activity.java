@@ -9,11 +9,14 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import com.example.tiebreaktennisacademy.Models.Session;
 import com.example.tiebreaktennisacademy.R;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class Signup4Activity extends AppCompatActivity {
 
     private ImageView back;
     private AppCompatButton getStarted;
+    private DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +27,7 @@ public class Signup4Activity extends AppCompatActivity {
         getStarted = (AppCompatButton) findViewById(R.id.create_account_btn);
 
         onclickFunctions();
+        initialiseDataBase();
     }
 
     public void onclickFunctions(){
@@ -37,6 +41,7 @@ public class Signup4Activity extends AppCompatActivity {
         getStarted.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                activeAccount();
                 ouvrirHomeActivity();
             }
         });
@@ -63,5 +68,18 @@ public class Signup4Activity extends AppCompatActivity {
 
     public static String decodeString(String string) {
         return string.replace(",", ".");
+    }
+
+    public void initialiseDataBase(){
+        databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://tiebreak-tennis--1657542982200-default-rtdb.firebaseio.com/");
+    }
+
+    public static String encodeString(String string) {
+        return string.replace(".", ",");
+    }
+
+    public void activeAccount(){
+        databaseReference.child("compte_users").child(encodeString(getIntent().getStringExtra("email"))).child("email").setValue(encodeString(getIntent().getStringExtra("email")));
+        databaseReference.child("compte_users").child(encodeString(getIntent().getStringExtra("email"))).child("active").setValue("true");
     }
 }

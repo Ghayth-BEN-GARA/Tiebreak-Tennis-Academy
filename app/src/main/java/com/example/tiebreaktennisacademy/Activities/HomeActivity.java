@@ -10,6 +10,8 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -83,6 +85,7 @@ public class HomeActivity extends AppCompatActivity {
         setImagePersonne();
         setItemsMenuAction();
         setHeaderMenuAction();
+        checkIfCountIsActive();
     }
 
     public void onClickFunctions(){
@@ -471,6 +474,67 @@ public class HomeActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void checkIfCountIsActive(){
+        Session session = new Session(getApplicationContext());
+        session.initialiserSharedPreferences();
+        String email = session.getEmailSession();
+
+        databaseReference.child("compte_users").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.child(encodeString(email)).child("active").getValue(String.class).equals("false")){
+                    activeAccount(email);
+                    showNotificationAfterTime();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public void activeAccount(String email){
+        databaseReference.child("compte_users").child(encodeString(email)).child("active").setValue("true");
+    }
+
+    public void showNotificationAfterTime(){
+        final Handler handler = new Handler(Looper.getMainLooper());
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                showNotificationSuccessActiveAccount();
+            }
+        }, 500);
+    }
+
+    public void showNotificationSuccessActiveAccount(){
+        dialog = new Dialog(HomeActivity.this);
+        dialog.setContentView(R.layout.item_success);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.setCanceledOnTouchOutside(false);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.content_erreur_notification));
+        }
+
+        TextView title = (TextView) dialog.findViewById(R.id.title_success);
+        TextView desc = (TextView) dialog.findViewById(R.id.desc_title_success);
+
+        title.setText(R.string.account_activer_success);
+        desc.setText(R.string.active_success);
+
+        TextView cancel = dialog.findViewById(R.id.exit_btn);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
     }
 
 }
