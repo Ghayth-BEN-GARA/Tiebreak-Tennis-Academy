@@ -231,4 +231,11 @@
     <string name="error_account_disabled">For technical reasons, you cannot disable your account at the moment. Please try again later.</string>
     <string name="account_activer_success">Account Enabled</string>
     <string name="active_success">Your account has been successfully enabled.</string>
+    <string name="support">Support</string>
+    <string name="desc_support">A help part is essential to facilitate the use of the application.</string>
+    <string name="about">About</string>
+    <string name="title_about">Tiebreak Tennis Academy for Mobile</string>
+    <string name="version">Version</string>
+    <string name="type_version">1.0.0</string>
+    <string name="text_about">Tiebreak Tennis Academy and logos and images.. All rights reserved</string>
 </resources>

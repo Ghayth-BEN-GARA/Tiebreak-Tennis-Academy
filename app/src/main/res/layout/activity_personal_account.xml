@@ -35,7 +35,7 @@
     <ScrollView
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:fillViewport="true"
         android:scrollbars="vertical"
         android:fadeScrollbars="false"
@@ -44,7 +44,8 @@
         android:layout_marginBottom="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/first_hr">
+        app:layout_constraintTop_toBottomOf="@id/first_hr"
+        app:layout_constraintBottom_toTopOf="@id/copyright_app">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

@@ -7,10 +7,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.tiebreaktennisacademy.R;
-import java.util.Calendar;
 
 public class ParametresActivity extends AppCompatActivity {
-    private TextView copiright, personalAccountInfo, profileInformations;
+    private TextView personalAccountInfo, profileInformations, about;
     private ImageView back;
 
     @Override
@@ -18,21 +17,12 @@ public class ParametresActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parametres);
 
-        copiright = (TextView) findViewById(R.id.copyright_app);
         personalAccountInfo = (TextView) findViewById(R.id.title_infos_account);
         back = (ImageView) findViewById(R.id.back);
         profileInformations = (TextView) findViewById(R.id.title_infos_profil);
+        about = (TextView) findViewById(R.id.title_a_propos);
 
-        setCopyrightText();
         onclickFunctions();
-    }
-
-    public int getCurrentYear(){
-        return Calendar.getInstance().get(Calendar.YEAR);
-    }
-
-    public void setCopyrightText(){
-        copiright.setText(getString(R.string.copiright1) + " " + getCurrentYear() + getString(R.string.copiright2));
     }
 
     public void onclickFunctions(){
@@ -54,6 +44,13 @@ public class ParametresActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ouvrirProfileActivity();
+            }
+        });
+
+        about.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ouvrirAboutActivity();
             }
         });
     }
@@ -78,6 +75,12 @@ public class ParametresActivity extends AppCompatActivity {
 
     public void ouvrirProfileActivity(){
         Intent intent = new Intent(getApplicationContext(), ProfilActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.right_to_left,R.anim.stay);
+    }
+
+    public void ouvrirAboutActivity(){
+        Intent intent = new Intent(getApplicationContext(), AboutActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.right_to_left,R.anim.stay);
     }

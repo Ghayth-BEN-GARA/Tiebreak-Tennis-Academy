@@ -648,7 +648,7 @@ public class ProfilActivity extends AppCompatActivity {
     public void showFormEditProfile(){
         dialog = new Dialog(ProfilActivity.this);
         dialog.setContentView(R.layout.item_edit_profil);
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         dialog.setCanceledOnTouchOutside(false);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.content_erreur_notification));
