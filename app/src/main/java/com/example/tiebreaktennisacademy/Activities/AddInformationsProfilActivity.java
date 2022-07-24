@@ -31,7 +31,7 @@ public class AddInformationsProfilActivity extends AppCompatActivity {
     private ImageView back;
     private AppCompatButton profile;
     private CircleImageView imageViewProfil;
-    private TextView erreurCin, erreurAdresse;
+    private TextView erreurCin, erreurAdresse, description;
     private TextInputEditText cin, adresse;
     private AppCompatButton saveInformations;
     private Dialog dialog;
@@ -51,12 +51,14 @@ public class AddInformationsProfilActivity extends AppCompatActivity {
         cin = (TextInputEditText) findViewById(R.id.cin);
         adresse = (TextInputEditText) findViewById(R.id.ville);
         saveInformations = (AppCompatButton) findViewById(R.id.edit_informations_btn);
+        description = (TextView) findViewById(R.id.description);
 
         onclickFunctions();
         initialiseDataBase();
         setImagePersonne();
         onChangeFunctions();
         setInformationsIfExist();
+        setDescriptionPersonne();
     }
 
     @Override
@@ -375,6 +377,28 @@ public class AddInformationsProfilActivity extends AppCompatActivity {
                     erreurCin.setText("");
                     erreurAdresse.setText("");
                 }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public void setDescriptionPersonne(){
+        Session session = new Session(getApplicationContext());
+        session.initialiserSharedPreferences();
+        String email = session.getEmailSession();
+
+        databaseReference.child("second_infos_users").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.child(encodeString(email)).child("seconde_name").getValue(String.class) != null){
+                    description.setVisibility(View.VISIBLE);
+                    description.setText("(" + snapshot.child(encodeString(email)).child("seconde_name").getValue(String.class) + ")");
+                }
+
             }
 
             @Override
