@@ -237,5 +237,21 @@
     <string name="title_about">Tiebreak Tennis Academy for Mobile</string>
     <string name="version">Version</string>
     <string name="type_version">1.0.0</string>
-    <string name="text_about">Tiebreak Tennis Academy and logos and images.. All rights reserved</string>
+    <string name="text_about">Tiebreak Tennis Academy, logos and pictures.. All rights reserved</string>
+    <string name="desc_edit_password_config">We advise you to use a password on which you do not use anywhere else.</string>
+    <string name="title_journal_log">Authentication log</string>
+    <string name="desc_journal_log">The authentication log contains the information necessary to examine your login activities on the application.</string>
+    <string name="title_connected">Connected device</string>
+    <string name="app">App Tiebreak Tennis Academy.</string>
+    <string name="now">Active now</string>
+    <string name="title_haking">Think of hacking</string>
+    <string name="desc_think_haking">If you noticed suspicious activity on your account, let us know what"'"s going on and we will help you.</string>
+    <string name="old_password">Old password</string>
+    <string name="new_password">New password</string>
+    <string name="repeat_password">Repeat password</string>
+    <string name="hint_repat_password">Repeat new password..</string>
+
+
+
+
 </resources>

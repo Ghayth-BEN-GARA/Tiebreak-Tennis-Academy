@@ -583,7 +583,6 @@ public class ProfilActivity extends AppCompatActivity {
 
             }
         });
-
     }
 
     public static String hashPassword(String base) {

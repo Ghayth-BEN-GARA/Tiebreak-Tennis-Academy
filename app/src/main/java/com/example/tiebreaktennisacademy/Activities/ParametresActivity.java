@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.example.tiebreaktennisacademy.R;
 
 public class ParametresActivity extends AppCompatActivity {
-    private TextView personalAccountInfo, profileInformations, about;
+    private TextView personalAccountInfo, profileInformations, about, passwordSecurity;
     private ImageView back;
 
     @Override
@@ -21,6 +21,7 @@ public class ParametresActivity extends AppCompatActivity {
         back = (ImageView) findViewById(R.id.back);
         profileInformations = (TextView) findViewById(R.id.title_infos_profil);
         about = (TextView) findViewById(R.id.title_a_propos);
+        passwordSecurity = (TextView) findViewById(R.id.title_password_securite);
 
         onclickFunctions();
     }
@@ -53,10 +54,23 @@ public class ParametresActivity extends AppCompatActivity {
                 ouvrirAboutActivity();
             }
         });
+
+        passwordSecurity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ouvrirPasswordSecurityActivity();
+            }
+        });
     }
 
     public void ouvrirPersonalAccountActivity(){
         Intent intent = new Intent(getApplicationContext(), PersonalAccountActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.right_to_left,R.anim.stay);
+    }
+
+    public void ouvrirPasswordSecurityActivity(){
+        Intent intent = new Intent(getApplicationContext(), PasswordSecurityActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.right_to_left,R.anim.stay);
     }

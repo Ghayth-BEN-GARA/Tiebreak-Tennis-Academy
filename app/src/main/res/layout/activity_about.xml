@@ -58,17 +58,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/first_hr"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintBottom_toTopOf="@id/copyright_app">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:textAlignment="center">
 
             <TextView
                 android:id="@+id/desc_title_about"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="60dp"
                 android:paddingTop="20dp"
                 android:textSize="23sp"
                 android:textColor="@color/black_light"
@@ -76,9 +77,11 @@
                 android:lineSpacingExtra="5dp"
                 android:layout_marginEnd="40dp"
                 android:layout_marginStart="40dp"
+                android:layout_marginBottom="100dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
             <TextView
                 android:id="@+id/title_version"
