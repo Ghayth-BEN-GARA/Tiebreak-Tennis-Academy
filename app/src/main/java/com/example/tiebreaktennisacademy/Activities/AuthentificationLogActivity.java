@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
 import com.example.tiebreaktennisacademy.Adapters.JournalAdapter;
 import com.example.tiebreaktennisacademy.Models.Journal;
 import com.example.tiebreaktennisacademy.Models.Session;
@@ -94,6 +96,7 @@ public class AuthentificationLogActivity extends AppCompatActivity {
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                     Journal journal = dataSnapshot.getValue(Journal.class);
                     journals.add(journal);
+
                 }
                 journalAdapter.notifyDataSetChanged();
             }

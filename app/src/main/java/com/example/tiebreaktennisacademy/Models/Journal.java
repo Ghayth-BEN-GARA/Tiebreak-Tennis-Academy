@@ -48,4 +48,5 @@ public class Journal {
     public void setTime(String time) {
         this.time = time;
     }
+
 }
