@@ -265,5 +265,7 @@
     <string name="normal_signup">Sign up with App Tiebreak Tennis Academy</string>
     <string name="facebook_signup">Sign up with Facebook</string>
     <string name="normal_forget">Recover Account</string>
+    <string name="date">Date and time</string>
+    <string name="device">Device</string>
 
 </resources>

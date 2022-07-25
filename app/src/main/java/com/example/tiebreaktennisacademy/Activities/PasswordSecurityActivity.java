@@ -11,8 +11,8 @@ import com.example.tiebreaktennisacademy.R;
 import java.util.Calendar;
 
 public class PasswordSecurityActivity extends AppCompatActivity {
-    private ImageView back, goEditPassord, goEmail;
-    private TextView copiright, descPhone, titleEditPassword, descEditPassword, titleEmail, descEmail;
+    private ImageView back, goEditPassord, goEmail, goJournal;
+    private TextView copiright, descPhone, titleEditPassword, descEditPassword, titleEmail, descEmail, titleJournal, descJournal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +28,9 @@ public class PasswordSecurityActivity extends AppCompatActivity {
         goEmail = (ImageView) findViewById(R.id.go_haking);
         titleEmail = (TextView) findViewById(R.id.title_haking);
         descEmail = (TextView) findViewById(R.id.desc_title_haking);
+        goJournal = (ImageView) findViewById(R.id.go_journal);
+        descJournal = (TextView) findViewById(R.id.desc_title_journal);
+        titleJournal = (TextView) findViewById(R.id.title_journal_log);
 
         onclickFunctions();
         setCopyrightText();
@@ -83,6 +86,27 @@ public class PasswordSecurityActivity extends AppCompatActivity {
                 ouvrirSendEmailActivity();
             }
         });
+
+        goJournal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ouvrirJournalLogActivity();
+            }
+        });
+
+        descJournal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ouvrirJournalLogActivity();
+            }
+        });
+
+        titleJournal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ouvrirJournalLogActivity();
+            }
+        });
     }
 
     public void ouvrirParametresActivity(){
@@ -93,6 +117,12 @@ public class PasswordSecurityActivity extends AppCompatActivity {
 
     public void ouvrirSendEmailActivity(){
         Intent intent = new Intent(getApplicationContext(), SendMailActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.right_to_left,R.anim.stay);
+    }
+
+    public void ouvrirJournalLogActivity(){
+        Intent intent = new Intent(getApplicationContext(), AuthentificationLogActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.right_to_left,R.anim.stay);
     }

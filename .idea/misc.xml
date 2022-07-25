@@ -60,6 +60,7 @@
         <entry key="..\:/Users/Ghayth Ben Gara/AndroidStudioProjects/TiebreakTennisAcademy/app/src/main/res/drawable/whatsup.xml" value="0.1" />
         <entry key="..\:/Users/Ghayth Ben Gara/AndroidStudioProjects/TiebreakTennisAcademy/app/src/main/res/layout/activity_about.xml" value="0.11885245901639344" />
         <entry key="..\:/Users/Ghayth Ben Gara/AndroidStudioProjects/TiebreakTennisAcademy/app/src/main/res/layout/activity_add_informations_profil.xml" value="0.11885245901639344" />
+        <entry key="..\:/Users/Ghayth Ben Gara/AndroidStudioProjects/TiebreakTennisAcademy/app/src/main/res/layout/activity_authentification_log.xml" value="0.11885245901639344" />
         <entry key="..\:/Users/Ghayth Ben Gara/AndroidStudioProjects/TiebreakTennisAcademy/app/src/main/res/layout/activity_choix_login.xml" value="0.17074275362318841" />
         <entry key="..\:/Users/Ghayth Ben Gara/AndroidStudioProjects/TiebreakTennisAcademy/app/src/main/res/layout/activity_contact_informations.xml" value="0.11885245901639344" />
         <entry key="..\:/Users/Ghayth Ben Gara/AndroidStudioProjects/TiebreakTennisAcademy/app/src/main/res/layout/activity_control_account.xml" value="0.11885245901639344" />
@@ -97,6 +98,7 @@
         <entry key="..\:/Users/Ghayth Ben Gara/AndroidStudioProjects/TiebreakTennisAcademy/app/src/main/res/layout/item_erreur_facebook_notification.xml" value="0.11885245901639344" />
         <entry key="..\:/Users/Ghayth Ben Gara/AndroidStudioProjects/TiebreakTennisAcademy/app/src/main/res/layout/item_erreur_google_notification.xml" value="0.11885245901639344" />
         <entry key="..\:/Users/Ghayth Ben Gara/AndroidStudioProjects/TiebreakTennisAcademy/app/src/main/res/layout/item_image.xml" value="0.11885245901639344" />
+        <entry key="..\:/Users/Ghayth Ben Gara/AndroidStudioProjects/TiebreakTennisAcademy/app/src/main/res/layout/item_journal.xml" value="0.11885245901639344" />
         <entry key="..\:/Users/Ghayth Ben Gara/AndroidStudioProjects/TiebreakTennisAcademy/app/src/main/res/layout/item_logout_question.xml" value="0.11885245901639344" />
         <entry key="..\:/Users/Ghayth Ben Gara/AndroidStudioProjects/TiebreakTennisAcademy/app/src/main/res/layout/item_navigation_header.xml" value="0.11885245901639344" />
         <entry key="..\:/Users/Ghayth Ben Gara/AndroidStudioProjects/TiebreakTennisAcademy/app/src/main/res/layout/item_notification_conditions_general.xml" value="0.11885245901639344" />
