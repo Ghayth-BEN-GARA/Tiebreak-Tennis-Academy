@@ -37,7 +37,9 @@ import com.google.firebase.database.ValueEventListener;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.security.MessageDigest;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -374,6 +376,7 @@ public class SignInActivity extends AppCompatActivity {
         else{
             setErreurNull(erreurPassword);
             createSession();
+            updateJournal(getString(R.string.normal_login),email.getText().toString());
             ouvrirHomeActivity();
             progressDialog.dismiss();
         }
@@ -470,8 +473,42 @@ public class SignInActivity extends AppCompatActivity {
         Session session = new Session(getApplicationContext());
         session.initialiserSharedPreferences();
         session.saveEmailApplication(email);
+        updateJournal(getString(R.string.facebook_login),email);
         progressDialog.dismiss();
         ouvrirHomeActivity();
     }
 
+    public void updateJournal(String text, String email){
+        String key = databaseReference.child("journal_users").push().getKey();
+        databaseReference.child("journal_users").child(encodeString(email)).child(key).child("action").setValue(text);
+        databaseReference.child("journal_users").child(encodeString(email)).child(key).child("action").setValue(text);
+        databaseReference.child("journal_users").child(encodeString(email)).child(key).child("date").setValue(getCurrentDate());
+        databaseReference.child("journal_users").child(encodeString(email)).child(key).child("time").setValue(getCurrentTime());
+        databaseReference.child("journal_users").child(encodeString(email)).child(key).child("phone").setValue(getAppareilUsed());
+    }
+
+    public String getCurrentDate(){
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        return (formatter.format(date));
+    }
+
+    public String getCurrentTime(){
+        Date time = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+        return (formatter.format(time));
+    }
+
+    public String getAppareilUsed(){
+        String manufacturer = Build.MANUFACTURER;
+        String model = Build.MODEL;
+
+        if (model.startsWith(manufacturer)) {
+            return (model + ".");
+        }
+
+        else {
+            return (manufacturer + " " + model + ".");
+        }
+    }
 }

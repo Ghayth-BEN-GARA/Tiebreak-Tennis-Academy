@@ -260,4 +260,10 @@
     <string name="send_mail_progress">Sending mail in progress..</string>
     <string name="sent_success">Mail sent</string>
     <string name="desc_sent_success">Your mail has been successfully sent. If you found any other problems, feel free to contact us at any time.</string>
+    <string name="normal_login">Login with App Tiebreak Tennis Academy</string>
+    <string name="facebook_login">Login with Facebook</string>
+    <string name="normal_signup">Sign up with App Tiebreak Tennis Academy</string>
+    <string name="facebook_signup">Sign up with Facebook</string>
+    <string name="normal_forget">Recover Account</string>
+
 </resources>
