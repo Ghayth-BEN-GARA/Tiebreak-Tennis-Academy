@@ -11,8 +11,8 @@ import com.example.tiebreaktennisacademy.R;
 import java.util.Calendar;
 
 public class PasswordSecurityActivity extends AppCompatActivity {
-    private ImageView back, goEditPassord;
-    private TextView copiright, descPhone, titleEditPassword, descEditPassword;
+    private ImageView back, goEditPassord, goEmail;
+    private TextView copiright, descPhone, titleEditPassword, descEditPassword, titleEmail, descEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +25,9 @@ public class PasswordSecurityActivity extends AppCompatActivity {
         goEditPassord = (ImageView) findViewById(R.id.go_edit_password);
         titleEditPassword = (TextView) findViewById(R.id.title_edit_password);
         descEditPassword = (TextView) findViewById(R.id.desc_title_edit_password);
+        goEmail = (ImageView) findViewById(R.id.go_haking);
+        titleEmail = (TextView) findViewById(R.id.title_haking);
+        descEmail = (TextView) findViewById(R.id.desc_title_haking);
 
         onclickFunctions();
         setCopyrightText();
@@ -59,12 +62,39 @@ public class PasswordSecurityActivity extends AppCompatActivity {
                 ouvrirEditPasswordActivity();
             }
         });
+
+        goEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ouvrirSendEmailActivity();
+            }
+        });
+
+        titleEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ouvrirSendEmailActivity();
+            }
+        });
+
+        descEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ouvrirSendEmailActivity();
+            }
+        });
     }
 
     public void ouvrirParametresActivity(){
         Intent intent = new Intent(getApplicationContext(), ParametresActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.left_to_right,R.anim.stay);
+    }
+
+    public void ouvrirSendEmailActivity(){
+        Intent intent = new Intent(getApplicationContext(), SendMailActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.right_to_left,R.anim.stay);
     }
 
     @Override

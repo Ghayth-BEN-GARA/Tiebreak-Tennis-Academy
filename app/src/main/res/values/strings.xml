@@ -250,8 +250,14 @@
     <string name="new_password">New password</string>
     <string name="repeat_password">Repeat password</string>
     <string name="hint_repat_password">Repeat new password..</string>
-
-
-
-
+    <string name="objet">Object of mail</string>
+    <string name="objet_hint">Enter the object of mail..</string>
+    <string name="message">Text of mail</string>
+    <string name="message_hint">Enter the text of mail..</string>
+    <string name="send">Send to us</string>
+    <string name="objet_required">The object is required !</string>
+    <string name="message_required">The message is required !</string>
+    <string name="send_mail_progress">Sending mail in progress..</string>
+    <string name="sent_success">Mail sent</string>
+    <string name="desc_sent_success">Your mail has been successfully sent. If you found any other problems, feel free to contact us at any time.</string>
 </resources>

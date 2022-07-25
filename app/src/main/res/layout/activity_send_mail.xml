@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    android:background="@color/background_color"
+    tools:context=".Activities.SendMailActivity">
+
+    <ImageView
+        android:id="@+id/back"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:padding="5dp"
+        android:src="@drawable/back_24"
+        android:background="@drawable/icon_background_gray"
+        app:tint="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/title_think_haking"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/title_haking"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="40dp"
+        android:padding="5dp"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/back"/>
+
+    <View
+        android:id="@+id/first_hr"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="7dp"
+        android:background="@color/gray"
+        app:layout_constraintTop_toBottomOf="@id/back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <ScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:scrollbars="vertical"
+        android:fadeScrollbars="false"
+        android:scrollbarFadeDuration="0"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:isScrollContainer="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/first_hr"
+        app:layout_constraintBottom_toTopOf="@id/copyright_app">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/title_object"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/objet"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:layout_marginStart="10dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputlayout_objet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginTop="5dp"
+                app:boxStrokeWidthFocused="0dp"
+                app:boxStrokeColor="@null"
+                app:boxStrokeWidth="0dp"
+                app:boxBackgroundColor="@null"
+                app:boxStrokeErrorColor="@null"
+                app:endIconMode="clear_text"
+                app:startIconDrawable="@drawable/object"
+                app:startIconTint="@color/black"
+                android:hint="@string/objet_hint"
+                app:hintTextColor="@color/gray"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title_object">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/objet"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailSubject"
+                    android:textColor="@color/black"
+                    android:padding="15dp"
+                    android:background="@drawable/edi_text_background"
+                    android:textCursorDrawable="@null"  />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/erreur_objet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="30dp"
+                android:gravity="center"
+                android:letterSpacing="0.1"
+                android:textColor="@color/design_default_color_error"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/inputlayout_objet"/>
+
+            <TextView
+                android:id="@+id/title_message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/message"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintTop_toBottomOf="@id/erreur_objet"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputlayout_message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="30dp"
+                app:boxStrokeWidthFocused="0dp"
+                app:boxStrokeColor="@null"
+                app:boxStrokeWidth="0dp"
+                app:boxBackgroundColor="@null"
+                app:boxStrokeErrorColor="@null"
+                app:endIconMode="clear_text"
+                android:hint="@string/message_hint"
+                app:hintTextColor="@color/gray"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title_message">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/message"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine"
+                    android:textColor="@color/black"
+                    android:padding="15dp"
+                    android:background="@drawable/edi_text_background"
+                    android:textCursorDrawable="@null"
+                    android:lines="10"
+                    android:maxLines="10"
+                    android:minLines="10"
+                    android:scrollbars="vertical"
+                    android:gravity="top" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/erreur_message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="40dp"
+                android:gravity="center"
+                android:letterSpacing="0.1"
+                android:textColor="@color/design_default_color_error"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/inputlayout_message"/>
+
+            <LinearLayout
+                android:id="@+id/linear_layout_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginTop="10dp"
+                android:weightSum="2"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/erreur_message">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/send_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:background="@drawable/rounded_button"
+                    android:fontFamily="@font/seg_ui_semibold"
+                    android:text="@string/send"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:layout_weight="1" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/cancel_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_marginStart="5dp"
+                    android:background="@drawable/green_stroke_button"
+                    android:fontFamily="@font/seg_ui_semibold"
+                    android:text="@string/cancel"
+                    android:textAllCaps="true"
+                    android:textColor="@color/green"
+                    android:textSize="16sp"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/copyright_app"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginBottom="15dp"
+        android:textSize="12sp"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
