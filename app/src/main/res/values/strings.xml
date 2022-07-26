@@ -266,6 +266,15 @@
     <string name="facebook_signup">Sign up with Facebook</string>
     <string name="normal_forget">Recover Account</string>
     <string name="date">Date and time</string>
-    <string name="device">Device</string>
-
+    <string name="desc_assistance_bottom">You can find more privacy settings on App Tiebreak Tennis Academy in <b>settings</b>.</string>
+    <string name="desc_assistance_top">We"'"ll help you make the right decisions for your account settings.</string>
+    <string name="desc_assistance_top_2">Which section do you want \n to start with ?</string>
+    <string name="desc_partage">Who can see what you book</string>
+    <string name="desc_security">How to protect your account</string>
+    <string name="desc_search">How you can be found on App Tiebreak Tennis Academy</string>
+    <string name="desc_donnes">Your data settings on App Tiebreak Tennis Academy</string>
+    <string name="desc_card1">Our application is well secured. No one can see your personal information or your activities on the apps. Reservation activities are also private.</string>
+    <string name="desc_card2">We advise you to secure your account by providing a very strong password. Password length must be 5 or greater. In addition, the password must contain a number, an uppercase letter and a lowercase letter.</string>
+    <string name="desc_card3">Other members cannot currently find you. This feature will be available soon. Mobile phone numbers, email address and WhatsApp number must be provided for the data requested from the app.</string>
+    <string name="desc_card4">Your personal data is well secured. No one can see them. Our mobile app connects with facebook, google and email apps. It does not use your geographic location.</string>
 </resources>

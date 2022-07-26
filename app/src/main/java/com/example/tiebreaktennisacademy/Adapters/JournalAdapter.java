@@ -77,11 +77,18 @@ public class JournalAdapter extends RecyclerView.Adapter<JournalAdapter.ViewHold
         databaseReference.child("images_users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Glide
-                        .with(context)
-                        .load(snapshot.child(encodeString(emailSession())).child("photo").getValue(String.class))
-                        .centerCrop()
-                        .into(holder.photo);
+                if(snapshot.child(encodeString(emailSession())).child("photo").getValue(String.class) != null){
+
+                    Glide
+                            .with(context)
+                            .load(snapshot.child(encodeString(emailSession())).child("photo").getValue(String.class))
+                            .centerCrop()
+                            .into(holder.photo);
+                }
+
+                else{
+                    holder.photo.setImageResource(R.drawable.user);
+                }
 
             }
 

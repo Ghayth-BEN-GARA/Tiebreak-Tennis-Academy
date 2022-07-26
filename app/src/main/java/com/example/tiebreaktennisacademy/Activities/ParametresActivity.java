@@ -1,6 +1,8 @@
 package com.example.tiebreaktennisacademy.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +13,7 @@ import com.example.tiebreaktennisacademy.R;
 public class ParametresActivity extends AppCompatActivity {
     private TextView personalAccountInfo, profileInformations, about, passwordSecurity;
     private ImageView back;
+    private CardView assistance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +25,7 @@ public class ParametresActivity extends AppCompatActivity {
         profileInformations = (TextView) findViewById(R.id.title_infos_profil);
         about = (TextView) findViewById(R.id.title_a_propos);
         passwordSecurity = (TextView) findViewById(R.id.title_password_securite);
+        assistance = (CardView) findViewById(R.id.card_view);
 
         onclickFunctions();
     }
@@ -61,6 +65,13 @@ public class ParametresActivity extends AppCompatActivity {
                 ouvrirPasswordSecurityActivity();
             }
         });
+
+        assistance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ouvrirAssistanceActivity();
+            }
+        });
     }
 
     public void ouvrirPersonalAccountActivity(){
@@ -95,6 +106,12 @@ public class ParametresActivity extends AppCompatActivity {
 
     public void ouvrirAboutActivity(){
         Intent intent = new Intent(getApplicationContext(), AboutActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.right_to_left,R.anim.stay);
+    }
+
+    public void ouvrirAssistanceActivity(){
+        Intent intent = new Intent(getApplicationContext(), AssistanceActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.right_to_left,R.anim.stay);
     }
