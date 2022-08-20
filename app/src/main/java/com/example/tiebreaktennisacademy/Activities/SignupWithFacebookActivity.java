@@ -643,10 +643,6 @@ public class SignupWithFacebookActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.right_to_left,R.anim.stay);
     }
 
-    public static String decodeString(String string) {
-        return string.replace(",", ".");
-    }
-
     public void showErreurFacebookDialog(){
         dialog = new Dialog(SignupWithFacebookActivity.this);
         dialog.setContentView(R.layout.item_erreur);

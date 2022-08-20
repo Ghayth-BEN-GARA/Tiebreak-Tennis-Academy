@@ -18,6 +18,10 @@
         tools:replace="android:icon"
         tools:targetApi="31">
         <activity
+            android:name=".Activities.PlayersActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".Activities.CoachesActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
@@ -185,7 +189,7 @@
             android:exported="false" />
         <activity
             android:name=".Activities.SplashActivity"
-            android:exported="false"
+            android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
