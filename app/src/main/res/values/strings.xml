@@ -142,8 +142,9 @@
     <string name="my_profil">My profile</string>
     <string name="edit_profil">Edit profile</string>
     <string name="courts">Courts</string>
-    <string name="show_courts">List of booking</string>
-    <string name="add_courts">Book a court</string>
+    <string name="show_coaches">List of coaches</string>
+    <string name="show_courts">List of courts</string>
+    <string name="show_players">List of players</string>
     <string name="add_courses">Book a course</string>
     <string name="parametres">Setings</string>
     <string name="menu">Menu</string>

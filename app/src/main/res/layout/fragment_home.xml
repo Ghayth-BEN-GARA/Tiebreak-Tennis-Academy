@@ -183,89 +183,6 @@
                         android:layout_margin="20dp"
                         android:background="@drawable/courses_booking_img_background"
                         android:padding="20dp"
-                        android:src="@drawable/tennis_players"
-                        app:tint="@color/white" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/segoe_ui_bold"
-                        android:text="@string/players"
-                        android:textColor="@color/navigation_item_text"
-                        android:textSize="14sp" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="0dp"
-                android:layout_height="180dp"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?android:attr/selectableItemBackground"
-                app:cardBackgroundColor="@android:color/transparent"
-                app:cardCornerRadius="30dp"
-                app:cardElevation="0dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/background_color_50"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:layout_margin="20dp"
-                        android:background="@drawable/courses_booking_img_background"
-                        android:padding="20dp"
-                        android:src="@drawable/tennis_court_booking"
-                        app:tint="@color/white" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/segoe_ui_bold"
-                        android:text="@string/court"
-                        android:textColor="@color/navigation_item_text"
-                        android:textSize="14sp" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linear_layout3"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2">
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="0dp"
-                android:layout_height="180dp"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?android:attr/selectableItemBackground"
-                app:cardBackgroundColor="@android:color/transparent"
-                app:cardCornerRadius="30dp"
-                app:cardElevation="0dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/background_color_50"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:layout_margin="20dp"
-                        android:background="@drawable/courses_booking_img_background"
-                        android:padding="20dp"
                         android:src="@drawable/planing"
                         app:tint="@color/white" />
 
@@ -304,14 +221,14 @@
                         android:layout_margin="20dp"
                         android:background="@drawable/courses_booking_img_background"
                         android:padding="20dp"
-                        android:src="@drawable/book_tennis"
+                        android:src="@drawable/tennis_court_booking"
                         app:tint="@color/white" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/segoe_ui_bold"
-                        android:text="@string/courses_booking"
+                        android:text="@string/courts"
                         android:textColor="@color/navigation_item_text"
                         android:textSize="14sp" />
                 </LinearLayout>

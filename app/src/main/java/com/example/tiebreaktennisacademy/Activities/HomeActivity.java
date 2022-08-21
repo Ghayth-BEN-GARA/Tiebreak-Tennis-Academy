@@ -33,10 +33,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class HomeActivity extends AppCompatActivity {
@@ -47,7 +45,7 @@ public class HomeActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private Menu menuItem;
-    private  MenuItem logoutItem, profilItem;
+    private MenuItem logoutItem, profilItem, supportItem, coachesItem, CourtsItem, playersItem;
     private View header;
     private CircleImageView imageViewProfil;
     private DatabaseReference databaseReference;
@@ -397,6 +395,9 @@ public class HomeActivity extends AppCompatActivity {
     public void setItemsMenuAction(){
         logoutItem = menuItem.findItem(R.id.logout);
         profilItem = menuItem.findItem(R.id.my_profil);
+        supportItem = menuItem.findItem(R.id.support);
+        playersItem = menuItem.findItem(R.id.my_players_res);
+        coachesItem = menuItem.findItem(R.id.my_coaches_res);
 
         logoutItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
@@ -413,6 +414,30 @@ public class HomeActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        supportItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                ouvrirSupportActivity();
+                return true;
+            }
+        });
+
+        playersItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                ouvrirPlayersActivity();
+                return true;
+            }
+        });
+
+        coachesItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                ouvrirCoachesActivity();
+                return true;
+            }
+        });
     }
 
     public void ouvrirProfilActivity(){
@@ -423,6 +448,24 @@ public class HomeActivity extends AppCompatActivity {
 
     public void ouvrirParametresActivity(){
         Intent intent = new Intent(getApplicationContext(), ParametresActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.right_to_left,R.anim.stay);
+    }
+
+    public void ouvrirSupportActivity(){
+        Intent intent = new Intent(getApplicationContext(), AboutActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.right_to_left,R.anim.stay);
+    }
+
+    public void ouvrirPlayersActivity(){
+        Intent intent = new Intent(getApplicationContext(), PlayersActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.right_to_left,R.anim.stay);
+    }
+
+    public void ouvrirCoachesActivity(){
+        Intent intent = new Intent(getApplicationContext(), CoachesActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.right_to_left,R.anim.stay);
     }
@@ -488,15 +531,12 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void checkIfCountIsActive(){
-        Session session = new Session(getApplicationContext());
-        session.initialiserSharedPreferences();
-        String email = session.getEmailSession();
-
         databaseReference.child("compte_users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.child(encodeString(email)).child("active").getValue(String.class).equals("false")){
-                    activeAccount(email);
+                if(snapshot.child(encodeString(emailSession())).child("active").getValue(String.class).equals("false")){
+                    activeAccount(emailSession());
+                    updateJournal("Enable",encodeString(emailSession()));
                     showNotificationAfterTime();
                 }
             }

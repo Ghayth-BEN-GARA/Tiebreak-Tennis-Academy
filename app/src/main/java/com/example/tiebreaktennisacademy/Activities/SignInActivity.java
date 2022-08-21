@@ -29,6 +29,7 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -48,17 +49,14 @@ public class SignInActivity extends AppCompatActivity {
     private TextView help, erreurEmail, erreurPassword;
     private AppCompatButton signIn;
     private TextInputEditText email, password;
-    private TextInputLayout textLayoutEmail, textInputPassword;
     private Boolean isEmail = false, isPassword = false;
     private Dialog dialog;
     private CallbackManager callbackManager;
     private DatabaseReference databaseReference;
-    private AccessToken accessToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_sign_in);
 
         back = (ImageView) findViewById(R.id.back);
@@ -68,17 +66,14 @@ public class SignInActivity extends AppCompatActivity {
         password = (TextInputEditText) findViewById(R.id.password);
         erreurEmail = (TextView) findViewById(R.id.erreur_email);
         erreurPassword = (TextView) findViewById(R.id.erreur_password);
-        textLayoutEmail = (TextInputLayout) findViewById(R.id.inputlayout_email);
-        textInputPassword = (TextInputLayout) findViewById(R.id.inputlayout_password);
         facebook = (ImageView) findViewById(R.id.facebook);
         google = (ImageView) findViewById(R.id.google);
 
         onClickFunctions();
         onChangeFunctions();
         initialiseDataBase();
-        intializeFacebookItems();
-        loginManagerActions();
-        intializeToken();
+        initializeFacebookSDK();
+        intializeCallBackManager();
     }
 
     @Override
@@ -124,6 +119,7 @@ public class SignInActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 LoginManager.getInstance().logInWithReadPermissions(SignInActivity.this, Arrays.asList("public_profile","email","user_friends","user_birthday"));
+                loginManagerActions();
             }
         });
     }
@@ -268,20 +264,12 @@ public class SignInActivity extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://tiebreak-tennis--1657542982200-default-rtdb.firebaseio.com/");
     }
 
-    public void intializeFacebookItems(){
-        callbackManager = CallbackManager.Factory.create();
-    }
-
-    public void intializeToken(){
-        accessToken = AccessToken.getCurrentAccessToken();
-    }
-
     public void loginManagerActions(){
         LoginManager.getInstance().registerCallback(callbackManager,
                 new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
-                        chargementFacebookSignIn();
+                        chargementFacebookSignIn(loginResult.getAccessToken());
                     }
 
                     @Override
@@ -408,7 +396,7 @@ public class SignInActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    public void chargementFacebookSignIn(){
+    public void chargementFacebookSignIn(AccessToken token){
         final ProgressDialog progressDialog = new ProgressDialog(SignInActivity.this, R.style.chargement);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage(getString(R.string.signin_progress));
@@ -416,13 +404,13 @@ public class SignInActivity extends AppCompatActivity {
 
         new Thread(new Runnable() {
             public void run() {
-                getEmailFromFacebook(progressDialog);
+                getEmailFromFacebook(progressDialog,token);
             }
         }).start();
     }
 
-    public void getEmailFromFacebook(ProgressDialog progressDialog){
-        GraphRequest request = GraphRequest.newMeRequest(accessToken, new GraphRequest.GraphJSONObjectCallback() {
+    public void getEmailFromFacebook(ProgressDialog progressDialog, AccessToken token){
+        GraphRequest request = GraphRequest.newMeRequest(token, new GraphRequest.GraphJSONObjectCallback() {
             @Override
             public void onCompleted(JSONObject object, GraphResponse response) {
                 try {
@@ -435,7 +423,7 @@ public class SignInActivity extends AppCompatActivity {
         });
 
         Bundle paramestres = new Bundle();
-        paramestres.putString("fields","email");
+        paramestres.putString("fields","id,name,email");
         request.setParameters(paramestres);
         request.executeAsync();
     }
@@ -481,7 +469,6 @@ public class SignInActivity extends AppCompatActivity {
     public void updateJournal(String text, String email){
         String key = databaseReference.child("journal_users").push().getKey();
         databaseReference.child("journal_users").child(encodeString(email)).child(key).child("action").setValue(text);
-        databaseReference.child("journal_users").child(encodeString(email)).child(key).child("action").setValue(text);
         databaseReference.child("journal_users").child(encodeString(email)).child(key).child("date").setValue(getCurrentDate());
         databaseReference.child("journal_users").child(encodeString(email)).child(key).child("time").setValue(getCurrentTime());
         databaseReference.child("journal_users").child(encodeString(email)).child(key).child("phone").setValue(getAppareilUsed());
@@ -510,5 +497,13 @@ public class SignInActivity extends AppCompatActivity {
         else {
             return (manufacturer + " " + model + ".");
         }
+    }
+
+    public void initializeFacebookSDK(){
+        FacebookSdk.sdkInitialize(getApplicationContext());
+    }
+
+    public void intializeCallBackManager(){
+        callbackManager = CallbackManager.Factory.create();
     }
 }

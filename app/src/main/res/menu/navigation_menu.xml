@@ -7,37 +7,41 @@
                 android:title="@string/profil"
                 android:icon="@drawable/account"
                 android:iconTint="@color/green" />
+
+            <item
+                android:id="@+id/logout"
+                android:title="@string/logout"
+                android:icon="@drawable/exit_selected"
+                android:iconTint="@color/green" />
+        </menu>
+    </item>
+
+    <item android:title="@string/coaches">
+        <menu>
+            <item
+                android:id="@+id/my_coaches_res"
+                android:title="@string/show_coaches"
+                android:icon="@drawable/list"
+                android:iconTint="@color/green" />
         </menu>
     </item>
 
     <item android:title="@string/courts">
         <menu>
             <item
-                android:id="@+id/my_courts_res"
-                android:title="@string/show_courts"
-                android:icon="@drawable/list"
-                android:iconTint="@color/green" />
-
-            <item
-                android:id="@+id/add_profil"
-                android:title="@string/add_courts"
-                android:icon="@drawable/tennis_court_booking_selected"
-                android:iconTint="@color/green" />
-        </menu>
-    </item>
-
-    <item android:title="@string/courses">
-        <menu>
-            <item
                 android:id="@+id/my_courses_res"
                 android:title="@string/show_courts"
                 android:icon="@drawable/list"
                 android:iconTint="@color/green" />
+        </menu>
+    </item>
 
+    <item android:title="@string/players">
+        <menu>
             <item
-                android:id="@+id/add_courses"
-                android:title="@string/add_courses"
-                android:icon="@drawable/book_tennis"
+                android:id="@+id/my_players_res"
+                android:title="@string/show_players"
+                android:icon="@drawable/list"
                 android:iconTint="@color/green" />
         </menu>
     </item>
@@ -45,9 +49,15 @@
     <item android:title="@string/other">
         <menu>
             <item
-                android:id="@+id/logout"
-                android:title="@string/logout"
-                android:icon="@drawable/exit_selected"
+                android:id="@+id/help"
+                android:title="@string/help2"
+                android:icon="@drawable/help"
+                android:iconTint="@color/green" />
+
+            <item
+                android:id="@+id/support"
+                android:title="@string/about"
+                android:icon="@drawable/propos"
                 android:iconTint="@color/green" />
         </menu>
     </item>

@@ -60,7 +60,6 @@ public class Signup1Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_signup1);
 
         gender = (AutoCompleteTextView) findViewById(R.id.gender);

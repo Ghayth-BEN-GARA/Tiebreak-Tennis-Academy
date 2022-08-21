@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
@@ -16,7 +15,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -61,19 +59,27 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder
         databaseReference.child("images_users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.child(playerArrayList.get(position).getEmail()).child("photo").getValue().toString() != null){
-
-                    Glide
-                            .with(context)
-                            .load(snapshot.child(playerArrayList.get(position).getEmail()).child("photo").getValue(String.class))
-                            .centerCrop()
-                            .into(holder.photo);
-                }
-
-                else{
+                if(!snapshot.hasChild(playerArrayList.get(position).getEmail())){
                     holder.photo.setImageResource(R.drawable.user);
                 }
 
+                else{
+                    databaseReference.child("images_users").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot photoSnapshot) {
+                            Glide
+                                    .with(context)
+                                    .load(photoSnapshot.child(playerArrayList.get(position).getEmail()).child("photo").getValue(String.class))
+                                    .centerCrop()
+                                    .into(holder.photo);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                }
             }
 
             @Override
