@@ -2,7 +2,6 @@ package com.example.tiebreaktennisacademy.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,7 +10,7 @@ import android.widget.TextView;
 import com.example.tiebreaktennisacademy.R;
 
 public class ParametresActivity extends AppCompatActivity {
-    private TextView personalAccountInfo, profileInformations, about, passwordSecurity;
+    private TextView personalAccountInfo, profileInformations, about, passwordSecurity, help;
     private ImageView back;
     private CardView assistance;
 
@@ -26,6 +25,7 @@ public class ParametresActivity extends AppCompatActivity {
         about = (TextView) findViewById(R.id.title_a_propos);
         passwordSecurity = (TextView) findViewById(R.id.title_password_securite);
         assistance = (CardView) findViewById(R.id.card_view);
+        help = (TextView) findViewById(R.id.title_help);
 
         onclickFunctions();
     }
@@ -72,6 +72,13 @@ public class ParametresActivity extends AppCompatActivity {
                 ouvrirAssistanceActivity();
             }
         });
+
+        help.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ouvrirHelpActivity();
+            }
+        });
     }
 
     public void ouvrirPersonalAccountActivity(){
@@ -82,6 +89,12 @@ public class ParametresActivity extends AppCompatActivity {
 
     public void ouvrirPasswordSecurityActivity(){
         Intent intent = new Intent(getApplicationContext(), PasswordSecurityActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.right_to_left,R.anim.stay);
+    }
+
+    public void ouvrirHelpActivity(){
+        Intent intent = new Intent(getApplicationContext(), Help2Activity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.right_to_left,R.anim.stay);
     }

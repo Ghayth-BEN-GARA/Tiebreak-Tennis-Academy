@@ -39,13 +39,13 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class HomeActivity extends AppCompatActivity {
     private LinearLayout linearLayoutDashboard, linearLayoutProfile, linearLayoutLogout, linearLayoutOther;
-    private ImageView imageViewDashboard, imageViewProfile, imageViewLogout, imageViewOther,photoProfil, paramatresHeader;
+    private ImageView imageViewDashboard, imageViewProfile, imageViewLogout, imageViewOther,photoProfil, paramatresHeader, helpHeader;
     private TextView textViewDashboard, textViewProfile, textViewLogout, textViewOther, fullname, showProfil;
     private Dialog dialog;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private Menu menuItem;
-    private MenuItem logoutItem, profilItem, supportItem, coachesItem, CourtsItem, playersItem;
+    private MenuItem logoutItem, profilItem, supportItem, coachesItem, CourtsItem, playersItem, helpItem;
     private View header;
     private CircleImageView imageViewProfil;
     private DatabaseReference databaseReference;
@@ -75,6 +75,7 @@ public class HomeActivity extends AppCompatActivity {
         photoProfil = (ImageView) header.findViewById(R.id.photo_profil);
         showProfil = (TextView) header.findViewById(R.id.view_my_profil);
         paramatresHeader = (ImageView) header.findViewById(R.id.config_header);
+        helpHeader = (ImageView) header.findViewById(R.id.help_header);
         menuItem = navigationView.getMenu();
         imageViewProfil = (CircleImageView) header.findViewById(R.id.photo_profil);
 
@@ -398,6 +399,7 @@ public class HomeActivity extends AppCompatActivity {
         supportItem = menuItem.findItem(R.id.support);
         playersItem = menuItem.findItem(R.id.my_players_res);
         coachesItem = menuItem.findItem(R.id.my_coaches_res);
+        helpItem = menuItem.findItem(R.id.help);
 
         logoutItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
@@ -419,6 +421,14 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 ouvrirSupportActivity();
+                return true;
+            }
+        });
+
+        helpItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                ouvrirHelpActivity();
                 return true;
             }
         });
@@ -470,6 +480,12 @@ public class HomeActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.right_to_left,R.anim.stay);
     }
 
+    public void ouvrirHelpActivity(){
+        Intent intent = new Intent(getApplicationContext(), Help2Activity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.right_to_left,R.anim.stay);
+    }
+
     public void setHeaderMenuAction(){
         fullname.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -496,6 +512,13 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ouvrirParametresActivity();
+            }
+        });
+
+        helpHeader.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ouvrirHelpActivity();
             }
         });
     }

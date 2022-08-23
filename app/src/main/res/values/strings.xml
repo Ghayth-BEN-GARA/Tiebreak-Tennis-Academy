@@ -11,11 +11,11 @@
     <string name="courses">Courses</string>
     <string name="courses_description">Book and learn how to be a professional player with our online courses.</string>
     <string name="coaches">Coaches</string>
-    <string name="coaches_description">Select and book a coach for training and coaching.</string>
+    <string name="coaches_description">Consult and select a coach for training and coaching.</string>
     <string name="players">Players</string>
-    <string name="players_description">consult and manage the list of tennis players.</string>
-    <string name="court">Courts Booking</string>
-    <string name="court_description">Online court reservations for training and matches.</string>
+    <string name="players_description">Consult the list of tennis players.</string>
+    <string name="court">Courts</string>
+    <string name="court_description">Consult and select the list of courts for training and matches.</string>
     <string name="planning">Planning</string>
     <string name="planing_description">Get a flexible schedule according to your availability.</string>
     <string name="title_choix_login">Tiebreak \n Tennis Academy</string>
@@ -287,5 +287,7 @@
     <string name="nom_mal">Mal Kul</string>
     <string name="desc_mal">Mal is currently taking a year off his University Degree, Agricultural Science, to take some time to decide what direction he is going to take in the future. Mal came to Coffs Harbour just before High School as a refugee from Burma and attended John Paul College for his High school years. At the time Mal was playing tennis elsewhere but came along one night with his friends and was instantly seduced by Jarred"'"s dynamic and inspiring coaching methods and well the rest is history. Mal spends part of his time at <b>Tiebreak Tennis</b> assisting with the admin and as a support coach during classes and tennis clinics. While at the same time spends much of his time volunteering with Lifeline helping newly arrived refugees and with local Aged Care services.</string>
     <string name="title_players">Our tennis players</string>
-
+    <string name="informations">Help and informations</string>
+    <string name="profile_description">View and edit profile securely with just one click.</string>
+    <string name="config_description">Easily configure your mobile application according to your needs.</string>
 </resources>
