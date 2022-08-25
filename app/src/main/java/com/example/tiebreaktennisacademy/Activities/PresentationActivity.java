@@ -55,7 +55,6 @@ public class PresentationActivity extends AppCompatActivity {
     }
 
     public void remplirListePresentation(){
-        presentationItems.add(new Presentation(R.drawable.coures,getString(R.string.courses),getString(R.string.courses_description)));
         presentationItems.add(new Presentation(R.drawable.coach2,getString(R.string.coaches),getString(R.string.coaches_description)));
         presentationItems.add(new Presentation(R.drawable.players,getString(R.string.players),getString(R.string.players_description)));
         presentationItems.add(new Presentation(R.drawable.planning,getString(R.string.planning),getString(R.string.planing_description)));

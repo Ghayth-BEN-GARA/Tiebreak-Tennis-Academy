@@ -213,6 +213,28 @@ public class AccountFragment extends Fragment {
             }
         });
 
+        Session session = new Session(getActivity());
+        session.initialiserSharedPreferences();
+        String email = session.getEmailSession();
+
+        databaseReference.child("images_users").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.child(encodeString(email)).child("photo").getValue(String.class) != null){
+                    Glide.with(getActivity()).load(snapshot.child(encodeString(email)).child("photo").getValue(String.class)).centerCrop().into(imageAlert);
+                }
+
+                else{
+                    imageAlert.setImageResource(R.drawable.user);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         erreurPhoto = (TextView) dialog.findViewById(R.id.erreur_photo);
 
         AppCompatButton updateButtonAlert = (AppCompatButton) dialog.findViewById(R.id.update_btn);

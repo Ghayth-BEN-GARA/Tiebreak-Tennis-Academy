@@ -146,7 +146,6 @@ public class ProfilActivity extends AppCompatActivity {
                     description.setVisibility(View.VISIBLE);
                     description.setText("(" + snapshot.child(encodeString(email)).child("seconde_name").getValue(String.class) + ")");
                 }
-
             }
 
             @Override
@@ -243,6 +242,28 @@ public class ProfilActivity extends AppCompatActivity {
             }
         });
 
+        Session session = new Session(getApplicationContext());
+        session.initialiserSharedPreferences();
+        String email = session.getEmailSession();
+
+        databaseReference.child("images_users").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.child(encodeString(email)).child("photo").getValue(String.class) != null){
+                    Glide.with(getApplicationContext()).load(snapshot.child(encodeString(email)).child("photo").getValue(String.class)).centerCrop().into(imageAlert);
+                }
+
+                else{
+                    imageAlert.setImageResource(R.drawable.user);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         erreurPhoto = (TextView) dialog.findViewById(R.id.erreur_photo);
 
         AppCompatButton updateButtonAlert = (AppCompatButton) dialog.findViewById(R.id.update_btn);
@@ -332,18 +353,12 @@ public class ProfilActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.child(encodeString(email)).child("photo").getValue(String.class) != null){
-
-                    Glide
-                            .with(getApplicationContext())
-                            .load(snapshot.child(encodeString(email)).child("photo").getValue(String.class))
-                            .centerCrop()
-                            .into(imageViewProfil);
+                    Glide.with(getApplicationContext()).load(snapshot.child(encodeString(email)).child("photo").getValue(String.class)).centerCrop().into(imageViewProfil);
                 }
 
                 else{
                     imageViewProfil.setImageResource(R.drawable.user);
                 }
-
             }
 
             @Override
