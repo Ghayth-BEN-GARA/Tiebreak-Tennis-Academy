@@ -8,11 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.example.tiebreaktennisacademy.Activities.CoachesActivity;
+import com.example.tiebreaktennisacademy.Activities.CourtsActivity;
 import com.example.tiebreaktennisacademy.Activities.PlayersActivity;
 import com.example.tiebreaktennisacademy.R;
 
 public class HomeFragment extends Fragment {
-    private CardView cardCoache, cardPlayer;
+    private CardView cardCoache, cardPlayer, cardCourt;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -20,6 +21,7 @@ public class HomeFragment extends Fragment {
 
         cardCoache = (CardView) view.findViewById(R.id.card_coache);
         cardPlayer = (CardView) view.findViewById(R.id.card_players);
+        cardCourt = (CardView) view.findViewById(R.id.card_court);
 
         onclickFunctions();
         return view;
@@ -39,6 +41,13 @@ public class HomeFragment extends Fragment {
                 ouvrirPlayersActivity();
             }
         });
+
+        cardCourt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ouvrirCourtsActivity();
+            }
+        });
     }
 
     public void ouvrirCoachActivity(){
@@ -49,6 +58,12 @@ public class HomeFragment extends Fragment {
 
     public void ouvrirPlayersActivity(){
         Intent intent = new Intent(getActivity(), PlayersActivity.class);
+        startActivity(intent);
+        getActivity().overridePendingTransition(R.anim.right_to_left,R.anim.stay);
+    }
+
+    public void ouvrirCourtsActivity(){
+        Intent intent = new Intent(getActivity(), CourtsActivity.class);
         startActivity(intent);
         getActivity().overridePendingTransition(R.anim.right_to_left,R.anim.stay);
     }

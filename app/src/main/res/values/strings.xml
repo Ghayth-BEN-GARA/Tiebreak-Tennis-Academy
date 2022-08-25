@@ -288,4 +288,9 @@
     <string name="informations">Help and informations</string>
     <string name="profile_description">View and edit profile securely with just one click.</string>
     <string name="config_description">Easily configure your mobile application according to your needs.</string>
+    <string name="title_courts">Our tennis courts</string>
+    <string name="description_courts">Tiebreak Tennis has 9 courts in total. 3 are ready and 6 are currently under construction to be the only 6 clay courts in the area.</string>
+    <string name="terrain1">Court 1</string>
+    <string name="terrain2">Court 2</string>
+    <string name="terrain3">Court 3</string>
 </resources>
