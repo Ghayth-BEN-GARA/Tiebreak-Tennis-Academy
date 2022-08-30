@@ -154,7 +154,7 @@
                     android:layout_width="20dp"
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
-                    android:src="@drawable/drawer_selected" />
+                    android:src="@drawable/drawer" />
 
                 <TextView
                     android:id="@+id/other_txt"

@@ -318,7 +318,7 @@
     <string name="book_progress">Court booking in progress..</string>
     <string name="end_time_false">Your end time is entered incorrectly !</string>
     <string name="booking_error">Booking error</string>
-    <string name="another_booking_this_informations">Sorry ! another player has created a booking in this time slot. Please choose another duration and try again another time.</string>
+    <string name="another_booking_this_informations">Sorry ! another player has created a booking in this time slot. Please choose another duration and try again later.</string>
     <string name="booking_success">Court booking</string>
     <string name="booking_success_desc">Your court booking with the information entered has been successfully created. You can consult the details of your booking at any time via the booking list tab.</string>
     <string name="desc_erreur_rservations">For technical reasons, you cannot book a court at the moment. Please try again later.</string>

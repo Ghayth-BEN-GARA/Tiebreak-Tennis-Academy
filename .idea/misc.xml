@@ -5,6 +5,7 @@
       <map>
         <entry key="..\:/Users/Ghayth Ben Gara/AndroidStudioProjects/TiebreakTennisAcademy/app/src/main/res/drawable-v24/ic_brightness_1_black_24dp.xml" value="0.1" />
         <entry key="..\:/Users/Ghayth Ben Gara/AndroidStudioProjects/TiebreakTennisAcademy/app/src/main/res/drawable-v24/ic_brightness_1_grey_24dp.xml" value="0.1" />
+        <entry key="..\:/Users/Ghayth Ben Gara/AndroidStudioProjects/TiebreakTennisAcademy/app/src/main/res/drawable/account.xml" value="0.1" />
         <entry key="..\:/Users/Ghayth Ben Gara/AndroidStudioProjects/TiebreakTennisAcademy/app/src/main/res/drawable/adresse.xml" value="0.1" />
         <entry key="..\:/Users/Ghayth Ben Gara/AndroidStudioProjects/TiebreakTennisAcademy/app/src/main/res/drawable/app_logo_background.xml" value="0.174" />
         <entry key="..\:/Users/Ghayth Ben Gara/AndroidStudioProjects/TiebreakTennisAcademy/app/src/main/res/drawable/back_24.xml" value="0.1345" />
@@ -44,6 +45,7 @@
         <entry key="..\:/Users/Ghayth Ben Gara/AndroidStudioProjects/TiebreakTennisAcademy/app/src/main/res/drawable/indicateur_selected.xml" value="0.1755" />
         <entry key="..\:/Users/Ghayth Ben Gara/AndroidStudioProjects/TiebreakTennisAcademy/app/src/main/res/drawable/indicateur_selector.xml" value="0.1755" />
         <entry key="..\:/Users/Ghayth Ben Gara/AndroidStudioProjects/TiebreakTennisAcademy/app/src/main/res/drawable/indicateur_unselected.xml" value="0.1755" />
+        <entry key="..\:/Users/Ghayth Ben Gara/AndroidStudioProjects/TiebreakTennisAcademy/app/src/main/res/drawable/list.xml" value="0.1" />
         <entry key="..\:/Users/Ghayth Ben Gara/AndroidStudioProjects/TiebreakTennisAcademy/app/src/main/res/drawable/message.xml" value="0.1" />
         <entry key="..\:/Users/Ghayth Ben Gara/AndroidStudioProjects/TiebreakTennisAcademy/app/src/main/res/drawable/next.xml" value="0.1755" />
         <entry key="..\:/Users/Ghayth Ben Gara/AndroidStudioProjects/TiebreakTennisAcademy/app/src/main/res/drawable/person.xml" value="0.137" />
@@ -52,6 +54,7 @@
         <entry key="..\:/Users/Ghayth Ben Gara/AndroidStudioProjects/TiebreakTennisAcademy/app/src/main/res/drawable/planing.xml" value="0.1185" />
         <entry key="..\:/Users/Ghayth Ben Gara/AndroidStudioProjects/TiebreakTennisAcademy/app/src/main/res/drawable/planing_img_background.xml" value="0.1175" />
         <entry key="..\:/Users/Ghayth Ben Gara/AndroidStudioProjects/TiebreakTennisAcademy/app/src/main/res/drawable/players_img_background.xml" value="0.1185" />
+        <entry key="..\:/Users/Ghayth Ben Gara/AndroidStudioProjects/TiebreakTennisAcademy/app/src/main/res/drawable/propos.xml" value="0.1" />
         <entry key="..\:/Users/Ghayth Ben Gara/AndroidStudioProjects/TiebreakTennisAcademy/app/src/main/res/drawable/radio_button_custom.xml" value="0.1" />
         <entry key="..\:/Users/Ghayth Ben Gara/AndroidStudioProjects/TiebreakTennisAcademy/app/src/main/res/drawable/round_back_navigation_bottom.xml" value="0.132" />
         <entry key="..\:/Users/Ghayth Ben Gara/AndroidStudioProjects/TiebreakTennisAcademy/app/src/main/res/drawable/round_buton.xml" value="0.174" />

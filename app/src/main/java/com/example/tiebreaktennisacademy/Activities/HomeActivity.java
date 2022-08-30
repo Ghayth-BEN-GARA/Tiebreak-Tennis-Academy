@@ -45,7 +45,7 @@ public class HomeActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private Menu menuItem;
-    private MenuItem logoutItem, profilItem, supportItem, coachesItem, CourtsItem, playersItem, helpItem;
+    private MenuItem logoutItem, profilItem, supportItem, coachesItem, CourtsItem, playersItem, helpItem, bookCourtItem;
     private View header;
     private CircleImageView imageViewProfil;
     private DatabaseReference databaseReference;
@@ -400,6 +400,7 @@ public class HomeActivity extends AppCompatActivity {
         playersItem = menuItem.findItem(R.id.my_players_res);
         coachesItem = menuItem.findItem(R.id.my_coaches_res);
         helpItem = menuItem.findItem(R.id.help);
+        bookCourtItem = menuItem.findItem(R.id.book_court);
 
         logoutItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
@@ -448,6 +449,14 @@ public class HomeActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        bookCourtItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                ouvrirBookCourtActivity();
+                return true;
+            }
+        });
     }
 
     public void ouvrirProfilActivity(){
@@ -476,6 +485,12 @@ public class HomeActivity extends AppCompatActivity {
 
     public void ouvrirCoachesActivity(){
         Intent intent = new Intent(getApplicationContext(), CoachesActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.right_to_left,R.anim.stay);
+    }
+
+    public void ouvrirBookCourtActivity(){
+        Intent intent = new Intent(getApplicationContext(), PlaningActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.right_to_left,R.anim.stay);
     }

@@ -6,13 +6,13 @@
                 android:id="@+id/my_profil"
                 android:title="@string/profil"
                 android:icon="@drawable/account"
-                android:iconTint="@color/green" />
+                android:iconTint="@color/black_light" />
 
             <item
                 android:id="@+id/logout"
                 android:title="@string/logout"
-                android:icon="@drawable/exit_selected"
-                android:iconTint="@color/green" />
+                android:icon="@drawable/exit"
+                android:iconTint="@color/black_light" />
         </menu>
     </item>
 
@@ -22,7 +22,7 @@
                 android:id="@+id/my_coaches_res"
                 android:title="@string/show_coaches"
                 android:icon="@drawable/list"
-                android:iconTint="@color/green" />
+                android:iconTint="@color/black_light" />
         </menu>
     </item>
 
@@ -32,7 +32,13 @@
                 android:id="@+id/my_courses_res"
                 android:title="@string/show_courts"
                 android:icon="@drawable/list"
-                android:iconTint="@color/green" />
+                android:iconTint="@color/black_light" />
+
+            <item
+                android:id="@+id/book_court"
+                android:title="@string/title_book_court"
+                android:icon="@drawable/tennis_court_booking"
+                android:iconTint="@color/black_light" />
         </menu>
     </item>
 
@@ -42,7 +48,7 @@
                 android:id="@+id/my_players_res"
                 android:title="@string/show_players"
                 android:icon="@drawable/list"
-                android:iconTint="@color/green" />
+                android:iconTint="@color/black_light" />
         </menu>
     </item>
 
@@ -52,13 +58,13 @@
                 android:id="@+id/help"
                 android:title="@string/help2"
                 android:icon="@drawable/help"
-                android:iconTint="@color/green" />
+                android:iconTint="@color/black_light" />
 
             <item
                 android:id="@+id/support"
                 android:title="@string/about"
                 android:icon="@drawable/propos"
-                android:iconTint="@color/green" />
+                android:iconTint="@color/black_light" />
         </menu>
     </item>
 </menu>

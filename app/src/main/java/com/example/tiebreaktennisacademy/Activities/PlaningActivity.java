@@ -274,7 +274,7 @@ public class PlaningActivity extends AppCompatActivity implements DatePickerDial
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                showNotificationAjouteReservationImpossible();
             }
         });
     }
@@ -440,7 +440,7 @@ public class PlaningActivity extends AppCompatActivity implements DatePickerDial
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                showNotificationAjouteReservationImpossible();
             }
         });
     }
@@ -460,7 +460,7 @@ public class PlaningActivity extends AppCompatActivity implements DatePickerDial
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                showNotificationAjouteReservationImpossible();
             }
         });
     }
@@ -481,7 +481,7 @@ public class PlaningActivity extends AppCompatActivity implements DatePickerDial
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                showNotificationAjouteReservationImpossible();
             }
         });
     }
