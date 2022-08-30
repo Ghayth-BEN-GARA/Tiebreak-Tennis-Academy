@@ -221,26 +221,19 @@ public class PlaningActivity extends AppCompatActivity implements DatePickerDial
         }
 
         else {
-            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+            Date from = convertStringToTime(fromTime.getText().toString());
+            Date to = convertStringToTime(toTime.getText().toString());
 
-            try {
-                Date from = sdf.parse(fromTime.getText().toString());
-                Date to = sdf.parse(toTime.getText().toString());
+            if (from.compareTo(to) > 0) {
+                setErreurText(erreurTime,getString(R.string.end_time_false));
+            }
 
-                if (from.compareTo(to) > 0) {
-                    setErreurText(erreurTime,getString(R.string.end_time_false));
-                }
+            else{
+                setErreurNull(erreurRadio);
+                setErreurNull(erreurDate);
+                setErreurNull(erreurTime);
 
-                else{
-                    setErreurNull(erreurRadio);
-                    setErreurNull(erreurDate);
-                    setErreurNull(erreurTime);
-
-                    chargementCheckIfDateOfBookingExist();
-                }
-
-            } catch (ParseException e) {
-                e.printStackTrace();
+                chargementCheckIfBookingExist();
             }
         }
     }
@@ -253,7 +246,7 @@ public class PlaningActivity extends AppCompatActivity implements DatePickerDial
         text.setText(message);
     }
 
-    public void chargementCheckIfDateOfBookingExist(){
+    public void chargementCheckIfBookingExist(){
         final ProgressDialog progressDialog = new ProgressDialog(PlaningActivity.this, R.style.chargement);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage(getString(R.string.book_progress));
@@ -261,21 +254,21 @@ public class PlaningActivity extends AppCompatActivity implements DatePickerDial
 
         new Thread(new Runnable() {
             public void run() {
-                CheckIfDateOfBookingExist(progressDialog);
+                CheckIfBookingExist(progressDialog);
             }
         }).start();
     }
 
-    public void CheckIfDateOfBookingExist(ProgressDialog progressDialog){
+    public void CheckIfBookingExist(ProgressDialog progressDialog){
         databaseReference.child("reservations").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(!snapshot.hasChild(encodeString(emailSession()))){
-                    ajouterReservation(progressDialog);
+                if(snapshot.exists()){
+                    chechIfDateOfBookExist(progressDialog);
                 }
 
                 else{
-
+                    ajouterReservation(progressDialog);
                 }
             }
 
@@ -340,11 +333,12 @@ public class PlaningActivity extends AppCompatActivity implements DatePickerDial
 
     public boolean creerReservations(String court, String coaches, String date, String fromT, String toT){
         String key = databaseReference.child("reservations").push().getKey();
-        databaseReference.child("reservations").child(encodeString(emailSession())).child(key).child("court").setValue(court);
-        databaseReference.child("reservations").child(encodeString(emailSession())).child(key).child("coache").setValue(coaches);
-        databaseReference.child("reservations").child(encodeString(emailSession())).child(key).child("date").setValue(date);
-        databaseReference.child("reservations").child(encodeString(emailSession())).child(key).child("fromTime").setValue(fromT);
-        databaseReference.child("reservations").child(encodeString(emailSession())).child(key).child("toTime").setValue(toT);
+        databaseReference.child("reservations").child(key).child("email").setValue(emailSession());
+        databaseReference.child("reservations").child(key).child("court").setValue(court);
+        databaseReference.child("reservations").child(key).child("coache").setValue(coaches);
+        databaseReference.child("reservations").child(key).child("date").setValue(date);
+        databaseReference.child("reservations").child(key).child("fromTime").setValue(fromT);
+        databaseReference.child("reservations").child(key).child("toTime").setValue(toT);
         return true;
     }
 
@@ -405,5 +399,90 @@ public class PlaningActivity extends AppCompatActivity implements DatePickerDial
         title.setText(getString(R.string.booking_error));
 
         dialog.show();
+    }
+
+    public Date convertStringToDate(String chaine){
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = null;
+
+        try {
+            date = format.parse(chaine);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
+    }
+
+    public Date convertStringToTime(String chaine){
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+        Date date = null;
+
+        try {
+            date = format.parse(chaine);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
+    }
+
+    public void chechIfDateOfBookExist(ProgressDialog progressDialog){
+        databaseReference.child("reservations").orderByChild("date").equalTo(dateBooking.getText().toString()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    checkIfCourtExist(progressDialog);
+                }
+
+                else{
+                    ajouterReservation(progressDialog);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public void checkIfCourtExist(ProgressDialog progressDialog){
+        databaseReference.child("reservations").orderByChild("court").equalTo(radioButton.getText().toString()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    checkIfTimeBookingExist(progressDialog);
+                }
+
+                else{
+                    ajouterReservation(progressDialog);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public void checkIfTimeBookingExist(ProgressDialog progressDialog){
+        databaseReference.child("reservations").orderByChild("fromTime").startAt(fromTime.getText().toString()).endAt(toTime.getText().toString()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    progressDialog.dismiss();
+                    showNotificationAjouteReservationImpossibleTime();
+                }
+
+                else{
+                    ajouterReservation(progressDialog);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }
