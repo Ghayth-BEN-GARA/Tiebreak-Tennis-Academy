@@ -148,6 +148,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
+                android:fitsSystemWindows="true"
                 app:compactCalendarMultiEventIndicatorColor="@color/green"
                 app:compactCalendarBackgroundColor="@color/navigation_item"
                 app:compactCalendarCurrentDayBackgroundColor="@color/dark_salmon"
@@ -215,6 +216,24 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/current_day"
                 app:layout_constraintBottom_toBottomOf="@id/booking"/>
+
+            <TextView
+                android:id="@+id/all_reservations"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/green"
+                android:text="@string/all_reservations_text"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:textSize="18sp"
+                android:fontFamily="@font/seg_ui_semibold"
+                android:visibility="visible"
+                android:textAllCaps="true"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/booking"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

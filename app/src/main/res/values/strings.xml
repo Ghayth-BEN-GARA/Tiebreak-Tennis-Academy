@@ -336,4 +336,9 @@
     <string name="no_event_sad">we couldn"'"t find any events or reservations with the selected date. Please choose another date and try again.</string>
     <string name="title_no_event">No reservations found</string>
     <string name="desc_list_reservations">The list of reservations with all the details available to consult now.</string>
+    <string name="all_reservations_text"><u>Get all reservations</u></string>
+    <string name="all_reservations">All reservations</string>
+    <string name="all_reservations_desc">Consult the list of your reservations registered in our system with all the available details.</string>
+    <string name="today">Today is</string>
+    <string name="no_data_found">No reservations found currently in our system.</string>
 </resources>

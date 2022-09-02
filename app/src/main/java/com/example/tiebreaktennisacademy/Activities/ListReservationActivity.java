@@ -34,7 +34,7 @@ import java.util.Locale;
 
 public class ListReservationActivity extends AppCompatActivity {
     private ImageView back, notification, before,next;
-    private TextView copiright, curentDate;
+    private TextView copiright, curentDate, allReservations;
     private Dialog dialog;
     private CompactCalendarView planing;
     private RecyclerView recyclerView;
@@ -54,13 +54,13 @@ public class ListReservationActivity extends AppCompatActivity {
         curentDate = (TextView) findViewById(R.id.curentDate);
         before = (ImageView) findViewById(R.id.before);
         next = (ImageView) findViewById(R.id.next);
+        allReservations = (TextView) findViewById(R.id.all_reservations);
 
         onclickFunctions();
         setCopyrightText();
         initialiseDataBase();
         checkIfBookingExist();
         configCalendar();
-        onCalendarListener();
         initCurrentDate();
         checkIfReservationExist();
         getEventFromCalendar();
@@ -100,12 +100,25 @@ public class ListReservationActivity extends AppCompatActivity {
                 showPreviousMonth();
             }
         });
+
+        allReservations.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ouvrirAllReservationsActivity();
+            }
+        });
     }
 
     public void ouvrirHomeActivity(){
         Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.left_to_right,R.anim.stay);
+    }
+
+    public void ouvrirAllReservationsActivity(){
+        Intent intent = new Intent(getApplicationContext(), AllListeReservationsActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.right_to_left,R.anim.stay);
     }
 
     public int getCurrentYear(){
@@ -183,6 +196,7 @@ public class ListReservationActivity extends AppCompatActivity {
     public void configCalendar(){
         planing.setUseThreeLetterAbbreviation(true);
         planing.setShouldShowMondayAsFirstDay(true);
+        planing.setShouldDrawDaysHeader(true);
     }
 
     public void showNextMonth(){
@@ -196,23 +210,8 @@ public class ListReservationActivity extends AppCompatActivity {
     }
 
     public String stylingDate(Date current){
-        SimpleDateFormat formatter = new SimpleDateFormat("MMM yyyy", Locale.getDefault());
-        String date = formatter.format(current);
-        return date;
-    }
-
-    public void onCalendarListener(){
-        planing.setListener(new CompactCalendarView.CompactCalendarViewListener() {
-            @Override
-            public void onDayClick(Date dateClicked) {
-
-            }
-
-            @Override
-            public void onMonthScroll(Date firstDayOfNewMonth) {
-                curentDate.setText(stylingDate(firstDayOfNewMonth));
-            }
-        });
+        SimpleDateFormat formatter = new SimpleDateFormat("MMM yyyy", Locale.ENGLISH);
+        return formatter.format(current);
     }
 
     public void initCurrentDate(){
@@ -280,7 +279,7 @@ public class ListReservationActivity extends AppCompatActivity {
 
             @Override
             public void onMonthScroll(Date firstDayOfNewMonth) {
-
+                curentDate.setText(stylingDate(firstDayOfNewMonth));
             }
         });
     }
