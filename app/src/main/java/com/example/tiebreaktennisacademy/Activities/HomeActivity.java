@@ -45,7 +45,7 @@ public class HomeActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private Menu menuItem;
-    private MenuItem logoutItem, profilItem, supportItem, coachesItem, CourtsItem, playersItem, helpItem, bookCourtItem;
+    private MenuItem logoutItem, profilItem, supportItem, coachesItem, courtsItem, playersItem, helpItem, bookCourtItem, listReservaions;
     private View header;
     private CircleImageView imageViewProfil;
     private DatabaseReference databaseReference;
@@ -401,6 +401,8 @@ public class HomeActivity extends AppCompatActivity {
         coachesItem = menuItem.findItem(R.id.my_coaches_res);
         helpItem = menuItem.findItem(R.id.help);
         bookCourtItem = menuItem.findItem(R.id.book_court);
+        courtsItem = menuItem.findItem(R.id.list_courts);
+        listReservaions = menuItem.findItem(R.id.list_booking);
 
         logoutItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
@@ -457,6 +459,22 @@ public class HomeActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        courtsItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                ouvrirListCourts();
+                return true;
+            }
+        });
+
+        listReservaions.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                ouvrirListReservationActivity();
+                return true;
+            }
+        });
     }
 
     public void ouvrirProfilActivity(){
@@ -491,6 +509,18 @@ public class HomeActivity extends AppCompatActivity {
 
     public void ouvrirBookCourtActivity(){
         Intent intent = new Intent(getApplicationContext(), PlaningActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.right_to_left,R.anim.stay);
+    }
+
+    public void ouvrirListReservationActivity(){
+        Intent intent = new Intent(getApplicationContext(), ListReservationActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.right_to_left,R.anim.stay);
+    }
+
+    public void ouvrirListCourts(){
+        Intent intent = new Intent(getApplicationContext(), CourtsActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.right_to_left,R.anim.stay);
     }

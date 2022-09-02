@@ -322,4 +322,18 @@
     <string name="booking_success">Court booking</string>
     <string name="booking_success_desc">Your court booking with the information entered has been successfully created. You can consult the details of your booking at any time via the booking list tab.</string>
     <string name="desc_erreur_rservations">For technical reasons, you cannot book a court at the moment. Please try again later.</string>
+    <string name="reserve">Reserve</string>
+    <string name="reservation">Reservations</string>
+    <string name="list_reservation">List of reservations</string>
+    <string name="your_account">\n(Your account)</string>
+    <string name="no_reservation">Reservation not found</string>
+    <string name="no_reservation_desc">Sorry ! you have not yet created any reservation so nothing to display.</string>
+    <string name="desc_liste_planing">With this option, you can consult the list of your reservations with more details in a calendar following a reservation schedule.</string>
+    <string name="date_title">Current date</string>
+    <string name="day">Current day</string>
+    <string name="text">Dates</string>
+    <string name="start_day">Start of month</string>
+    <string name="no_event_sad">we couldn"'"t find any events or reservations with the selected date. Please choose another date and try again.</string>
+    <string name="title_no_event">No reservations found</string>
+    <string name="desc_list_reservations">The list of reservations with all the details available to consult now.</string>
 </resources>

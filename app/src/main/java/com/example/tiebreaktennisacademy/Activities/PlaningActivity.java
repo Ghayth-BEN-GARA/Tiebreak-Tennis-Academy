@@ -401,18 +401,6 @@ public class PlaningActivity extends AppCompatActivity implements DatePickerDial
         dialog.show();
     }
 
-    public Date convertStringToDate(String chaine){
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = null;
-
-        try {
-            date = format.parse(chaine);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return date;
-    }
-
     public Date convertStringToTime(String chaine){
         SimpleDateFormat format = new SimpleDateFormat("HH:mm");
         Date date = null;

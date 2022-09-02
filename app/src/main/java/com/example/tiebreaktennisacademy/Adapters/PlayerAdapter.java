@@ -1,6 +1,8 @@
 package com.example.tiebreaktennisacademy.Adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.tiebreaktennisacademy.Models.Player;
+import com.example.tiebreaktennisacademy.Models.Session;
 import com.example.tiebreaktennisacademy.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -51,10 +54,23 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder
         return new PlayerAdapter.ViewHolder(v);
     }
 
+    public String emailSession(){
+        Session session = new Session(context);
+        session.initialiserSharedPreferences();
+        return(session.getEmailSession());
+    }
+
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.nomPrenom.setText(playerArrayList.get(position).getFullname());
-        holder.email.setText(decodeString(playerArrayList.get(position).getEmail()));
+        if(decodeString(playerArrayList.get(position).getEmail()).equals(emailSession())){
+            holder.email.setText(decodeString(playerArrayList.get(position).getEmail())+ context.getString(R.string.your_account));
+        }
+
+        else{
+            holder.email.setText(decodeString(playerArrayList.get(position).getEmail()));
+        }
+
 
         databaseReference.child("images_users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

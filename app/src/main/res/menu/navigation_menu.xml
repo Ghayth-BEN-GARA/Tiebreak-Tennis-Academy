@@ -29,8 +29,14 @@
     <item android:title="@string/courts">
         <menu>
             <item
-                android:id="@+id/my_courses_res"
+                android:id="@+id/list_courts"
                 android:title="@string/show_courts"
+                android:icon="@drawable/list"
+                android:iconTint="@color/black_light" />
+
+            <item
+                android:id="@+id/list_booking"
+                android:title="@string/list_reservation"
                 android:icon="@drawable/list"
                 android:iconTint="@color/black_light" />
 
