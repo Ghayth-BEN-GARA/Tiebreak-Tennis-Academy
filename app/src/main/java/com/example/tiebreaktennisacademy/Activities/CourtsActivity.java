@@ -7,10 +7,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.tiebreaktennisacademy.R;
+import com.squareup.picasso.Picasso;
 import java.util.Calendar;
 
 public class CourtsActivity extends AppCompatActivity {
-    private ImageView back;
+    private ImageView back, court1, court2, court3;
     private TextView copiright;
 
     @Override
@@ -20,9 +21,13 @@ public class CourtsActivity extends AppCompatActivity {
 
         back = (ImageView) findViewById(R.id.back);
         copiright = (TextView) findViewById(R.id.copyright_app);
+        court1 = (ImageView) findViewById(R.id.court1);
+        court2 = (ImageView) findViewById(R.id.court2);
+        court3 = (ImageView) findViewById(R.id.court3);
 
         onclickFunctions();
         setCopyrightText();
+        setCourtesImages();
     }
 
     @Override
@@ -53,4 +58,11 @@ public class CourtsActivity extends AppCompatActivity {
     public void setCopyrightText(){
         copiright.setText(getString(R.string.copiright1) + " " + getCurrentYear() + getString(R.string.copiright2));
     }
+
+    public void setCourtesImages(){
+        Picasso.with(getApplicationContext()).load(R.drawable.court1).fit().into(court1);
+        Picasso.with(getApplicationContext()).load(R.drawable.court2).fit().into(court2);
+        Picasso.with(getApplicationContext()).load(R.drawable.court3).fit().into(court3);
+    }
+
 }
