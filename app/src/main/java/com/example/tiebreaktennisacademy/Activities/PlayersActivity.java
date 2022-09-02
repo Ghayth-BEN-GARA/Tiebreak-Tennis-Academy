@@ -42,7 +42,7 @@ public class PlayersActivity extends AppCompatActivity {
         initialiseDataBase();
         initialiseItemRecycleView();
         initiliseListWithAdapter();
-        getDataFromFireBase();
+        checkIfAccountIsActive();
     }
 
     @Override
@@ -89,17 +89,39 @@ public class PlayersActivity extends AppCompatActivity {
         recyclerView.setAdapter(playerAdapter);
     }
 
-    public void getDataFromFireBase(){
-        databaseReference.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+    public void checkIfAccountIsActive(){
+        databaseReference.child("compte_users").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    if(dataSnapshot.child("active").getValue().toString().equals("true")){
+                        getDataFromFireBase(dataSnapshot.child("email").getValue().toString());
+                    }
+                }
+
+                //playerAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public static String encodeString(String string) {
+        return string.replace(".", ",");
+    }
+
+    public void getDataFromFireBase(String email){
+        databaseReference.child("users").child(encodeString(email)).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                        Player pl = new Player();
+                     Player pl = new Player();
 
-                        pl.setFullname(dataSnapshot.child("fullname").getValue().toString());
-                        pl.setEmail(dataSnapshot.child("email").getValue().toString());
-                        players.add(pl);
-                    }
+                    pl.setFullname(snapshot.child("fullname").getValue().toString());
+                    pl.setEmail(encodeString(email));
+                    players.add(pl);
 
                     playerAdapter.notifyDataSetChanged();
                 }
