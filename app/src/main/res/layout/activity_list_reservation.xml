@@ -229,7 +229,6 @@
                 android:layout_marginEnd="20dp"
                 android:textSize="18sp"
                 android:fontFamily="@font/seg_ui_semibold"
-                android:visibility="visible"
                 android:textAllCaps="true"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

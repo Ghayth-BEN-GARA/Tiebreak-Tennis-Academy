@@ -2,12 +2,10 @@ package com.example.tiebreaktennisacademy.Adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.tiebreaktennisacademy.Models.Player;
@@ -74,7 +72,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder
 
         databaseReference.child("images_users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
+            public void onDataChange(DataSnapshot snapshot) {
                 if(!snapshot.hasChild(playerArrayList.get(position).getEmail())){
                     holder.photo.setImageResource(R.drawable.user);
                 }
@@ -82,16 +80,12 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder
                 else{
                     databaseReference.child("images_users").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
-                        public void onDataChange(@NonNull DataSnapshot photoSnapshot) {
-                            Glide
-                                    .with(context)
-                                    .load(photoSnapshot.child(playerArrayList.get(position).getEmail()).child("photo").getValue(String.class))
-                                    .centerCrop()
-                                    .into(holder.photo);
+                        public void onDataChange(DataSnapshot photoSnapshot) {
+                            Glide.with(context).load(photoSnapshot.child(playerArrayList.get(position).getEmail()).child("photo").getValue(String.class)).fitCenter().centerCrop().into(holder.photo);
                         }
 
                         @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
+                        public void onCancelled(DatabaseError error) {
 
                         }
                     });
@@ -99,7 +93,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            public void onCancelled(DatabaseError error) {
 
             }
         });

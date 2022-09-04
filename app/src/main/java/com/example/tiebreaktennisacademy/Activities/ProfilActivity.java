@@ -1,6 +1,5 @@
 package com.example.tiebreaktennisacademy.Activities;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import android.app.DatePickerDialog;
@@ -37,6 +36,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 import java.security.MessageDigest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -112,7 +112,7 @@ public class ProfilActivity extends AppCompatActivity {
 
         databaseReference.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
+            public void onDataChange(DataSnapshot snapshot) {
                 fullname.setText(snapshot.child(encodeString(email)).child("fullname").getValue(String.class));
                 emailP.setText(email);
                 String ch = snapshot.child(encodeString(email)).child("phone").getValue(String.class);
@@ -128,7 +128,7 @@ public class ProfilActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            public void onCancelled(DatabaseError error) {
 
             }
         });
@@ -141,7 +141,7 @@ public class ProfilActivity extends AppCompatActivity {
 
         databaseReference.child("second_infos_users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
+            public void onDataChange(DataSnapshot snapshot) {
                 if(snapshot.child(encodeString(email)).child("seconde_name").getValue(String.class) != null){
                     description.setVisibility(View.VISIBLE);
                     description.setText("(" + snapshot.child(encodeString(email)).child("seconde_name").getValue(String.class) + ")");
@@ -149,7 +149,7 @@ public class ProfilActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            public void onCancelled(DatabaseError error) {
 
             }
         });
@@ -248,9 +248,9 @@ public class ProfilActivity extends AppCompatActivity {
 
         databaseReference.child("images_users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
+            public void onDataChange(DataSnapshot snapshot) {
                 if(snapshot.child(encodeString(email)).child("photo").getValue(String.class) != null){
-                    Glide.with(getApplicationContext()).load(snapshot.child(encodeString(email)).child("photo").getValue(String.class)).centerCrop().into(imageAlert);
+                    Glide.with(getApplicationContext()).load(snapshot.child(encodeString(email)).child("photo").getValue(String.class)).centerCrop().fitCenter().into(imageAlert);
                 }
 
                 else{
@@ -259,7 +259,7 @@ public class ProfilActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            public void onCancelled(DatabaseError error) {
 
             }
         });
@@ -329,7 +329,7 @@ public class ProfilActivity extends AppCompatActivity {
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 Task<Uri> downloadURI = taskSnapshot.getStorage().getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
                     @Override
-                    public void onComplete(@NonNull Task<Uri> task) {
+                    public void onComplete(Task<Uri> task) {
                         if(task.isSuccessful()){
                             String result = task.getResult().toString();
                             databaseReference.child("images_users").child(encodeString(email)).child("email").setValue(encodeString(email));
@@ -351,9 +351,9 @@ public class ProfilActivity extends AppCompatActivity {
 
         databaseReference.child("images_users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
+            public void onDataChange(DataSnapshot snapshot) {
                 if(snapshot.child(encodeString(email)).child("photo").getValue(String.class) != null){
-                    Glide.with(getApplicationContext()).load(snapshot.child(encodeString(email)).child("photo").getValue(String.class)).centerCrop().into(imageViewProfil);
+                    Glide.with(getApplicationContext()).load(snapshot.child(encodeString(email)).child("photo").getValue(String.class)).centerCrop().fitCenter().into(imageViewProfil);
                 }
 
                 else{
@@ -362,7 +362,7 @@ public class ProfilActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            public void onCancelled(DatabaseError error) {
 
             }
         });
@@ -574,7 +574,7 @@ public class ProfilActivity extends AppCompatActivity {
 
         databaseReference.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
+            public void onDataChange(DataSnapshot snapshot) {
                 if(snapshot.child(encodeString(email)).child("password").getValue(String.class).equals(oldPasswordHashed)){
                     if(snapshot.child(encodeString(email)).child("password").getValue(String.class).equals(newPasswordHashed)){
                         setErreurText(erreurNewPassword,getString(R.string.old_new_password));
@@ -594,7 +594,7 @@ public class ProfilActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            public void onCancelled(DatabaseError error) {
 
             }
         });
@@ -1065,7 +1065,7 @@ public class ProfilActivity extends AppCompatActivity {
     public void checkIfPhoneExist(ProgressDialog progressDialog){
         databaseReference.child("users").orderByChild("phone").equalTo(phoneEdit.getText().toString()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
+            public void onDataChange(DataSnapshot snapshot) {
                 if(snapshot.getValue() != null && !snapshot.hasChild(encodeString(emailEdit.getText().toString()))){
                     setErreurText(erreurPhoneE,getString(R.string.phone_exist));
                     progressDialog.dismiss();
@@ -1079,7 +1079,7 @@ public class ProfilActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            public void onCancelled(DatabaseError error) {
 
             }
         });
@@ -1098,7 +1098,7 @@ public class ProfilActivity extends AppCompatActivity {
     public void checkIfSecondDataExist(){
         databaseReference.child("second_infos_users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
+            public void onDataChange(DataSnapshot snapshot) {
                 if(snapshot.hasChild(encodeString(emailP.getText().toString()))){
                     setTextViewVisible(cinTitle);
                     setTextViewVisible(cin);
@@ -1116,7 +1116,7 @@ public class ProfilActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            public void onCancelled(DatabaseError error) {
 
             }
         });
@@ -1133,13 +1133,13 @@ public class ProfilActivity extends AppCompatActivity {
     public void setSecondDataPersonne(){
         databaseReference.child("second_infos_users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
+            public void onDataChange(DataSnapshot snapshot) {
                 cin.setText(snapshot.child(encodeString(emailP.getText().toString())).child("cin").getValue(String.class));
                 adresse.setText(snapshot.child(encodeString(emailP.getText().toString())).child("adresse").getValue(String.class));
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            public void onCancelled(DatabaseError error) {
 
             }
         });

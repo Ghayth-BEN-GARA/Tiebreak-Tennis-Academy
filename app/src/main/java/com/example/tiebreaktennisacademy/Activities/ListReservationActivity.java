@@ -1,6 +1,5 @@
 package com.example.tiebreaktennisacademy.Activities;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -139,10 +138,12 @@ public class ListReservationActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot snapshot) {
                 if(snapshot.exists()){
                     hideNotification(notification);
+                    showAllReservationsText(allReservations);
                 }
 
                 else{
                     showNotification(notification);
+                    hideAllReservationsText(allReservations);
                 }
             }
 
@@ -159,6 +160,14 @@ public class ListReservationActivity extends AppCompatActivity {
 
     public void hideNotification(ImageView image){
         image.setVisibility(View.INVISIBLE);
+    }
+
+    public void showAllReservationsText(TextView text){
+        text.setVisibility(View.VISIBLE);
+    }
+
+    public void hideAllReservationsText(TextView text){
+        text.setVisibility(View.INVISIBLE);
     }
 
     public void showNoRervationsExist(){
@@ -382,7 +391,7 @@ public class ListReservationActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            public void onCancelled(DatabaseError error) {
 
             }
         });

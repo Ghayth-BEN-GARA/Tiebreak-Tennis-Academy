@@ -221,7 +221,7 @@ public class AccountFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.child(encodeString(email)).child("photo").getValue(String.class) != null){
-                    Glide.with(getActivity()).load(snapshot.child(encodeString(email)).child("photo").getValue(String.class)).centerCrop().into(imageAlert);
+                    Glide.with(getActivity()).load(snapshot.child(encodeString(email)).child("photo").getValue(String.class)).centerCrop().fitCenter().into(imageAlert);
                 }
 
                 else{
@@ -324,12 +324,7 @@ public class AccountFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.child(encodeString(email)).child("photo").getValue(String.class) != null){
-
-                    Glide
-                            .with(getActivity())
-                            .load(snapshot.child(encodeString(email)).child("photo").getValue(String.class))
-                            .centerCrop()
-                            .into(imageViewProfil);
+                    Glide.with(getActivity()).load(snapshot.child(encodeString(email)).child("photo").getValue(String.class)).centerCrop().fitCenter().into(imageViewProfil);
                 }
 
                 else{
