@@ -353,4 +353,9 @@
     <string name="text1_code">Your security code is</string>
     <string name="text2_code">. Use this code to recover your account.</string>
     <string name="text3_code">Please note that this code is confidential, do not give it to anyone else.</string>
+    <string name="desc_item_delete">If you choose to delete your account, your shared posts and information will be deleted from our system.</string>
+    <string name="delete">Delete</string>
+    <string name="delete_account_progress">Delete account in progress..</string>
+    <string name="account_deleted_success">Account deleted</string>
+    <string name="delete_success">Your account has been successfully deleted. If you have any questions you can contact us on the email: <b>miniprojet.groupec@gmail.com</b>.</string>
 </resources>

@@ -1,6 +1,5 @@
 package com.example.tiebreaktennisacademy.Activities;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import android.app.Dialog;
@@ -15,11 +14,15 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import com.example.tiebreaktennisacademy.Models.Session;
 import com.example.tiebreaktennisacademy.R;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -30,6 +33,7 @@ public class ControlAccountActivity extends AppCompatActivity {
     private RadioButton delete, disable;
     private Dialog dialog;
     private DatabaseReference databaseReference;
+    private FirebaseStorage firebaseStorage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +70,7 @@ public class ControlAccountActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 gererDeleteRadio();
+                showQuestionDeleteNotification();
             }
         });
 
@@ -76,6 +81,7 @@ public class ControlAccountActivity extends AppCompatActivity {
                 showQuestionDisableNotification();
             }
         });
+
     }
 
     public void ouvrirPersonalAccountActivity(){
@@ -209,7 +215,7 @@ public class ControlAccountActivity extends AppCompatActivity {
     public void checkIfFirebaseUpdated(ProgressDialog progressDialog){
         databaseReference.child("compte_users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
+            public void onDataChange(DataSnapshot snapshot) {
                 if(snapshot.child(encodeString(emailSession())).child("active").getValue(String.class).equals("false")){
                     showSuccessNotificationFireBaseUpdated();
                 }
@@ -220,7 +226,7 @@ public class ControlAccountActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            public void onCancelled(DatabaseError error) {
 
             }
         });
@@ -293,5 +299,216 @@ public class ControlAccountActivity extends AppCompatActivity {
         if(session.checkEmailApplication() != null){
             session.removeSessionEmail();
         }
+    }
+
+    public void showQuestionDeleteNotification(){
+        dialog = new Dialog(ControlAccountActivity.this);
+        dialog.setContentView(R.layout.item_question_control_account);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.setCanceledOnTouchOutside(false);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.content_erreur_notification));
+        }
+
+        TextView desc = dialog.findViewById(R.id.desc_title);
+        desc.setText(getString(R.string.desc_item_delete));
+
+        TextView cancel = dialog.findViewById(R.id.cancel_btn);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        AppCompatButton control = dialog.findViewById(R.id.control_btn);
+        control.setText(getString(R.string.delete));
+        control.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                chargementDeleteAccount();
+            }
+        });
+
+        dialog.show();
+    }
+
+    public void chargementDeleteAccount(){
+        final ProgressDialog progressDialog = new ProgressDialog(ControlAccountActivity.this, R.style.chargement);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage(getString(R.string.delete_account_progress));
+        progressDialog.show();
+
+        new Thread(new Runnable() {
+            public void run() {
+                gestionDeleteAccount(progressDialog);
+            }
+        }).start();
+    }
+
+    public void gestionDeleteAccount(ProgressDialog progressDialog){
+        deleteReservations(emailSession());
+        deleteJournales(emailSession());
+        deleteStorageImage(emailSession());
+        deleteImages(emailSession());
+        deleteSecondeInfoUsers(emailSession());
+        deleteUsers(emailSession());
+        deleteAccount(emailSession(), progressDialog);
+    }
+
+    public void deleteReservations(String email){
+        databaseReference.child("reservations").orderByChild("email").equalTo(email).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                for (DataSnapshot data: snapshot.getChildren()) {
+                    data.getRef().removeValue();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+
+            }
+        });
+    }
+
+    public void deleteJournales(String email){
+        databaseReference.child("journal_users").child(encodeString(email)).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                for (DataSnapshot data: snapshot.getChildren()) {
+                    data.getRef().removeValue();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+
+            }
+        });
+    }
+
+    public void deleteStorageImage(String email){
+        databaseReference.child("images_users").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if(snapshot.child(encodeString(email)).child("photo").getValue(String.class) != null){
+                    String url = snapshot.child(encodeString(email)).child("photo").getValue(String.class);
+                    firebaseStorage = FirebaseStorage.getInstance();
+                    StorageReference photoRef = firebaseStorage.getReferenceFromUrl(url);
+                    photoRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(Exception exception) {
+
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+
+            }
+        });
+    }
+
+    public void deleteImages(String email){
+        databaseReference.child("images_users").child(encodeString(email)).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                for (DataSnapshot data: snapshot.getChildren()) {
+                    data.getRef().removeValue();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+
+            }
+        });
+    }
+
+    public void deleteSecondeInfoUsers(String email){
+        databaseReference.child("second_infos_users").child(encodeString(email)).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                for (DataSnapshot data: snapshot.getChildren()) {
+                    data.getRef().removeValue();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+
+            }
+        });
+    }
+
+    public void deleteUsers(String email){
+        databaseReference.child("users").child(encodeString(email)).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                for (DataSnapshot data: snapshot.getChildren()) {
+                    data.getRef().removeValue();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+
+            }
+        });
+    }
+
+    public void deleteAccount(String email, ProgressDialog progressDialog){
+        databaseReference.child("compte_users").child(encodeString(email)).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                for (DataSnapshot data: snapshot.getChildren()) {
+                    data.getRef().removeValue();
+                }
+                progressDialog.dismiss();
+                showSuccessNotificationCompteDeleted();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+
+            }
+        });
+    }
+
+    public void showSuccessNotificationCompteDeleted(){
+        dialog = new Dialog(ControlAccountActivity.this);
+        dialog.setContentView(R.layout.item_success);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.setCanceledOnTouchOutside(false);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.content_erreur_notification));
+        }
+
+        TextView title = (TextView) dialog.findViewById(R.id.title_success);
+        TextView desc = (TextView) dialog.findViewById(R.id.desc_title_success);
+
+        title.setText(R.string.account_deleted_success);
+        desc.setText(R.string.delete_success);
+
+        TextView cancel = dialog.findViewById(R.id.exit_btn);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                logoutSession();
+                ouvrirLoginActivity();
+            }
+        });
+
+        dialog.show();
     }
 }
