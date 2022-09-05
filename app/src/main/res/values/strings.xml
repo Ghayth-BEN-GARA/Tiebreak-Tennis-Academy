@@ -341,4 +341,16 @@
     <string name="all_reservations_desc">Consult the list of your reservations registered in our system with all the available details.</string>
     <string name="today">Today is</string>
     <string name="no_data_found">No reservations found currently in our system.</string>
+    <string name="reset_password">Reset \n password</string>
+    <string name="desc_reset_password">How would you like to receive your password reset code ?</string>
+    <string name="by_email">Send the code by email</string>
+    <string name="by_number">Send code by phone number</string>
+    <string name="user_application">Tiebreak Tennis Academy User</string>
+    <string name="not_you">It"'"s not you ?</string>
+    <string name="methode_required">The recovery method is required !</string>
+    <string name="security_code_title">Security code</string>
+    <string name="bonjour">Good morning</string>
+    <string name="text1_code">Your security code is</string>
+    <string name="text2_code">. Use this code to recover your account.</string>
+    <string name="text3_code">Please note that this code is confidential, do not give it to anyone else.</string>
 </resources>

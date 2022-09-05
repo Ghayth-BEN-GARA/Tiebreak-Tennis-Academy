@@ -14,29 +14,22 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.tiebreaktennisacademy.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.PhoneAuthCredential;
-import com.google.firebase.auth.PhoneAuthProvider;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ForgetPassword2Activity extends AppCompatActivity {
+public class ForgetPassword22Activity extends AppCompatActivity {
     private ImageView back;
     private AppCompatButton next;
     private TextInputEditText code1, code2, code3, code4, code5, code6;
     private TextView erreurCode;
     private Dialog dialog;
     private Boolean isCode1 = false, isCode2 = false, isCode3 = false, isCode4 = false, isCode5 = false, isCode6 = false;
-    private String verificationId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_forget_password2);
+        setContentView(R.layout.activity_forget_password22);
 
         back = (ImageView) findViewById(R.id.back);
         next = (AppCompatButton) findViewById(R.id.next_btn);
@@ -48,7 +41,6 @@ public class ForgetPassword2Activity extends AppCompatActivity {
         code6 = (TextInputEditText) findViewById(R.id.code6);
         erreurCode = (TextView) findViewById(R.id.erreur_code_securite);
 
-        getVerificationId();
         onclickFunctions();
         onChangeFunctions();
     }
@@ -69,12 +61,12 @@ public class ForgetPassword2Activity extends AppCompatActivity {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                validateFormForgetPassword2();
+                validateFormForgetPassword22();
             }
         });
     }
 
-    public void validateFormForgetPassword2(){
+    public void validateFormForgetPassword22(){
         if(isEmpty(code1.getText().toString())){
             setErreurText(erreurCode,getString(R.string.code_required));
         }
@@ -251,7 +243,6 @@ public class ForgetPassword2Activity extends AppCompatActivity {
         });
     }
 
-
     public void validateCode1(){
         if(isEmpty(code1.getText().toString())){
             setErreurText(erreurCode,getString(R.string.code_required));
@@ -358,49 +349,36 @@ public class ForgetPassword2Activity extends AppCompatActivity {
         text.requestFocus();
     }
 
-    public void getVerificationId(){
-        verificationId = getIntent().getStringExtra("verificationId");
-    }
-
     public void testEgaliteCodeSecurite(){
         String codeSaisie = code1.getText().toString() + code2.getText().toString() + code3.getText().toString() +
-                            code4.getText().toString() + code5.getText().toString() + code6.getText().toString();
+                code4.getText().toString() + code5.getText().toString() + code6.getText().toString();
 
-        final ProgressDialog progressDialog = new ProgressDialog(ForgetPassword2Activity.this, R.style.chargement);
+        final ProgressDialog progressDialog = new ProgressDialog(ForgetPassword22Activity.this, R.style.chargement);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage(getString(R.string.verification_progress));
         progressDialog.show();
 
-        new Thread(new Runnable() {
+        runOnUiThread(new Runnable() {
             public void run() {
-                checkIfCodeIsCorrect(progressDialog,codeSaisie);
+                checkIfCodeIsCorrectSaisieAndEgale(progressDialog,codeSaisie);
             }
-        }).start();
+        });
     }
 
-    public void checkIfCodeIsCorrect(ProgressDialog progressDialog, String code){
-        if(verificationId != null){
-            PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.getCredential(verificationId,code);
+    public void checkIfCodeIsCorrectSaisieAndEgale(ProgressDialog progressDialog, String codeSaisie){
+        if(getIntent().getStringExtra("code").equals(codeSaisie)){
+            progressDialog.dismiss();
+            showNotificationSuccess();
+        }
 
-            FirebaseAuth.getInstance().signInWithCredential(phoneAuthCredential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(Task<AuthResult> task) {
-                    if(task.isSuccessful()){
-                        progressDialog.dismiss();
-                        showNotificationSuccess();
-                    }
-
-                    else{
-                        progressDialog.dismiss();
-                        setErreurText(erreurCode,getString(R.string.error_code));
-                    }
-                }
-            });
+        else{
+            progressDialog.dismiss();
+            setErreurText(erreurCode,getString(R.string.error_code));
         }
     }
 
     public void showNotificationSuccess(){
-        dialog = new Dialog(ForgetPassword2Activity.this);
+        dialog = new Dialog(ForgetPassword22Activity.this);
         dialog.setContentView(R.layout.item_success);
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.setCanceledOnTouchOutside(false);

@@ -48,6 +48,9 @@ dependencies {
     implementation 'me.relex:circleindicator:1.2.1@aar'
     implementation 'com.github.sundeepk:compact-calendar-view:1.9.1'
     implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation files('libs\\activation.jar')
+    implementation files('libs\\additionnal.jar')
+    implementation files('libs\\mail.jar')
     annotationProcessor 'com.github.bumptech.glide:compiler:4.13.2'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
