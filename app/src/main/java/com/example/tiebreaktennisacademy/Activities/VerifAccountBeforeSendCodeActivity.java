@@ -283,7 +283,7 @@ public class VerifAccountBeforeSendCodeActivity extends AppCompatActivity {
                 "\n\n" + getResources().getString(R.string.text3_code);
 
         String senderEmail = "miniprojet.groupec@gmail.com";
-        String senderPassword = "ozlagrgzqhufamvd";
+        String senderPassword = "qzwmxoggcwwmrrlv";
 
         Properties properties = new Properties();
         properties.put("mail.smtp.auth","true");
